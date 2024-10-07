@@ -1,0 +1,50 @@
+mysql> create database weatherstation;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> desc settings;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int          | NO   | PRI | NULL    | auto_increment |
+| color | varchar(100) | YES  |     | NULL    |                |
+| delay | int          | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> desc weatherdata;
++-------------+--------------+------+-----+-------------------+-------------------+
+| Field       | Type         | Null | Key | Default           | Extra             |
++-------------+--------------+------+-----+-------------------+-------------------+
+| id          | int          | NO   | PRI | NULL              | auto_increment    |
+| outtemp     | decimal(3,1) | YES  |     | NULL              |                   |
+| outhum      | decimal(4,1) | YES  |     | NULL              |                   |
+| datecreated | datetime     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| pressure    | decimal(6,2) | YES  |     | NULL              |                   |
++-------------+--------------+------+-----+-------------------+-------------------+
+5 rows in set (0.00 sec)
+
+mysql> desc weathererrorlog;
++-------------+--------------+------+-----+---------+-------------------+
+| Field       | Type         | Null | Key | Default | Extra             |
++-------------+--------------+------+-----+---------+-------------------+
+| id          | int          | NO   | PRI | NULL    | auto_increment    |
+| outtemp     | decimal(3,1) | YES  |     | NULL    |                   |
+| outhum      | decimal(4,1) | YES  |     | NULL    |                   |
+| pressure    | decimal(6,2) | YES  |     | NULL    |                   |
+| datecreated | datetime     | YES  |     | now()   | DEFAULT_GENERATED |
++-------------+--------------+------+-----+---------+-------------------+
+5 rows in set (0.01 sec)
+
+mysql> show tables;
++--------------------------+
+| Tables_in_weatherstation |
++--------------------------+
+| settings                 |
+| weathercurrent           |
+| weatherdata              |
+| weathererrorlog          |
++--------------------------+
+4 rows in set (0.00 sec)
+
+
+

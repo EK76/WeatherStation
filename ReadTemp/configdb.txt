@@ -1,0 +1,1 @@
+SERVER=ServerPC;DATABASE=weatherstation;UID=ken;PASSWORD=test11;
