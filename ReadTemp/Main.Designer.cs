@@ -80,7 +80,7 @@
             labelDate.Name = "labelDate";
             labelDate.Size = new System.Drawing.Size(50, 19);
             labelDate.TabIndex = 5;
-            labelDate.Text = "label1";
+            labelDate.Text = "label2";
             // 
             // comboBoxDay
             // 
@@ -291,7 +291,7 @@
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             aboutToolStripMenuItem.Text = "About Weather Info";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
