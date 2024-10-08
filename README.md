@@ -8,8 +8,12 @@ with help of two sensors (DHT11 and BMP180) and Raspberry PI 5.
 The sensors values are stored to MySQL database from which the Kenne's Weather Station
 application reads the values and show results on a computer screen as for example diagram.
 
+As database I use MySQL and pogramming code that measure, temperature, humidity and pressure
+on Raspberry PI 5 is pyhton.
+
 If you discover any fault or inaccurate information, feel free to contact me trough
 epost address: ken.ekholm@live.com
+### Pictures that show how the application looks like.
 
 ![image](https://github.com/user-attachments/assets/01d002e4-b189-48a3-bcea-1bdc485c766d)
 
@@ -47,3 +51,5 @@ create table weathererrorlog (
     primary key(id)
 );
 ```
+When database and tables are created the only is the configure configdb.txt file with the correct info about your MySQL credentials
+and after that compaile or publish the project with Visual Studio 2022.
