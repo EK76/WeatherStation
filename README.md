@@ -14,3 +14,34 @@ epost address: ken.ekholm@live.com
 
 ![pic1](https://github.com/user-attachments/assets/2c27e1d7-bb88-4326-8feb-b193035f79b2)
 
+In order to use this application, you must create following database and tables 
+according to the directive below.
+
+create database weatherstation;
+use weatherstation;
+
+create table settings (
+   id int not null auto_increment,
+   color varchar(100),
+   delay int,
+    primary key(id)
+);
+
+
+create table weatherdata (
+    id int not null auto_increment,
+    outtemp decimal(3,1),
+    outhum decimal(4,1),
+    pressure decimal(6,2),
+    date_created datetime (current_timestamp);,
+    primary key(id)
+);
+
+create table weathererrorlog (
+    id int not null auto_increment,
+    outtemp decimal(3,1),
+    outhum decimal(4,1),
+    pressure decimal(6,2),
+    date_created datetime (current_timestamp);,
+    primary key(id)
+);
