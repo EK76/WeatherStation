@@ -9,3 +9,6 @@ application reads the values and show results on a computer screen as for exampl
 
 If you discover any fault or inaccurate information, feel free to contact me trough
 epost address: ken.ekholm@live.com
+![image](https://github.com/user-attachments/assets/01d002e4-b189-48a3-bcea-1bdc485c766d)
+![pic1](https://github.com/user-attachments/assets/2c27e1d7-bb88-4326-8feb-b193035f79b2)
+
