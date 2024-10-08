@@ -1,4 +1,32 @@
-Kenne's Weather Station.
+
+<svg xmlns="http://www.w3.org/2000/svg" width="400px" height="110px" text-anchor="middle">
+  <defs>
+    <style>
+      @font-face {
+        font-family: "Carlito";
+        src: url(data:application/font-ttf;charset=utf-8;base64,base64_data);
+        font-weight: normal;
+        font-style: normal;
+      }
+      .heading {
+        font-family: "Carlito";
+        font-size: 36px;
+        fill: #3B3838;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+      }
+      .sub-heading {
+        font-family: "Carlito";
+        font-size: 20px;
+        fill: #767171;
+        letter-spacing: 0.5px;
+      }
+    </style>
+  </defs>
+
+
+
+## Kenne's Weather Station.
 
 I started this Visual Studio C# project in spring 2024.
 Purpose for this project is to measure, temperature, humidity and pressure
