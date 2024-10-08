@@ -18,18 +18,16 @@ epost address: ken.ekholm@live.com
 In order to use this application, you must create following database and tables 
 according to the directive below.
 
-<code>
+```
 create database weatherstation;
 use weatherstation;
-
 
 create table settings (
    id int not null auto_increment,
    color varchar(100),
    delay int,
-    primary key(id)
+   primary key(id)
 );
-
 
 create table weatherdata (
     id int not null auto_increment,
@@ -48,4 +46,4 @@ create table weathererrorlog (
     date_created datetime (current_timestamp);,
     primary key(id)
 );
-</code>
+```
