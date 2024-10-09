@@ -12,7 +12,6 @@ namespace ReadTemp
 {
     public partial class FormViewGraph : System.Windows.Forms.Form
     {
-
         private Rectangle chartInfoOrginal;
         private Rectangle listBoxShowValueOrginal;
         private Rectangle labelAverageValueOrginal;
@@ -30,18 +29,6 @@ namespace ReadTemp
         int addPoint = -1, chooseValue = 1, chooseItem = 1, recordSum;
         decimal avgTemp, avgHum, avgPressure;
         List<String> listDate = new List<String>();
-
-        private void archiveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void chartInfo_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
 
         private void intervallToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -543,7 +530,6 @@ namespace ReadTemp
             conn.Open();
             MySqlCommand command = new MySqlCommand(FormShowData.checkString, conn);
             MySqlDataReader reader = command.ExecuteReader();
-            pictureBox1.Image = Image.FromFile(@"Pictures\Technical\temp2.jpg");
             recordSum = 0;
             chartInfo.Update();
             chartInfo.Series[0].LegendText = "Temperature";
@@ -628,8 +614,8 @@ namespace ReadTemp
             }
             conn.Close();
 
-            Title showOne = chartInfo.Titles.Add("Begin date " + showBeginDate + " End date " + showEndDate);
-            showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 9f, FontStyle.Bold);
+            Title showOne = chartInfo.Titles.Add("Begin date " + showBeginDate + "\n\n End date " + showEndDate);
+            showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10f, FontStyle.Bold);
         }
 
         private void chartSummaryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -706,11 +692,6 @@ namespace ReadTemp
             checkResize(labelAverageValueOrginal, labelAverageValue);
             checkResize(labelMaxValueOrginal, labelMaxValue);
             checkResize(labelMinValueOrginal, labelMinValue);
-        }
-
-        private void chartInfo_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }

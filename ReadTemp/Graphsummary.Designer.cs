@@ -134,6 +134,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoSize = true;
             ClientSize = new System.Drawing.Size(2920, 941);
             Controls.Add(labelEndDate);
             Controls.Add(labelBeginDate);
@@ -141,12 +142,11 @@
             Controls.Add(chartHum);
             Controls.Add(chartTemp);
             Controls.Add(buttonClose);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormViewAll";
             Text = "Weather Station";
             Load += FormViewAll_Load;
+            Resize += FormViewAll_Resize;
             ((System.ComponentModel.ISupportInitialize)chartTemp).EndInit();
             ((System.ComponentModel.ISupportInitialize)chartHum).EndInit();
             ((System.ComponentModel.ISupportInitialize)chartPressure).EndInit();

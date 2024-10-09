@@ -40,48 +40,48 @@
             // labelText1
             // 
             labelText1.AutoSize = true;
-            labelText1.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            labelText1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             labelText1.ForeColor = System.Drawing.Color.Black;
-            labelText1.Location = new System.Drawing.Point(45, 9);
+            labelText1.Location = new System.Drawing.Point(36, 9);
             labelText1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelText1.Name = "labelText1";
-            labelText1.Size = new System.Drawing.Size(132, 26);
+            labelText1.Size = new System.Drawing.Size(184, 32);
             labelText1.TabIndex = 0;
-            labelText1.Text = "Weather Info ";
+            labelText1.Text = "Weather Station";
             // 
             // labelText2
             // 
             labelText2.AutoSize = true;
-            labelText2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            labelText2.Font = new System.Drawing.Font("Segoe UI", 14.25F);
             labelText2.ForeColor = System.Drawing.Color.Black;
-            labelText2.Location = new System.Drawing.Point(51, 63);
+            labelText2.Location = new System.Drawing.Point(54, 96);
             labelText2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelText2.Name = "labelText2";
-            labelText2.Size = new System.Drawing.Size(93, 21);
+            labelText2.Size = new System.Drawing.Size(104, 25);
             labelText2.TabIndex = 1;
             labelText2.Text = "Version 2.1";
             // 
             // labelText3
             // 
             labelText3.AutoSize = true;
-            labelText3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            labelText3.Font = new System.Drawing.Font("Segoe UI", 14.25F);
             labelText3.ForeColor = System.Drawing.Color.Black;
-            labelText3.Location = new System.Drawing.Point(27, 106);
+            labelText3.Location = new System.Drawing.Point(30, 139);
             labelText3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelText3.Name = "labelText3";
-            labelText3.Size = new System.Drawing.Size(141, 21);
+            labelText3.Size = new System.Drawing.Size(156, 25);
             labelText3.TabIndex = 2;
             labelText3.Text = "2024 Ken Ekholm";
             // 
             // labelText4
             // 
             labelText4.AutoSize = true;
-            labelText4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            labelText4.Font = new System.Drawing.Font("Segoe UI", 14.25F);
             labelText4.ForeColor = System.Drawing.Color.Black;
-            labelText4.Location = new System.Drawing.Point(13, 151);
+            labelText4.Location = new System.Drawing.Point(16, 184);
             labelText4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelText4.Name = "labelText4";
-            labelText4.Size = new System.Drawing.Size(199, 21);
+            labelText4.Size = new System.Drawing.Size(218, 25);
             labelText4.TabIndex = 3;
             labelText4.Text = "@ ken.ekholm@live.com";
             // 
@@ -125,7 +125,7 @@
             MinimizeBox = false;
             Name = "FormAbout";
             ShowIcon = false;
-            Text = "Weather Info";
+            Text = "Weather Station";
             Load += FormAbout_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);

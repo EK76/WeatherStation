@@ -28,11 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             chartInfo = new System.Windows.Forms.DataVisualization.Charting.Chart();
             menuStrip1 = new System.Windows.Forms.MenuStrip();
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,56 +56,47 @@
             labelAverageValue = new System.Windows.Forms.Label();
             labelMinValue = new System.Windows.Forms.Label();
             listBoxShowValue = new System.Windows.Forms.ListBox();
-            pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)chartInfo).BeginInit();
             menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // chartInfo
             // 
-            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX.Title = "Date";
-            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            chartArea1.AxisY.Maximum = 40D;
-            chartArea1.AxisY.Minimum = -40D;
-            chartArea1.AxisY.Title = "Celsius";
-            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            chartArea1.Name = "ChartArea1";
-            chartInfo.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            legend2.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Column;
-            legend2.Name = "Legend2";
-            legend2.Position.Auto = false;
-            legend2.Position.Height = 6.25F;
-            legend2.Position.Width = 5.425101F;
-            legend2.Position.X = 90.64372F;
-            legend2.Position.Y = 20F;
-            legend2.Title = "jkkj";
-            legend3.Name = "Legend3";
-            legend3.Position.Auto = false;
-            legend3.Position.Height = 6.25F;
-            legend3.Position.Width = 5.425101F;
-            legend3.Position.X = 90.64372F;
-            legend3.Position.Y = 25F;
-            chartInfo.Legends.Add(legend1);
+            chartInfo.BackColor = System.Drawing.Color.Gainsboro;
+            chartInfo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            chartInfo.BackImage = "U:\\Programming\\Visual Studio\\ReadTemp2\\ReadTemp\\Pictures\\Background\\background1.jpg";
+            chartInfo.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Top;
+            chartInfo.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
+            chartArea2.AxisX.LabelStyle.ForeColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX.Title = "Date";
+            chartArea2.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            chartArea2.AxisY.Maximum = 40D;
+            chartArea2.AxisY.Minimum = -40D;
+            chartArea2.AxisY.Title = "Celsius";
+            chartArea2.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            chartArea2.Name = "ChartArea1";
+            chartInfo.ChartAreas.Add(chartArea2);
+            legend2.BackColor = System.Drawing.Color.Transparent;
+            legend2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            legend2.IsTextAutoFit = false;
+            legend2.Name = "Legend1";
+            legend2.TitleAlignment = System.Drawing.StringAlignment.Far;
+            legend2.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
             chartInfo.Legends.Add(legend2);
-            chartInfo.Legends.Add(legend3);
             chartInfo.Location = new System.Drawing.Point(12, 39);
             chartInfo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             chartInfo.Name = "chartInfo";
             chartInfo.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold);
-            series1.Legend = "Legend1";
-            series1.Name = "Outdoor Temperature";
-            chartInfo.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold);
+            series2.Legend = "Legend1";
+            series2.Name = "Outdoor Temperature";
+            chartInfo.Series.Add(series2);
             chartInfo.Size = new System.Drawing.Size(3013, 1192);
             chartInfo.TabIndex = 2;
             chartInfo.Text = "Chart 3 (Outdoor Temperature).";
             chartInfo.GetToolTipText += chartInfo_GetToolTipText;
-            chartInfo.Click += chartInfo_Click_1;
             // 
             // menuStrip1
             // 
@@ -286,23 +275,13 @@
             listBoxShowValue.Size = new System.Drawing.Size(323, 992);
             listBoxShowValue.TabIndex = 9;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.Location = new System.Drawing.Point(12, 385);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new System.Drawing.Size(88, 627);
-            pictureBox1.TabIndex = 11;
-            pictureBox1.TabStop = false;
-            pictureBox1.Visible = false;
-            // 
             // FormViewGraph
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             AutoSize = true;
-            BackColor = System.Drawing.SystemColors.ControlLight;
+            BackColor = System.Drawing.Color.CadetBlue;
             ClientSize = new System.Drawing.Size(3386, 1241);
-            Controls.Add(pictureBox1);
             Controls.Add(listBoxShowValue);
             Controls.Add(labelMinValue);
             Controls.Add(labelAverageValue);
@@ -320,7 +299,6 @@
             ((System.ComponentModel.ISupportInitialize)chartInfo).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -349,7 +327,6 @@
         private System.Windows.Forms.ListBox listBoxShowValue;
         private System.Windows.Forms.ToolStripMenuItem chartLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chartBackgroundToolStripMenuItem;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem diagramViewToolStripMenuItem1;
         private System.Windows.Forms.ToolStripComboBox diagramToolStripComboBox;
     }

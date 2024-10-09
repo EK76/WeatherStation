@@ -6,11 +6,17 @@ using System.IO;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Windows.Forms.DataVisualization.Charting;
+using DocumentFormat.OpenXml.Vml.Spreadsheet;
 
 namespace ReadTemp
 {
     public partial class FormViewAll : Form
     {
+        private Rectangle chartTempOrginal;
+        private Rectangle chartHumOrginal;
+        private Rectangle chartPressureOrginal;
+        private Rectangle buttonCloseOrginal;
+        private Rectangle defautSize;
         public FormViewAll()
         {
             InitializeComponent();
@@ -25,12 +31,18 @@ namespace ReadTemp
 
         private void FormViewAll_Load(object sender, EventArgs e)
         {
+            defautSize = new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height);
+            chartTempOrginal = new Rectangle(chartTemp.Location.X, chartTemp.Location.Y, chartTemp.Width, chartTemp.Height);
+            chartHumOrginal = new Rectangle(chartHum.Location.X, chartHum.Location.Y, chartHum.Width, chartHum.Height);
+            chartPressureOrginal = new Rectangle(chartPressure.Location.X, chartPressure.Location.Y, chartPressure.Width, chartPressure.Height);
+            buttonCloseOrginal = new Rectangle(buttonClose.Location.X, buttonClose.Location.Y, buttonClose.Width, buttonClose.Height);
+
             connString = chooseDatabase[0];
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
             MySqlCommand command = new MySqlCommand(FormShowData.checkString, conn);
             MySqlDataReader reader = command.ExecuteReader();
-            
+
             chartTemp.Update();
             chartTemp.Series[0].Points.Clear();
             addPoint = -1;
@@ -57,10 +69,10 @@ namespace ReadTemp
 
             while (reader.Read())
             {
-               addPoint++;
-               chartTemp.Series[0].Points.AddXY(addPoint, reader.GetDecimal("outtemp"));
-               chartTemp.Series[0].MarkerStyle = MarkerStyle.Circle;
-               chartTemp.Series[0].MarkerSize = 8;
+                addPoint++;
+                chartTemp.Series[0].Points.AddXY(addPoint, reader.GetDecimal("outtemp"));
+                chartTemp.Series[0].MarkerStyle = MarkerStyle.Circle;
+                chartTemp.Series[0].MarkerSize = 8;
 
 
                 chartHum.Series[0].Points.AddXY(addPoint, reader.GetDecimal("outhum"));
@@ -70,8 +82,8 @@ namespace ReadTemp
                 chartPressure.Series[0].Points.AddXY(addPoint, reader.GetDecimal("pressure"));
                 chartPressure.Series[0].MarkerStyle = MarkerStyle.Circle;
                 chartPressure.Series[0].MarkerSize = 8;
-            }   
-            
+            }
+
             chartTemp.ChartAreas[0].AxisY.Minimum = -40;
             chartTemp.ChartAreas[0].AxisY.Maximum = 40;
             chartHum.ChartAreas[0].AxisY.Minimum = 0;
@@ -106,6 +118,29 @@ namespace ReadTemp
             conn.Close();
             labelBeginDate.Text = "Begin date: " + showBeginDate;
             labelEndDate.Text = "End date: " + showEndDate;
+        }
+
+        private void checkResize(Rectangle rect, Control control)
+        {
+            float xRatio = (float)(this.Width) / (float)(defautSize.Width);
+            float yRatio = (float)(this.Height) / (float)(defautSize.Height);
+
+            int xNew = (int)(rect.Location.X * xRatio);
+            int yNew = (int)(rect.Location.Y * yRatio);
+
+            int widthNew = (int)(rect.Width * xRatio);
+            int heightNew = (int)(rect.Height * yRatio);
+
+            control.Location = new Point(xNew, yNew);
+            control.Size = new Size(widthNew, heightNew);
+        }
+
+        private void FormViewAll_Resize(object sender, EventArgs e)
+        {
+            checkResize(chartTempOrginal, chartTemp);
+            checkResize(chartHumOrginal, chartHum);
+            checkResize(chartPressureOrginal, chartPressure);
+            checkResize(buttonCloseOrginal, buttonClose);
         }
     }
 }

@@ -506,7 +506,7 @@
             MinimizeBox = false;
             Name = "FormShowData";
             ShowIcon = false;
-            Text = "Weather Info";
+            Text = "Weather Station";
             Load += FormShowData_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
