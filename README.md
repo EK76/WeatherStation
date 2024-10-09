@@ -54,3 +54,7 @@ create table weathererrorlog (
 ### After creation of database and tables are done.
 - Edit configdb.txt file with the correct info about your MySQL credentials.
 - Compaile or publish the project with Visual Studio 2022 to test it.
+
+#### How to clone this repository with git.
+  
+  `https://github.com/EK76/WeatherStation.git`
