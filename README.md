@@ -51,5 +51,6 @@ create table weathererrorlog (
     primary key(id)
 );
 ```
-When database and tables are created the only is the configure configdb.txt file with the correct info about your MySQL credentials
-and after that compaile or publish the project with Visual Studio 2022.
+### After creation of database and tables are done.
+- Edit configdb.txt file with the correct info about your MySQL credentials.
+- Compaile or publish the project with Visual Studio 2022.
