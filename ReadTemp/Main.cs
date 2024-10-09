@@ -41,6 +41,9 @@ using Sheets = DocumentFormat.OpenXml.Spreadsheet.Sheets;
 using Worksheet = DocumentFormat.OpenXml.Spreadsheet.Worksheet;
 using Document = iTextSharp.text.Document;
 using PageSize = iTextSharp.text.PageSize;
+using iTextSharp.text.pdf.codec.wmf;
+using System.Windows.Forms.Design;
+using Font = System.Drawing.Font;
 
 namespace ReadTemp
 {
@@ -101,7 +104,7 @@ namespace ReadTemp
             allowDelay = true;
         }
 
-       
+
 
         private void modifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -128,8 +131,6 @@ namespace ReadTemp
 
             if (endDate >= startDate)
             {
-
-
                 comboBoxMonth.Text = "";
                 checkForward = 1;
                 connString = chooseDatabase[0];
@@ -158,6 +159,8 @@ namespace ReadTemp
                     clearDataToolStripMenuItem.Enabled = true;
                     saveToolStripMenuItem.Enabled = true;
                     printToolStripMenuItem.Enabled = true;
+                    labelRows.Text = "Numbers of rows: " + counterItems.ToString();
+
                 }
                 conn.Close();
 
@@ -226,7 +229,7 @@ namespace ReadTemp
             }
         }
 
-      
+
 
         private void listViewShowData_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -386,6 +389,7 @@ namespace ReadTemp
 
         private void comboBoxDay_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int counterItems = 0;
             listViewShowData.Items.Clear();
             comboBoxMonth.Text = "";
             setDay = comboBoxDay.Text;
@@ -401,6 +405,7 @@ namespace ReadTemp
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
+                counterItems++;
                 listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp") + " °C", reader.GetDecimal("outhum") + " %", reader.GetDecimal("pressure") + " hPa", reader.GetDateTime("datecreated").ToString() }));
             }
             conn.Close();
@@ -410,6 +415,7 @@ namespace ReadTemp
             clearDataToolStripMenuItem.Enabled = true;
             saveToolStripMenuItem.Enabled = true;
             printToolStripMenuItem.Enabled = true;
+            labelRows.Text = "Numbers of rows: " + counterItems.ToString();
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
@@ -434,6 +440,8 @@ namespace ReadTemp
             endDate = endDate.AddDays(1);
             newStartDate = startDate.ToString("yyyy-MM-dd");
             newEndDate = endDate.ToString("yyyy-MM-dd");
+
+            trackBarSize.Value = 18;
         }
 
         private void technicalInfoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -464,7 +472,7 @@ namespace ReadTemp
                 dateTimePickerStartDate.Enabled = false;
                 buttonSearch.Enabled = false;
                 comboBoxYear.Enabled = false;
-                comboBoxMonth.Enabled = false; 
+                comboBoxMonth.Enabled = false;
                 comboBoxDay.Enabled = false;
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
@@ -487,6 +495,7 @@ namespace ReadTemp
                     clearDataToolStripMenuItem.Enabled = true;
                     saveToolStripMenuItem.Enabled = true;
                     printToolStripMenuItem.Enabled = true;
+                    labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                 }
 
             }
@@ -503,6 +512,11 @@ namespace ReadTemp
         private void clearDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listViewShowData.Items.Clear();
+        }
+
+        private void trackBarSize_Scroll(object sender, EventArgs e)
+        {
+            listViewShowData.Font = new Font(listViewShowData.Font.FontFamily,trackBarSize.Value);
         }
     }
 }

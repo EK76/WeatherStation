@@ -54,6 +54,7 @@
             exportToPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             modifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             clearDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            setTextSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
@@ -67,7 +68,11 @@
             listViewPrinter1 = new BrightIdeasSoftware.ListViewPrinter();
             labelRows = new System.Windows.Forms.Label();
             checkBoxDay = new System.Windows.Forms.CheckBox();
+            toolStrip1 = new System.Windows.Forms.ToolStrip();
+            trackBarSize = new System.Windows.Forms.TrackBar();
+            labelText3 = new System.Windows.Forms.Label();
             menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarSize).BeginInit();
             SuspendLayout();
             // 
             // labelDate
@@ -75,7 +80,7 @@
             labelDate.AutoSize = true;
             labelDate.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold);
             labelDate.ForeColor = System.Drawing.Color.Black;
-            labelDate.Location = new System.Drawing.Point(14, 37);
+            labelDate.Location = new System.Drawing.Point(14, 60);
             labelDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelDate.Name = "labelDate";
             labelDate.Size = new System.Drawing.Size(50, 19);
@@ -89,7 +94,7 @@
             comboBoxDay.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
             comboBoxDay.ForeColor = System.Drawing.Color.DarkSlateBlue;
             comboBoxDay.FormattingEnabled = true;
-            comboBoxDay.Location = new System.Drawing.Point(499, 100);
+            comboBoxDay.Location = new System.Drawing.Point(499, 111);
             comboBoxDay.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             comboBoxDay.Name = "comboBoxDay";
             comboBoxDay.Size = new System.Drawing.Size(215, 23);
@@ -104,7 +109,7 @@
             comboBoxMonth.ForeColor = System.Drawing.Color.DarkSlateBlue;
             comboBoxMonth.FormattingEnabled = true;
             comboBoxMonth.Items.AddRange(new object[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
-            comboBoxMonth.Location = new System.Drawing.Point(257, 101);
+            comboBoxMonth.Location = new System.Drawing.Point(257, 112);
             comboBoxMonth.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             comboBoxMonth.Name = "comboBoxMonth";
             comboBoxMonth.Size = new System.Drawing.Size(215, 23);
@@ -116,7 +121,7 @@
             labelText2.AutoSize = true;
             labelText2.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
             labelText2.ForeColor = System.Drawing.Color.Black;
-            labelText2.Location = new System.Drawing.Point(496, 77);
+            labelText2.Location = new System.Drawing.Point(496, 88);
             labelText2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelText2.Name = "labelText2";
             labelText2.Size = new System.Drawing.Size(71, 17);
@@ -129,7 +134,7 @@
             labelText4.Enabled = false;
             labelText4.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
             labelText4.ForeColor = System.Drawing.Color.Black;
-            labelText4.Location = new System.Drawing.Point(257, 77);
+            labelText4.Location = new System.Drawing.Point(257, 88);
             labelText4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelText4.Name = "labelText4";
             labelText4.Size = new System.Drawing.Size(90, 17);
@@ -139,7 +144,7 @@
             // listViewShowData
             // 
             listViewShowData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeaderOutTemp, columnHeaderOutHum, columnHeaderPressure, columnHeaderDate });
-            listViewShowData.Font = new System.Drawing.Font("Calibri", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            listViewShowData.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             listViewShowData.Location = new System.Drawing.Point(14, 151);
             listViewShowData.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             listViewShowData.Name = "listViewShowData";
@@ -253,7 +258,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { exportToPDFToolStripMenuItem, modifyToolStripMenuItem, clearDataToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { exportToPDFToolStripMenuItem, modifyToolStripMenuItem, clearDataToolStripMenuItem, setTextSizeToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -281,6 +286,12 @@
             clearDataToolStripMenuItem.Text = "Clear Data";
             clearDataToolStripMenuItem.Click += clearDataToolStripMenuItem_Click;
             // 
+            // setTextSizeToolStripMenuItem
+            // 
+            setTextSizeToolStripMenuItem.Name = "setTextSizeToolStripMenuItem";
+            setTextSizeToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            setTextSizeToolStripMenuItem.Text = "Set Text Size";
+            // 
             // helpToolStripMenuItem
             // 
             helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { aboutToolStripMenuItem });
@@ -291,7 +302,7 @@
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            aboutToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             aboutToolStripMenuItem.Text = "About Weather Info";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
@@ -311,7 +322,7 @@
             labelText.Enabled = false;
             labelText.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
             labelText.ForeColor = System.Drawing.Color.Black;
-            labelText.Location = new System.Drawing.Point(14, 77);
+            labelText.Location = new System.Drawing.Point(14, 88);
             labelText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelText.Name = "labelText";
             labelText.Size = new System.Drawing.Size(75, 17);
@@ -325,7 +336,7 @@
             comboBoxYear.ForeColor = System.Drawing.Color.DarkSlateBlue;
             comboBoxYear.FormattingEnabled = true;
             comboBoxYear.Items.AddRange(new object[] { "2024" });
-            comboBoxYear.Location = new System.Drawing.Point(14, 101);
+            comboBoxYear.Location = new System.Drawing.Point(14, 112);
             comboBoxYear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             comboBoxYear.Name = "comboBoxYear";
             comboBoxYear.Size = new System.Drawing.Size(215, 23);
@@ -335,7 +346,7 @@
             // dateTimePickerStartDate
             // 
             dateTimePickerStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            dateTimePickerStartDate.Location = new System.Drawing.Point(760, 101);
+            dateTimePickerStartDate.Location = new System.Drawing.Point(760, 112);
             dateTimePickerStartDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             dateTimePickerStartDate.Name = "dateTimePickerStartDate";
             dateTimePickerStartDate.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -345,7 +356,7 @@
             // dateTimePickerEndDate
             // 
             dateTimePickerEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            dateTimePickerEndDate.Location = new System.Drawing.Point(935, 101);
+            dateTimePickerEndDate.Location = new System.Drawing.Point(935, 112);
             dateTimePickerEndDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             dateTimePickerEndDate.Name = "dateTimePickerEndDate";
             dateTimePickerEndDate.Size = new System.Drawing.Size(111, 23);
@@ -356,7 +367,7 @@
             labelStartDate.AutoSize = true;
             labelStartDate.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
             labelStartDate.ForeColor = System.Drawing.Color.Black;
-            labelStartDate.Location = new System.Drawing.Point(756, 73);
+            labelStartDate.Location = new System.Drawing.Point(756, 84);
             labelStartDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelStartDate.Name = "labelStartDate";
             labelStartDate.Size = new System.Drawing.Size(67, 17);
@@ -366,7 +377,7 @@
             // buttonSearch
             // 
             buttonSearch.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            buttonSearch.Location = new System.Drawing.Point(1064, 99);
+            buttonSearch.Location = new System.Drawing.Point(1064, 110);
             buttonSearch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             buttonSearch.Name = "buttonSearch";
             buttonSearch.Size = new System.Drawing.Size(88, 27);
@@ -380,7 +391,7 @@
             labelEndDate.AutoSize = true;
             labelEndDate.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
             labelEndDate.ForeColor = System.Drawing.Color.Black;
-            labelEndDate.Location = new System.Drawing.Point(931, 73);
+            labelEndDate.Location = new System.Drawing.Point(931, 84);
             labelEndDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelEndDate.Name = "labelEndDate";
             labelEndDate.Size = new System.Drawing.Size(61, 17);
@@ -427,7 +438,7 @@
             // 
             checkBoxDay.AutoSize = true;
             checkBoxDay.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            checkBoxDay.Location = new System.Drawing.Point(1240, 107);
+            checkBoxDay.Location = new System.Drawing.Point(1240, 118);
             checkBoxDay.Name = "checkBoxDay";
             checkBoxDay.Size = new System.Drawing.Size(98, 21);
             checkBoxDay.TabIndex = 27;
@@ -435,12 +446,44 @@
             checkBoxDay.UseVisualStyleBackColor = true;
             checkBoxDay.CheckedChanged += checkBoxDay_CheckedChanged;
             // 
+            // toolStrip1
+            // 
+            toolStrip1.Location = new System.Drawing.Point(0, 24);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Size = new System.Drawing.Size(1399, 25);
+            toolStrip1.TabIndex = 28;
+            toolStrip1.Text = "toolStrip1";
+            // 
+            // trackBarSize
+            // 
+            trackBarSize.Location = new System.Drawing.Point(1217, 995);
+            trackBarSize.Maximum = 28;
+            trackBarSize.Minimum = 12;
+            trackBarSize.Name = "trackBarSize";
+            trackBarSize.Size = new System.Drawing.Size(169, 45);
+            trackBarSize.TabIndex = 29;
+            trackBarSize.Value = 15;
+            trackBarSize.Scroll += trackBarSize_Scroll;
+            // 
+            // labelText3
+            // 
+            labelText3.AutoSize = true;
+            labelText3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            labelText3.Location = new System.Drawing.Point(1127, 1004);
+            labelText3.Name = "labelText3";
+            labelText3.Size = new System.Drawing.Size(84, 17);
+            labelText3.TabIndex = 30;
+            labelText3.Text = "Set font size";
+            // 
             // FormShowData
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.SystemColors.ControlLight;
             ClientSize = new System.Drawing.Size(1399, 1038);
+            Controls.Add(labelText3);
+            Controls.Add(trackBarSize);
+            Controls.Add(toolStrip1);
             Controls.Add(checkBoxDay);
             Controls.Add(labelRows);
             Controls.Add(labelEndDate);
@@ -467,6 +510,7 @@
             Load += FormShowData_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarSize).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -510,5 +554,9 @@
         private System.Windows.Forms.ToolStripMenuItem softwareInfoToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxDay;
         private System.Windows.Forms.ToolStripMenuItem clearDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setTextSizeToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.TrackBar trackBarSize;
+        private System.Windows.Forms.Label labelText3;
     }
 }

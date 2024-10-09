@@ -596,6 +596,7 @@ namespace ReadTemp
             checkNewString = Regex.Replace(FormShowData.checkString, @";", "");
 
             maxValue = "select max(outtemp) from (" + checkNewString + ")max;";
+            Clipboard.SetText(maxValue);
             conn.Open();
             MySqlCommand command4 = new MySqlCommand(maxValue, conn);
             MySqlDataReader reader4 = command4.ExecuteReader();

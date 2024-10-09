@@ -93,7 +93,7 @@
             chartInfo.Legends.Add(legend1);
             chartInfo.Legends.Add(legend2);
             chartInfo.Legends.Add(legend3);
-            chartInfo.Location = new System.Drawing.Point(130, 39);
+            chartInfo.Location = new System.Drawing.Point(12, 39);
             chartInfo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             chartInfo.Name = "chartInfo";
             chartInfo.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
@@ -103,7 +103,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Outdoor Temperature";
             chartInfo.Series.Add(series1);
-            chartInfo.Size = new System.Drawing.Size(2895, 1192);
+            chartInfo.Size = new System.Drawing.Size(3013, 1192);
             chartInfo.TabIndex = 2;
             chartInfo.Text = "Chart 3 (Outdoor Temperature).";
             chartInfo.GetToolTipText += chartInfo_GetToolTipText;
@@ -293,6 +293,7 @@
             pictureBox1.Size = new System.Drawing.Size(88, 627);
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
+            pictureBox1.Visible = false;
             // 
             // FormViewGraph
             // 
