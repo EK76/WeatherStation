@@ -5,9 +5,33 @@ I started this Visual Studio C# project in spring 2024.
 Purpose for this project is to measure temperature, humidity and pressure
 with help of two sensors (DHT11 and BMP180) and Raspberry PI 5.
 
-![image](https://github.com/user-attachments/assets/bf30352a-59cb-4e20-9109-404ea8a64ff6) DHT11 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![image](https://github.com/user-attachments/assets/322ec1e0-5bf2-49c0-96a0-3c0c5373fa87) &nbsp;&nbsp;&nbsp;&nbsp; BMP180
+![image](https://github.com/user-attachments/assets/bf30352a-59cb-4e20-9109-404ea8a64ff6) DHT22 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![image](https://github.com/user-attachments/assets/322ec1e0-5bf2-49c0-96a0-3c0c5373fa87) &nbsp;&nbsp;&nbsp;&nbsp; BMP180
 
+DHT22 is temperature and humitidy.<br>
+BMP180 is temperature, pressure and altitude sensor.
 
+#### ***My schema***
+![image](https://github.com/user-attachments/assets/77bf3104-98cf-4979-9a0b-eb2b505b831e) 
+
+- Sensor DHT22 is connected to Rasepberry PI 5's pin 37 (GPIO 26).
+Trough GPIO26 Raspberry PI 5 reads the temperature and humitidy
+from sensor.
+
+- Sensor BMP180 is connected to Rasepberry PI 5's pin 3 (GPIO 2,SDA)
+and pin 5 (GPIO 3, SCL). Trough theese pins Raspberry PI 5 reads the 
+pressure fom sensor.
+
+- GPIO 2 SDA (Serial Data Line) , whosepin is used to transmit data between 
+the Raspberry Pi5 and the I2C device. 
+
+- GPIO 3 SCL (Serial Clock Line), whose pin is used to provide the clock signal
+that synchronizes the communication between the Raspberry Pi and 
+the I2C device.
+
+- I2C is a two-wire serial communication protocol using a serial data line (SDA)
+  and a serial clock line (SCL).
+
+---
 The sensors values are stored to MySQL database from which the Kenne's Weather Station
 application reads the values and show results on a computer screen, for example as diagrams.
 
