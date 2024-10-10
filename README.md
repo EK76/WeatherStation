@@ -5,8 +5,8 @@ I started this Visual Studio C# project in spring 2024.
 Purpose for this project is to measure temperature, humidity and pressure
 with help of two sensors (DHT11 and BMP180) and Raspberry PI 5.
 
-![image](https://github.com/user-attachments/assets/bf30352a-59cb-4e20-9109-404ea8a64ff6)
-DHT11
+![image](https://github.com/user-attachments/assets/bf30352a-59cb-4e20-9109-404ea8a64ff6) DHT11 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![image](https://github.com/user-attachments/assets/322ec1e0-5bf2-49c0-96a0-3c0c5373fa87) &nbsp;&nbsp;&nbsp;&nbsp; BMP180
+
 
 The sensors values are stored to MySQL database from which the Kenne's Weather Station
 application reads the values and show results on a computer screen, for example as diagrams.
