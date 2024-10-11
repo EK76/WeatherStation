@@ -205,24 +205,61 @@ namespace ReadTemp
         {
             connString = chooseDatabase[0];
             MySqlConnection conn = new MySqlConnection(connString);
-            conn.Open();
-            MySqlCommand command = new MySqlCommand(FormShowData.checkString, conn);
-            MySqlDataReader reader = command.ExecuteReader();
+
             chartInfo.Update();
             chartInfo.Series[0].Points.Clear();
             addPoint = -1;
             intervallToolStripComboBox.Text = "10 minutes";
             recordSum = 0;
+            listBoxShowValue.Items.Clear();
             switch (showOneToolStripComboBox.SelectedIndex)
             {
                 case 0:
+                    maxValue = "select max(outtemp) from (" + checkNewString + ")max;";
+                    Clipboard.SetText(maxValue);
+                    conn.Open();
+                    MySqlCommand command4 = new MySqlCommand(maxValue, conn);
+                    MySqlDataReader reader4 = command4.ExecuteReader();
+                    while (reader4.Read())
+                    {
+                        listBoxShowValue.Items.Add("Maximum value: " + reader4.GetDecimal("max(outtemp)").ToString() + " °C");
+                    }
+                    conn.Close();
+
+                    minValue = "select min(outtemp) from (" + checkNewString + ")min;";
+                    Clipboard.SetText(minValue);
+                    conn.Open();
+                    MySqlCommand command5 = new MySqlCommand(minValue, conn);
+                    MySqlDataReader reader5 = command5.ExecuteReader();
+                    while (reader5.Read())
+                    {
+                        listBoxShowValue.Items.Add("Minimum value: " + reader5.GetDecimal("min(outtemp)").ToString() + " °C");
+                    }
+                    conn.Close();
+
+                    averageValue = FormShowData.checkString;
+                    averageValue = "select avg(outtemp) from (" + checkNewString + ")avg;";
+                    Clipboard.SetText(averageValue);
+                    conn.Open();
+                    MySqlCommand command6 = new MySqlCommand(averageValue, conn);
+                    MySqlDataReader reader6 = command6.ExecuteReader();
+                    while (reader6.Read())
+                    {
+                        avgTemp = Math.Round((Decimal)reader6.GetDecimal("avg(outtemp)"), 2);
+                        listBoxShowValue.Items.Add("Average value: " + avgTemp.ToString() + " °C");
+                    }
+                    conn.Close();
+
+                    listBoxShowValue.Items.Add("------------------------------------------------");
                     chartInfo.Series[0].LegendText = "Temperature";
                     chartInfo.ChartAreas[0].AxisY.Title = "Celsius";
                     yAxisText = "Temperature";
                     yAxisValue = " °C";
-                    listBoxShowValue.Items.Clear();
                     chartInfo.Update();
                     chartInfo.Series[0].Points.Clear();
+                    conn.Open();
+                    MySqlCommand command = new MySqlCommand(FormShowData.checkString, conn);
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         addPoint++;
@@ -236,66 +273,11 @@ namespace ReadTemp
                     chartInfo.ChartAreas[0].AxisY.Minimum = -40;
                     chartInfo.ChartAreas[0].AxisY.Maximum = 40;
                     conn.Close();
-
-                    maxValue = "select max(outtemp) from (" + checkNewString + ")max;";
-                    Clipboard.SetText(maxValue);
-                    conn.Open();
-                    MySqlCommand command4 = new MySqlCommand(maxValue, conn);
-                    MySqlDataReader reader4 = command4.ExecuteReader();
-                    while (reader4.Read())
-                    {
-                        labelMaxValue.Text = "Maximum value: " + reader4.GetDecimal("max(outtemp)").ToString() + " °C";
-                    }
-                    conn.Close();
-
-                    minValue = "select min(outtemp) from (" + checkNewString + ")min;";
-                    Clipboard.SetText(minValue);
-                    conn.Open();
-                    MySqlCommand command5 = new MySqlCommand(minValue, conn);
-                    MySqlDataReader reader5 = command5.ExecuteReader();
-                    while (reader5.Read())
-                    {
-                        labelMinValue.Text = "Minimum value: " + reader5.GetDecimal("min(outtemp)").ToString() + " °C";
-                    }
-                    conn.Close();
-
-                    averageValue = FormShowData.checkString;
-                    averageValue = "select avg(outtemp) from (" + checkNewString + ")avg;";
-                    Clipboard.SetText(averageValue);
-                    conn.Open();
-                    MySqlCommand command6 = new MySqlCommand(averageValue, conn);
-                    MySqlDataReader reader6 = command6.ExecuteReader();
-                    while (reader6.Read())
-                    {
-                        avgTemp = Math.Round((Decimal)reader6.GetDecimal("avg(outtemp)"), 2);
-                        labelAverageValue.Text = "Average value: " + avgTemp.ToString() + " °C";
-                    }
-                    conn.Close();
                     chooseItem = 1;
                     listBoxShowValue.Items.Add(recordSum.ToString() + " rows selected");
                     break;
 
                 case 1:
-                    chartInfo.Series[0].LegendText = "Humidity";
-                    chartInfo.ChartAreas[0].AxisY.Title = "Procent";
-                    yAxisText = "Humidity";
-                    yAxisValue = " %";
-                    listBoxShowValue.Items.Clear();
-                    chartInfo.Update();
-                    chartInfo.Series[0].Points.Clear();
-                    while (reader.Read())
-                    {
-                        addPoint++;
-                        chartInfo.Series[0].Points.AddXY(addPoint, reader.GetDecimal("outhum"));
-                        chartInfo.Series[0].MarkerStyle = MarkerStyle.Circle;
-                        chartInfo.Series[0].MarkerSize = 8;
-                        listBoxShowValue.Items.Add(reader.GetDecimal("outhum") + " %   " + reader.GetDateTime("datecreated")); ;
-                        recordSum++;
-                    }
-                    chartInfo.ChartAreas[0].AxisY.Minimum = 0;
-                    chartInfo.ChartAreas[0].AxisY.Maximum = 100;
-                    conn.Close();
-
                     maxValue = "select max(outhum) from (" + checkNewString + ")max;";
                     Clipboard.SetText(maxValue);
                     conn.Open();
@@ -303,7 +285,7 @@ namespace ReadTemp
                     MySqlDataReader reader7 = command7.ExecuteReader();
                     while (reader7.Read())
                     {
-                        labelMaxValue.Text = "Maximum value: " + reader7.GetDecimal("max(outhum)").ToString() + " %";
+                        listBoxShowValue.Items.Add("Maximum value: " + reader7.GetDecimal("max(outhum)").ToString() + " °C");
                     }
                     conn.Close();
 
@@ -314,7 +296,7 @@ namespace ReadTemp
                     MySqlDataReader reader8 = command8.ExecuteReader();
                     while (reader8.Read())
                     {
-                        labelMinValue.Text = "Minimum value: " + reader8.GetDecimal("min(outhum)").ToString() + " %";
+                        listBoxShowValue.Items.Add("Minimum value: " + reader8.GetDecimal("min(outhum)").ToString() + " °C");
                     }
                     conn.Close();
 
@@ -327,53 +309,58 @@ namespace ReadTemp
                     while (reader9.Read())
                     {
                         avgHum = Math.Round((Decimal)reader9.GetDecimal("avg(outhum)"), 2);
-                        labelAverageValue.Text = "Average value: " + avgHum.ToString() + " %";
+                        listBoxShowValue.Items.Add("Average value: " + avgHum.ToString() + " °C");
+
                     }
                     conn.Close();
-                    chooseItem = 2;
+
+                    listBoxShowValue.Items.Add("------------------------------------------------");
+                    chartInfo.Series[0].LegendText = "Humitidy";
+                    chartInfo.ChartAreas[0].AxisY.Title = "Procent";
+                    yAxisText = "Procent";
+                    yAxisValue = " %";
+                    chartInfo.Update();
+                    chartInfo.Series[0].Points.Clear();
+                    conn.Open();
+                    MySqlCommand command10 = new MySqlCommand(FormShowData.checkString, conn);
+                    MySqlDataReader reader10 = command10.ExecuteReader();
+                    while (reader10.Read())
+                    {
+                        addPoint++;
+                        chartInfo.Series[0].Points.AddXY(addPoint, reader10.GetDecimal("outhum"));
+                        chartInfo.Series[0].MarkerStyle = MarkerStyle.Circle;
+                        chartInfo.Series[0].MarkerSize = 8;
+                        listBoxShowValue.Items.Add(reader10.GetDecimal("outhum") + " %   " + reader10.GetDateTime("datecreated"));
+                        recordSum++;
+                    }
+
+                    chartInfo.ChartAreas[0].AxisY.Minimum = 0;
+                    chartInfo.ChartAreas[0].AxisY.Maximum = 100;
+                    conn.Close();
+                    chooseItem = 1;
                     listBoxShowValue.Items.Add(recordSum.ToString() + " rows selected");
                     break;
 
                 case 2:
-                    chartInfo.Series[0].LegendText = "Pressure";
-                    chartInfo.ChartAreas[0].AxisY.Title = "Pressure";
-                    yAxisText = "Pressure";
-                    yAxisValue = " hPa";
-                    listBoxShowValue.Items.Clear();
-                    chartInfo.Update();
-                    chartInfo.Series[0].Points.Clear();
-                    while (reader.Read())
-                    {
-                        addPoint++;
-                        chartInfo.Series[0].Points.AddXY(addPoint, reader.GetDecimal("pressure"));
-                        chartInfo.Series[0].MarkerStyle = MarkerStyle.Circle;
-                        chartInfo.Series[0].MarkerSize = 8;
-                        listBoxShowValue.Items.Add(reader.GetDecimal("pressure") + " hPa   " + reader.GetDateTime("datecreated"));
-                        recordSum++;
-                    }
-                    chartInfo.ChartAreas[0].AxisY.Minimum = 1000;
-                    chartInfo.ChartAreas[0].AxisY.Maximum = 1200;
-                    conn.Close();
-
                     maxValue = "select max(pressure) from (" + checkNewString + ")max;";
                     Clipboard.SetText(maxValue);
                     conn.Open();
-                    MySqlCommand command10 = new MySqlCommand(maxValue, conn);
-                    MySqlDataReader reader10 = command10.ExecuteReader();
-                    while (reader10.Read())
+                    MySqlCommand command11 = new MySqlCommand(maxValue, conn);
+                    MySqlDataReader reader11 = command11.ExecuteReader();
+                    while (reader11.Read())
                     {
-                        labelMaxValue.Text = "Maximum value: " + reader10.GetDecimal("max(pressure)").ToString() + " hPa";
+                        listBoxShowValue.Items.Add("Maximum value: " + reader11.GetDecimal("max(pressure)").ToString() + " hPA");
                     }
                     conn.Close();
 
                     minValue = "select min(pressure) from (" + checkNewString + ")min;";
                     Clipboard.SetText(minValue);
                     conn.Open();
-                    MySqlCommand command11 = new MySqlCommand(minValue, conn);
-                    MySqlDataReader reader11 = command11.ExecuteReader();
-                    while (reader11.Read())
+                    MySqlCommand command12 = new MySqlCommand(minValue, conn);
+                    MySqlDataReader reader12 = command12.ExecuteReader();
+                    while (reader12.Read())
                     {
-                        labelMinValue.Text = "Minimum value: " + reader11.GetDecimal("min(pressure)").ToString() + " hPa";
+                        listBoxShowValue.Items.Add("Minimum value: " + reader12.GetDecimal("min(pressure)").ToString() + " hPA");
                     }
                     conn.Close();
 
@@ -381,15 +368,39 @@ namespace ReadTemp
                     averageValue = "select avg(pressure) from (" + checkNewString + ")avg;";
                     Clipboard.SetText(averageValue);
                     conn.Open();
-                    MySqlCommand command12 = new MySqlCommand(averageValue, conn);
-                    MySqlDataReader reader12 = command12.ExecuteReader();
-                    while (reader12.Read())
+                    MySqlCommand command13 = new MySqlCommand(averageValue, conn);
+                    MySqlDataReader reader13 = command13.ExecuteReader();
+                    while (reader13.Read())
                     {
-                        avgPressure = Math.Round((Decimal)reader12.GetDecimal("avg(pressure)"), 2);
-                        labelAverageValue.Text = "Average value: " + avgPressure.ToString() + " hPa";
+                        avgPressure = Math.Round((Decimal)reader13.GetDecimal("avg(pressure)"), 2);
+                        listBoxShowValue.Items.Add("Average value: " + avgPressure.ToString() + " hPA");
                     }
                     conn.Close();
-                    chooseItem = 3;
+
+                    listBoxShowValue.Items.Add("------------------------------------------------");
+                    chartInfo.Series[0].LegendText = "Pressure";
+                    chartInfo.ChartAreas[0].AxisY.Title = "hPA";
+                    yAxisText = "Pressure";
+                    yAxisValue = "hPA";
+                    chartInfo.Update();
+                    chartInfo.Series[0].Points.Clear();
+                    conn.Open();
+                    MySqlCommand command14 = new MySqlCommand(FormShowData.checkString, conn);
+                    MySqlDataReader reader14 = command14.ExecuteReader();
+                    while (reader14.Read())
+                    {
+                        addPoint++;
+                        chartInfo.Series[0].Points.AddXY(addPoint, reader14.GetDecimal("pressure"));
+                        chartInfo.Series[0].MarkerStyle = MarkerStyle.Circle;
+                        chartInfo.Series[0].MarkerSize = 8;
+                        listBoxShowValue.Items.Add(reader14.GetDecimal("pressure") + " hPA   " + reader14.GetDateTime("datecreated"));
+                        recordSum++;
+                    }
+
+                    chartInfo.ChartAreas[0].AxisY.Minimum = 0;
+                    chartInfo.ChartAreas[0].AxisY.Maximum = 1500;
+                    conn.Close();
+                    chooseItem = 1;
                     listBoxShowValue.Items.Add(recordSum.ToString() + " rows selected");
                     break;
             }
@@ -483,7 +494,7 @@ namespace ReadTemp
                 Bitmap bm = new Bitmap(ms);
                 Clipboard.SetImage(bm);
             }
-            MessageBox.Show("Details copied!");
+            MessageBox.Show("Chart diagram copied!");
         }
 
         private void printChartToolStripMenuItem_Click(object sender, EventArgs e)
@@ -520,39 +531,8 @@ namespace ReadTemp
             defautSize = new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height);
             chartInfoOrginal = new Rectangle(chartInfo.Location.X, chartInfo.Location.Y, chartInfo.Width, chartInfo.Height);
             listBoxShowValueOrginal = new Rectangle(listBoxShowValue.Location.X, listBoxShowValue.Location.Y, listBoxShowValue.Width, listBoxShowValue.Height);
-            labelAverageValueOrginal = new Rectangle(labelAverageValue.Location.X, labelAverageValue.Location.Y, labelAverageValue.Width, labelAverageValue.Height);
-            labelMaxValueOrginal = new Rectangle(labelMaxValue.Location.X, labelMaxValue.Location.Y, labelMaxValue.Width, labelMaxValue.Height);
-            labelMinValueOrginal = new Rectangle(labelMinValue.Location.X, labelMinValue.Location.Y, labelMinValue.Width, labelMinValue.Height);
-
-
             connString = chooseDatabase[0];
             MySqlConnection conn = new MySqlConnection(connString);
-            conn.Open();
-            MySqlCommand command = new MySqlCommand(FormShowData.checkString, conn);
-            MySqlDataReader reader = command.ExecuteReader();
-            recordSum = 0;
-            chartInfo.Update();
-            chartInfo.Series[0].LegendText = "Temperature";
-            chartInfo.ChartAreas[0].AxisY.Title = "Celsius";
-            yAxisText = "Temperature ";
-            yAxisValue = " °C";
-            addPoint = -1;
-
-            while (reader.Read())
-            {
-                addPoint++;
-                recordSum++;
-                listDate.Add(reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm"));
-                chartInfo.Series[0].Points.AddXY(addPoint, reader.GetDecimal("outtemp"));
-                chartInfo.Series[0].MarkerStyle = MarkerStyle.Circle;
-                chartInfo.Series[0].MarkerSize = 8;
-                listBoxShowValue.Items.Add(reader.GetDecimal("outtemp") + " °C   " + reader.GetDateTime("datecreated"));
-            }
-            listBoxShowValue.Items.Add(recordSum.ToString() + " rows selected");
-
-            chartInfo.ChartAreas[0].AxisY.Minimum = -40;
-            chartInfo.ChartAreas[0].AxisY.Maximum = 40;
-            conn.Close();
 
             dateString = FormShowData.checkString;
             dateString = dateString.Remove(dateString.Length - 1);
@@ -588,7 +568,7 @@ namespace ReadTemp
             MySqlDataReader reader4 = command4.ExecuteReader();
             while (reader4.Read())
             {
-                labelMaxValue.Text = "Maximum value: " + reader4.GetDecimal("max(outtemp)").ToString() + " °C"; ;
+                listBoxShowValue.Items.Add("Maximum value: " + reader4.GetDecimal("max(outtemp)").ToString() + " °C");
             }
             conn.Close();
 
@@ -598,7 +578,7 @@ namespace ReadTemp
             MySqlDataReader reader5 = command5.ExecuteReader();
             while (reader5.Read())
             {
-                labelMinValue.Text = "Minimum value: " + reader5.GetDecimal("min(outtemp)").ToString() + " °C"; ;
+                listBoxShowValue.Items.Add("Minimum value: " + reader5.GetDecimal("min(outtemp)").ToString() + " °C");
             }
             conn.Close();
 
@@ -610,9 +590,39 @@ namespace ReadTemp
             while (reader6.Read())
             {
                 avgTemp = Math.Round((Decimal)reader6.GetDecimal("avg(outtemp)"), 2);
-                labelAverageValue.Text = "Average value: " + avgTemp.ToString() + " °C";
+                listBoxShowValue.Items.Add("Average value: " + avgTemp.ToString() + " °C");
             }
             conn.Close();
+
+            listBoxShowValue.Items.Add("------------------------------------------------");
+            conn.Open();
+            MySqlCommand command = new MySqlCommand(FormShowData.checkString, conn);
+            MySqlDataReader reader = command.ExecuteReader();
+            recordSum = 0;
+            chartInfo.Update();
+            chartInfo.Series[0].LegendText = "Temperature";
+            chartInfo.ChartAreas[0].AxisY.Title = "Celsius";
+            yAxisText = "Temperature ";
+            yAxisValue = " °C";
+            addPoint = -1;
+
+            while (reader.Read())
+            {
+                addPoint++;
+                recordSum++;
+                listDate.Add(reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm"));
+                chartInfo.Series[0].Points.AddXY(addPoint, reader.GetDecimal("outtemp"));
+                chartInfo.Series[0].MarkerStyle = MarkerStyle.Circle;
+                chartInfo.Series[0].MarkerSize = 8;
+                listBoxShowValue.Items.Add(reader.GetDecimal("outtemp") + " °C   " + reader.GetDateTime("datecreated"));
+            }
+            listBoxShowValue.Items.Add(recordSum.ToString() + " rows selected");
+
+            chartInfo.ChartAreas[0].AxisY.Minimum = -40;
+            chartInfo.ChartAreas[0].AxisY.Maximum = 40;
+            conn.Close();
+
+
 
             Title showOne = chartInfo.Titles.Add("Begin date " + showBeginDate + "\n\n End date " + showEndDate);
             showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10f, FontStyle.Bold);
@@ -631,7 +641,7 @@ namespace ReadTemp
 
             if (result == DialogResult.OK)
             {
-                DialogResult dialogResult = MessageBox.Show("Are you sure the replace the the text color?", "Weather Info", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Are you sure the replace the color?", "Weather Info", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     chartInfo.Series[0].Color = colorDialog1.Color;
@@ -646,7 +656,7 @@ namespace ReadTemp
 
             if (result == DialogResult.OK)
             {
-                DialogResult dialogResult = MessageBox.Show("Are you sure the replace the the text color?", "Weather Info", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Are you sure the replace the color?", "Weather Info", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     chartInfo.ChartAreas[0].BackColor = colorDialog1.Color;
@@ -689,9 +699,22 @@ namespace ReadTemp
         {
             checkResize(chartInfoOrginal, chartInfo);
             checkResize(listBoxShowValueOrginal, listBoxShowValue);
-            checkResize(labelAverageValueOrginal, labelAverageValue);
-            checkResize(labelMaxValueOrginal, labelMaxValue);
-            checkResize(labelMinValueOrginal, labelMinValue);
+        }
+
+        private void formBackgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            colorDialog1.AllowFullOpen = true;
+            DialogResult result = colorDialog1.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                DialogResult dialogResult = MessageBox.Show("Are you sure the replace the color?", "Weather Info", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    chartInfo.BackColor = colorDialog1.Color;
+                }
+            }
         }
     }
 }
+

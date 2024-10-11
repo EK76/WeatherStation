@@ -159,7 +159,7 @@
     <PackageReference Include="MySql.Data" Version="9.0.0" />
     <PackageReference Include="MySqlBackup.NET" Version="2.3.8" />
     <PackageReference Include="Open-XML-SDK" Version="2.9.1" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="Uno.UI" Version="5.4.22" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.9.2" />

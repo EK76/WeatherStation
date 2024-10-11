@@ -31,7 +31,6 @@ try:
        cursor.close()
        print("You're connected to database: ", record)
        delay = 600
-       print("Delay ", delay)
        sleep(5)
 
        temperature = sensor.temperature
@@ -53,14 +52,6 @@ try:
             cursor.execute(mysql_insert_query, record)
             connection.commit()
             print("Record inserted successfully into table weatherdata", temperature, " ", humidity)
-            cursor.close()
-            sleep(5)
-            mysql_insert_query2 = "update weathercurrent set temp = '%s', hum = '%s', pressure ='%s' where id = 1"
-            cursor2 = connection.cursor()
-            record2 = (temperature, humidity, pressure)
-            cursor2.execute(mysql_insert_query2, record2)
-            connection.commit()
-            print("Record updated successfully into table weathercurrent", temperature, " ", humidity)
             cursor.close()
             sleep(delay)
 
