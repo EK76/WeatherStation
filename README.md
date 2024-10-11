@@ -1,5 +1,5 @@
 
-## Kenne's Weather Station.
+## Weather Station.
 
 I started this Visual Studio C# project in spring 2024.
 Purpose for this project is to measure temperature, humidity and pressure
@@ -32,7 +32,7 @@ the I2C device.
   and a serial clock line (SCL).
 
 ---
-The sensors values are stored to MySQL database from which the Kenne's Weather Station
+The sensors values are stored to MySQL database from which the Weather Station
 application reads the values and show results on a computer screen, for example as diagrams.
 
 The programming code that measure temperature, humidity and pressure
