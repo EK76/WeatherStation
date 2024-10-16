@@ -172,18 +172,10 @@ namespace ReadTemp
             }
         }
 
-        private void weatherDataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormInfo infoData = new FormInfo();
-            infoData.Show();
-        }
-
         private void comboBoxYear_SelectedIndexChanged(object sender, EventArgs e)
         {
             comboBoxMonth.Enabled = true;
         }
-
-        Boolean checkValue, allowSave = true, allowSave2 = true;
 
         private void graphViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -229,8 +221,6 @@ namespace ReadTemp
             }
         }
 
-
-
         private void listViewShowData_SelectedIndexChanged(object sender, EventArgs e)
         {
             listViewShowData.Items.Clear();
@@ -273,18 +263,12 @@ namespace ReadTemp
 
             if (savePDF.ShowDialog() == DialogResult.Cancel)
             {
-                allowSave = false;
-                MessageBox.Show("Export was aborted!");
+               MessageBox.Show("Export was aborted!");
             }
             else
             {
-                allowSave = true;
-            }
-
-            if (allowSave == true)
-            {
-                foreach (ColumnHeader column in listViewShowData.Columns)
-                {
+               foreach (ColumnHeader column in listViewShowData.Columns)
+               {
                     PdfPCell cell = new PdfPCell(new Phrase(column.Text));
                     pdfTable.AddCell(cell);
 

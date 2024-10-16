@@ -46,7 +46,6 @@
             closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             graphViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            weatherDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             technicalInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             softwareInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -217,7 +216,7 @@
             // 
             // viewToolStripMenuItem1
             // 
-            viewToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { graphViewToolStripMenuItem, weatherDataToolStripMenuItem, toolStripSeparator1, technicalInfoToolStripMenuItem, softwareInfoToolStripMenuItem });
+            viewToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { graphViewToolStripMenuItem, toolStripSeparator1, technicalInfoToolStripMenuItem, softwareInfoToolStripMenuItem });
             viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
             viewToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
             viewToolStripMenuItem1.Text = "View";
@@ -226,33 +225,26 @@
             // 
             graphViewToolStripMenuItem.Enabled = false;
             graphViewToolStripMenuItem.Name = "graphViewToolStripMenuItem";
-            graphViewToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            graphViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             graphViewToolStripMenuItem.Text = "Graph View";
             graphViewToolStripMenuItem.Click += graphViewToolStripMenuItem_Click;
-            // 
-            // weatherDataToolStripMenuItem
-            // 
-            weatherDataToolStripMenuItem.Name = "weatherDataToolStripMenuItem";
-            weatherDataToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-            weatherDataToolStripMenuItem.Text = "Weather Data";
-            weatherDataToolStripMenuItem.Click += weatherDataToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(144, 6);
+            toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // technicalInfoToolStripMenuItem
             // 
             technicalInfoToolStripMenuItem.Name = "technicalInfoToolStripMenuItem";
-            technicalInfoToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            technicalInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             technicalInfoToolStripMenuItem.Text = "Technical Info";
             technicalInfoToolStripMenuItem.Click += technicalInfoToolStripMenuItem_Click;
             // 
             // softwareInfoToolStripMenuItem
             // 
             softwareInfoToolStripMenuItem.Name = "softwareInfoToolStripMenuItem";
-            softwareInfoToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            softwareInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             softwareInfoToolStripMenuItem.Text = "Software Info";
             softwareInfoToolStripMenuItem.Click += softwareInfoToolStripMenuItem_Click;
             // 
@@ -539,7 +531,6 @@
         private System.Windows.Forms.ComboBox comboBoxYear;
         private System.Windows.Forms.DateTimePicker dateTimePickerStartDate;
         private System.Windows.Forms.DateTimePicker dateTimePickerEndDate;
-        private System.Windows.Forms.ToolStripMenuItem weatherDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.Label labelStartDate;

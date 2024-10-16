@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Windows.Forms.DataVisualization.Charting;
+using Windows.UI.Composition;
 
 
 namespace ReadTemp
@@ -274,6 +275,7 @@ namespace ReadTemp
                     chartInfo.ChartAreas[0].AxisY.Maximum = 40;
                     conn.Close();
                     chooseItem = 1;
+                    listBoxShowValue.Items.Add("------------------------------------------------");
                     listBoxShowValue.Items.Add(recordSum.ToString() + " rows selected");
                     break;
 
@@ -285,7 +287,7 @@ namespace ReadTemp
                     MySqlDataReader reader7 = command7.ExecuteReader();
                     while (reader7.Read())
                     {
-                        listBoxShowValue.Items.Add("Maximum value: " + reader7.GetDecimal("max(outhum)").ToString() + " °C");
+                        listBoxShowValue.Items.Add("Maximum value: " + reader7.GetDecimal("max(outhum)").ToString() + " %");
                     }
                     conn.Close();
 
@@ -296,7 +298,7 @@ namespace ReadTemp
                     MySqlDataReader reader8 = command8.ExecuteReader();
                     while (reader8.Read())
                     {
-                        listBoxShowValue.Items.Add("Minimum value: " + reader8.GetDecimal("min(outhum)").ToString() + " °C");
+                        listBoxShowValue.Items.Add("Minimum value: " + reader8.GetDecimal("min(outhum)").ToString() + " %");
                     }
                     conn.Close();
 
@@ -309,7 +311,7 @@ namespace ReadTemp
                     while (reader9.Read())
                     {
                         avgHum = Math.Round((Decimal)reader9.GetDecimal("avg(outhum)"), 2);
-                        listBoxShowValue.Items.Add("Average value: " + avgHum.ToString() + " °C");
+                        listBoxShowValue.Items.Add("Average value: " + avgHum.ToString() + " %");
 
                     }
                     conn.Close();
@@ -338,6 +340,7 @@ namespace ReadTemp
                     chartInfo.ChartAreas[0].AxisY.Maximum = 100;
                     conn.Close();
                     chooseItem = 1;
+                    listBoxShowValue.Items.Add("------------------------------------------------");
                     listBoxShowValue.Items.Add(recordSum.ToString() + " rows selected");
                     break;
 
@@ -401,17 +404,12 @@ namespace ReadTemp
                     chartInfo.ChartAreas[0].AxisY.Maximum = 1500;
                     conn.Close();
                     chooseItem = 1;
+                    listBoxShowValue.Items.Add("------------------------------------------------");
                     listBoxShowValue.Items.Add(recordSum.ToString() + " rows selected");
                     break;
             }
 
             conn.Close();
-        }
-
-        private void mainChartToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //    FormViewMenuOption showMenuOptions = new FormViewMenuOption();
-            //   showMenuOptions.Show();
         }
 
         private void chartInfo_GetToolTipText(object sender, ToolTipEventArgs e)
@@ -428,11 +426,6 @@ namespace ReadTemp
                     chartInfo.ChartAreas[0].AxisX.Title = "Date";
                     break;
             }
-        }
-
-        private void colorOptionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void chart3ToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -488,11 +481,11 @@ namespace ReadTemp
 
         private void copyChartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (MemoryStream mStream = new MemoryStream())
             {
-                chartInfo.SaveImage(ms, ChartImageFormat.Bmp);
-                Bitmap bm = new Bitmap(ms);
-                Clipboard.SetImage(bm);
+                chartInfo.SaveImage(mStream, ChartImageFormat.Bmp);
+                Bitmap chartImage = new Bitmap(mStream);
+                Clipboard.SetImage(chartImage);
             }
             MessageBox.Show("Chart diagram copied!");
         }
@@ -503,29 +496,13 @@ namespace ReadTemp
             if (DialogResult.OK == printDialog.ShowDialog())
             {
                 PrintPreviewDialog printPreview = new PrintPreviewDialog();
+                chartInfo.Printing.PrintDocument.DefaultPageSettings.Landscape = true;
                 printPreview.Document = this.chartInfo.Printing.PrintDocument;
                 printPreview.Document.PrinterSettings = printDialog.PrinterSettings;
                 printPreview.ShowDialog();
             }
         }
-
-        private void chartOne_GetToolTipText(object sender, DrawToolTipEventArgs e)
-        {
-
-        }
-
-        private void chart3ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                chartInfo.SaveImage(ms, ChartImageFormat.Bmp);
-                Bitmap bm = new Bitmap(ms);
-                Clipboard.SetImage(bm);
-            }
-            MessageBox.Show("Details copied!");
-        }
-
-
+ 
         private void FormViewGraph_Load(object sender, EventArgs e)
         {
             defautSize = new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height);
@@ -616,6 +593,7 @@ namespace ReadTemp
                 chartInfo.Series[0].MarkerSize = 8;
                 listBoxShowValue.Items.Add(reader.GetDecimal("outtemp") + " °C   " + reader.GetDateTime("datecreated"));
             }
+            listBoxShowValue.Items.Add("------------------------------------------------");
             listBoxShowValue.Items.Add(recordSum.ToString() + " rows selected");
 
             chartInfo.ChartAreas[0].AxisY.Minimum = -40;
@@ -641,11 +619,8 @@ namespace ReadTemp
 
             if (result == DialogResult.OK)
             {
-                DialogResult dialogResult = MessageBox.Show("Are you sure the replace the color?", "Weather Info", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    chartInfo.Series[0].Color = colorDialog1.Color;
-                }
+                chartInfo.Series[0].Color = colorDialog1.Color;
+                defaultSettingToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -656,11 +631,8 @@ namespace ReadTemp
 
             if (result == DialogResult.OK)
             {
-                DialogResult dialogResult = MessageBox.Show("Are you sure the replace the color?", "Weather Info", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    chartInfo.ChartAreas[0].BackColor = colorDialog1.Color;
-                }
+                chartInfo.ChartAreas[0].BackColor = colorDialog1.Color;
+                defaultSettingToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -708,12 +680,26 @@ namespace ReadTemp
 
             if (result == DialogResult.OK)
             {
-                DialogResult dialogResult = MessageBox.Show("Are you sure the replace the color?", "Weather Info", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    chartInfo.BackColor = colorDialog1.Color;
-                }
+                chartInfo.BackColor = colorDialog1.Color;
+                defaultSettingToolStripMenuItem.Enabled = true;
             }
+        }
+
+        private void defaultSettingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure?", "Weather Station", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                chartInfo.BackColor = Color.LightGray;
+                chartInfo.Series[0].Color = Color.SeaGreen;
+                chartInfo.ChartAreas[0].BackColor = Color.White;
+                defaultSettingToolStripMenuItem.Enabled = false;
+            }
+        }
+
+        private void createRapportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

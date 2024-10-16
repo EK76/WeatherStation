@@ -43,6 +43,7 @@
             chartLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             chartBackgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             formBackgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            defaultSettingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             oneChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             showOneToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
@@ -51,18 +52,18 @@
             diagramViewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             diagramToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             chartSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            createRapportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             colorDialog1 = new System.Windows.Forms.ColorDialog();
             listBoxShowValue = new System.Windows.Forms.ListBox();
-            toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            createRapportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)chartInfo).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // chartInfo
             // 
-            chartInfo.BackColor = System.Drawing.Color.Gainsboro;
+            chartInfo.BackColor = System.Drawing.Color.LightGray;
             chartInfo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             chartInfo.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Top;
             chartInfo.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
@@ -119,21 +120,21 @@
             // saveChartToolStripMenuItem
             // 
             saveChartToolStripMenuItem.Name = "saveChartToolStripMenuItem";
-            saveChartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            saveChartToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             saveChartToolStripMenuItem.Text = "Save Chart";
             saveChartToolStripMenuItem.Click += saveChartToolStripMenuItem_Click;
             // 
             // printChartToolStripMenuItem
             // 
             printChartToolStripMenuItem.Name = "printChartToolStripMenuItem";
-            printChartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            printChartToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             printChartToolStripMenuItem.Text = "Print Chart";
             printChartToolStripMenuItem.Click += printChartToolStripMenuItem_Click;
             // 
             // closeToolStripMenuItem
             // 
             closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            closeToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             closeToolStripMenuItem.Text = "Close";
             closeToolStripMenuItem.Click += closeToolStripMenuItem_Click;
             // 
@@ -147,37 +148,45 @@
             // copyChartToolStripMenuItem
             // 
             copyChartToolStripMenuItem.Name = "copyChartToolStripMenuItem";
-            copyChartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            copyChartToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             copyChartToolStripMenuItem.Text = "Copy Chart";
             copyChartToolStripMenuItem.Click += copyChartToolStripMenuItem_Click;
             // 
             // colorOptionToolStripMenuItem
             // 
-            colorOptionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { chartLineToolStripMenuItem, chartBackgroundToolStripMenuItem, formBackgroundToolStripMenuItem });
+            colorOptionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { chartLineToolStripMenuItem, chartBackgroundToolStripMenuItem, formBackgroundToolStripMenuItem, defaultSettingToolStripMenuItem });
             colorOptionToolStripMenuItem.Name = "colorOptionToolStripMenuItem";
-            colorOptionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            colorOptionToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             colorOptionToolStripMenuItem.Text = "Color Option";
             // 
             // chartLineToolStripMenuItem
             // 
             chartLineToolStripMenuItem.Name = "chartLineToolStripMenuItem";
-            chartLineToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            chartLineToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             chartLineToolStripMenuItem.Text = "Chart Line";
             chartLineToolStripMenuItem.Click += chartLineToolStripMenuItem_Click;
             // 
             // chartBackgroundToolStripMenuItem
             // 
             chartBackgroundToolStripMenuItem.Name = "chartBackgroundToolStripMenuItem";
-            chartBackgroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            chartBackgroundToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             chartBackgroundToolStripMenuItem.Text = "Chart Background";
             chartBackgroundToolStripMenuItem.Click += chartBackgroundToolStripMenuItem_Click;
             // 
             // formBackgroundToolStripMenuItem
             // 
             formBackgroundToolStripMenuItem.Name = "formBackgroundToolStripMenuItem";
-            formBackgroundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            formBackgroundToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             formBackgroundToolStripMenuItem.Text = "Form Background";
             formBackgroundToolStripMenuItem.Click += formBackgroundToolStripMenuItem_Click;
+            // 
+            // defaultSettingToolStripMenuItem
+            // 
+            defaultSettingToolStripMenuItem.Enabled = false;
+            defaultSettingToolStripMenuItem.Name = "defaultSettingToolStripMenuItem";
+            defaultSettingToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            defaultSettingToolStripMenuItem.Text = "Default Setting";
+            defaultSettingToolStripMenuItem.Click += defaultSettingToolStripMenuItem_Click;
             // 
             // viewToolStripMenuItem
             // 
@@ -190,7 +199,7 @@
             // 
             oneChartToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { showOneToolStripComboBox });
             oneChartToolStripMenuItem.Name = "oneChartToolStripMenuItem";
-            oneChartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            oneChartToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             oneChartToolStripMenuItem.Text = "Chart";
             // 
             // showOneToolStripComboBox
@@ -206,7 +215,7 @@
             // 
             timeIntervallToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { intervallToolStripComboBox });
             timeIntervallToolStripMenuItem.Name = "timeIntervallToolStripMenuItem";
-            timeIntervallToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            timeIntervallToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             timeIntervallToolStripMenuItem.Text = "Time intervall";
             // 
             // intervallToolStripComboBox
@@ -221,7 +230,7 @@
             // 
             diagramViewToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { diagramToolStripComboBox });
             diagramViewToolStripMenuItem1.Name = "diagramViewToolStripMenuItem1";
-            diagramViewToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            diagramViewToolStripMenuItem1.Size = new System.Drawing.Size(157, 22);
             diagramViewToolStripMenuItem1.Text = "Diagram View";
             // 
             // diagramToolStripComboBox
@@ -235,20 +244,9 @@
             // chartSummaryToolStripMenuItem
             // 
             chartSummaryToolStripMenuItem.Name = "chartSummaryToolStripMenuItem";
-            chartSummaryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            chartSummaryToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             chartSummaryToolStripMenuItem.Text = "Chart Summary";
             chartSummaryToolStripMenuItem.Click += chartSummaryToolStripMenuItem_Click;
-            // 
-            // listBoxShowValue
-            // 
-            listBoxShowValue.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Bold);
-            listBoxShowValue.FormattingEnabled = true;
-            listBoxShowValue.ItemHeight = 26;
-            listBoxShowValue.Location = new System.Drawing.Point(3029, 43);
-            listBoxShowValue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            listBoxShowValue.Name = "listBoxShowValue";
-            listBoxShowValue.Size = new System.Drawing.Size(312, 1200);
-            listBoxShowValue.TabIndex = 9;
             // 
             // toolsToolStripMenuItem
             // 
@@ -262,6 +260,18 @@
             createRapportToolStripMenuItem.Name = "createRapportToolStripMenuItem";
             createRapportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             createRapportToolStripMenuItem.Text = "Create Rapport";
+            createRapportToolStripMenuItem.Click += createRapportToolStripMenuItem_Click;
+            // 
+            // listBoxShowValue
+            // 
+            listBoxShowValue.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Bold);
+            listBoxShowValue.FormattingEnabled = true;
+            listBoxShowValue.ItemHeight = 26;
+            listBoxShowValue.Location = new System.Drawing.Point(3029, 43);
+            listBoxShowValue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            listBoxShowValue.Name = "listBoxShowValue";
+            listBoxShowValue.Size = new System.Drawing.Size(312, 1200);
+            listBoxShowValue.TabIndex = 9;
             // 
             // FormViewGraph
             // 
@@ -314,5 +324,6 @@
         private System.Windows.Forms.ToolStripMenuItem formBackgroundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createRapportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem defaultSettingToolStripMenuItem;
     }
 }

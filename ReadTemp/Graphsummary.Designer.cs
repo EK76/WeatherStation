@@ -43,6 +43,9 @@
             chartPressure = new System.Windows.Forms.DataVisualization.Charting.Chart();
             labelBeginDate = new System.Windows.Forms.Label();
             labelEndDate = new System.Windows.Forms.Label();
+            labelTemp = new System.Windows.Forms.Label();
+            labelHum = new System.Windows.Forms.Label();
+            labelPressure = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)chartTemp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chartHum).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chartPressure).BeginInit();
@@ -130,12 +133,45 @@
             labelEndDate.TabIndex = 5;
             labelEndDate.Text = "label1";
             // 
+            // labelTemp
+            // 
+            labelTemp.AutoSize = true;
+            labelTemp.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            labelTemp.Location = new System.Drawing.Point(40, 913);
+            labelTemp.Name = "labelTemp";
+            labelTemp.Size = new System.Drawing.Size(45, 17);
+            labelTemp.TabIndex = 6;
+            labelTemp.Text = "label1";
+            // 
+            // labelHum
+            // 
+            labelHum.AutoSize = true;
+            labelHum.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            labelHum.Location = new System.Drawing.Point(997, 913);
+            labelHum.Name = "labelHum";
+            labelHum.Size = new System.Drawing.Size(45, 17);
+            labelHum.TabIndex = 7;
+            labelHum.Text = "label1";
+            // 
+            // labelPressure
+            // 
+            labelPressure.AutoSize = true;
+            labelPressure.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            labelPressure.Location = new System.Drawing.Point(1975, 915);
+            labelPressure.Name = "labelPressure";
+            labelPressure.Size = new System.Drawing.Size(45, 17);
+            labelPressure.TabIndex = 8;
+            labelPressure.Text = "label1";
+            // 
             // FormViewAll
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new System.Drawing.Size(2920, 941);
+            Controls.Add(labelPressure);
+            Controls.Add(labelHum);
+            Controls.Add(labelTemp);
             Controls.Add(labelEndDate);
             Controls.Add(labelBeginDate);
             Controls.Add(chartPressure);
@@ -162,5 +198,8 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chartPressure;
         private System.Windows.Forms.Label labelBeginDate;
         private System.Windows.Forms.Label labelEndDate;
+        private System.Windows.Forms.Label labelTemp;
+        private System.Windows.Forms.Label labelHum;
+        private System.Windows.Forms.Label labelPressure;
     }
 }
