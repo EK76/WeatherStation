@@ -1,49 +1,16 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using iTextSharp.text;
-using iTextSharp.text.html.simpleparser;
+﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
-using Microsoft.Office.Interop.Excel;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.OleDb;
-using System.Data.SqlClient;
-using System.Diagnostics.Eventing.Reader;
-using System.Drawing;
-using System.Drawing.Printing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Runtime.InteropServices;
-using System.Reflection;
-using Type = System.Type;
-using System.Net.NetworkInformation;
-using ListView = System.Windows.Forms.ListView;
-using SortOrder = System.Windows.Forms.SortOrder;
-using System.Configuration;
-using Mysqlx.Crud;
-using DocumentFormat.OpenXml.VariantTypes;
-using MiniExcelLibs;
-using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
-using Sheets = DocumentFormat.OpenXml.Spreadsheet.Sheets;
-using Worksheet = DocumentFormat.OpenXml.Spreadsheet.Worksheet;
 using Document = iTextSharp.text.Document;
-using PageSize = iTextSharp.text.PageSize;
-using iTextSharp.text.pdf.codec.wmf;
-using System.Windows.Forms.Design;
 using Font = System.Drawing.Font;
+using PageSize = iTextSharp.text.PageSize;
+using SortOrder = System.Windows.Forms.SortOrder;
+using System.IO;
+
 
 namespace ReadTemp
 {
@@ -160,11 +127,9 @@ namespace ReadTemp
                     saveToolStripMenuItem.Enabled = true;
                     printToolStripMenuItem.Enabled = true;
                     labelRows.Text = "Numbers of rows: " + counterItems.ToString();
-
+                    labelStatus.Text = "Data from server database.";   
                 }
                 conn.Close();
-
-
             }
             else
             {
@@ -194,7 +159,7 @@ namespace ReadTemp
             SaveFileDialog saveContent = new SaveFileDialog();
 
             saveContent.Title = "Save Data";
-            saveContent.Filter = "Text File (.txt) | *.txt| Word Document (.doc) | *.doc";
+            saveContent.Filter = "Weather File (.whf) | *.whf";
 
             try
             {
@@ -205,10 +170,9 @@ namespace ReadTemp
                     {
                         using (StreamWriter sw = new StreamWriter(filename))
                         {
-                            sw.WriteLine("{0}{1}{2}{3}", "Outdoor Temperature ", "Outdoor Humidity ", "Pressure ", "Date created ");
                             foreach (ListViewItem item in listViewShowData.Items)
                             {
-                                sw.WriteLine("{0}{1}{2}{3}", item.SubItems[0].Text, item.SubItems[1].Text, item.SubItems[2].Text, item.SubItems[3].Text);
+                                sw.WriteLine("{0}{1}{2}{3}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";" ,item.SubItems[2].Text + ";" ,item.SubItems[3].Text);
                             }
                         }
                         MessageBox.Show("File " + filename + " is susccessfully saved!");
@@ -263,12 +227,12 @@ namespace ReadTemp
 
             if (savePDF.ShowDialog() == DialogResult.Cancel)
             {
-               MessageBox.Show("Export was aborted!");
+                MessageBox.Show("Export was aborted!");
             }
             else
             {
-               foreach (ColumnHeader column in listViewShowData.Columns)
-               {
+                foreach (ColumnHeader column in listViewShowData.Columns)
+                {
                     PdfPCell cell = new PdfPCell(new Phrase(column.Text));
                     pdfTable.AddCell(cell);
 
@@ -390,7 +354,7 @@ namespace ReadTemp
             while (reader.Read())
             {
                 counterItems++;
-                listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp") + " °C", reader.GetDecimal("outhum") + " %", reader.GetDecimal("pressure") + " hPa", reader.GetDateTime("datecreated").ToString() }));
+                listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp") + " °C ", reader.GetDecimal("outhum") + " % ", reader.GetDecimal("pressure") + " hPa ", reader.GetDateTime("datecreated").ToString() }));
             }
             conn.Close();
 
@@ -400,6 +364,7 @@ namespace ReadTemp
             saveToolStripMenuItem.Enabled = true;
             printToolStripMenuItem.Enabled = true;
             labelRows.Text = "Numbers of rows: " + counterItems.ToString();
+            labelStatus.Text = "Data from server database.";
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
@@ -480,6 +445,7 @@ namespace ReadTemp
                     saveToolStripMenuItem.Enabled = true;
                     printToolStripMenuItem.Enabled = true;
                     labelRows.Text = "Numbers of rows: " + counterItems.ToString();
+                    labelStatus.Text = "Data from server database.";
                 }
 
             }
@@ -496,11 +462,54 @@ namespace ReadTemp
         private void clearDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listViewShowData.Items.Clear();
+            labelStatus.Text = "";
+            clearDataToolStripMenuItem.Enabled = false;
         }
 
         private void trackBarSize_Scroll(object sender, EventArgs e)
         {
-            listViewShowData.Font = new Font(listViewShowData.Font.FontFamily,trackBarSize.Value);
+            listViewShowData.Font = new Font(listViewShowData.Font.FontFamily, trackBarSize.Value);
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        //    string filename = "";
+            string line = "";
+            OpenFileDialog openContent = new OpenFileDialog();
+
+            openContent.Title = "Open Data";
+            openContent.Filter = "Weather File (.whf) | *.whf";
+            
+            try
+            {
+               if (openContent.ShowDialog() == DialogResult.OK)
+               {
+                 StreamReader filename =  new StreamReader(openContent.FileName.ToString());
+                 if (openContent.SafeFileName.Contains(".whf"))
+                 {
+    
+                    while ((line = filename.ReadLine()) != null)
+                    {
+                      var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(),
+                      line.ToString().Split(';')[2].ToString(), line.ToString().Split(';')[3].ToString() });
+                      listViewShowData.Items.Add(itemAdd);
+                    }
+                    filename.Close();
+                    MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!");
+                    labelStatus.Text = "Data from local wht file.";
+                        clearDataToolStripMenuItem.Enabled = true;
+                 }
+                 else
+                 {
+                    MessageBox.Show(("This application supports only whf files"));
+                 }
+               }
+            }
+            catch (Exception i)
+            {
+               MessageBox.Show(i.Message);
+            }
+
         }
     }
 }

@@ -42,6 +42,7 @@
             menuStrip1 = new System.Windows.Forms.MenuStrip();
             fileStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +54,7 @@
             exportToPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             modifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             clearDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            setTextSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
@@ -67,9 +68,9 @@
             listViewPrinter1 = new BrightIdeasSoftware.ListViewPrinter();
             labelRows = new System.Windows.Forms.Label();
             checkBoxDay = new System.Windows.Forms.CheckBox();
-            toolStrip1 = new System.Windows.Forms.ToolStrip();
             trackBarSize = new System.Windows.Forms.TrackBar();
             labelText3 = new System.Windows.Forms.Label();
+            labelStatus = new System.Windows.Forms.Label();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBarSize).BeginInit();
             SuspendLayout();
@@ -186,7 +187,7 @@
             // 
             // fileStripMenuItem
             // 
-            fileStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { saveToolStripMenuItem, printToolStripMenuItem, closeToolStripMenuItem });
+            fileStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { saveToolStripMenuItem, openToolStripMenuItem, printToolStripMenuItem, closeToolStripMenuItem });
             fileStripMenuItem.Name = "fileStripMenuItem";
             fileStripMenuItem.Size = new System.Drawing.Size(37, 20);
             fileStripMenuItem.Text = "File";
@@ -198,6 +199,13 @@
             saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
+            // 
+            // openToolStripMenuItem
+            // 
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // printToolStripMenuItem
             // 
@@ -225,48 +233,48 @@
             // 
             graphViewToolStripMenuItem.Enabled = false;
             graphViewToolStripMenuItem.Name = "graphViewToolStripMenuItem";
-            graphViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            graphViewToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             graphViewToolStripMenuItem.Text = "Graph View";
             graphViewToolStripMenuItem.Click += graphViewToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
             // 
             // technicalInfoToolStripMenuItem
             // 
             technicalInfoToolStripMenuItem.Name = "technicalInfoToolStripMenuItem";
-            technicalInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            technicalInfoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             technicalInfoToolStripMenuItem.Text = "Technical Info";
             technicalInfoToolStripMenuItem.Click += technicalInfoToolStripMenuItem_Click;
             // 
             // softwareInfoToolStripMenuItem
             // 
             softwareInfoToolStripMenuItem.Name = "softwareInfoToolStripMenuItem";
-            softwareInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            softwareInfoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             softwareInfoToolStripMenuItem.Text = "Software Info";
             softwareInfoToolStripMenuItem.Click += softwareInfoToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { exportToPDFToolStripMenuItem, modifyToolStripMenuItem, clearDataToolStripMenuItem, setTextSizeToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { exportToPDFToolStripMenuItem, modifyToolStripMenuItem, clearDataToolStripMenuItem, toolsToolStripMenuItem1 });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             toolsToolStripMenuItem.Text = "Tools";
             // 
             // exportToPDFToolStripMenuItem
             // 
             exportToPDFToolStripMenuItem.Enabled = false;
             exportToPDFToolStripMenuItem.Name = "exportToPDFToolStripMenuItem";
-            exportToPDFToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            exportToPDFToolStripMenuItem.Text = "Create report in PDF";
+            exportToPDFToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            exportToPDFToolStripMenuItem.Text = "Create table as PDF report";
             exportToPDFToolStripMenuItem.Click += exportToPDFToolStripMenuItem_Click;
             // 
             // modifyToolStripMenuItem
             // 
             modifyToolStripMenuItem.Name = "modifyToolStripMenuItem";
-            modifyToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            modifyToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             modifyToolStripMenuItem.Text = "Modify Weather Table";
             modifyToolStripMenuItem.Click += modifyToolStripMenuItem_Click;
             // 
@@ -274,15 +282,15 @@
             // 
             clearDataToolStripMenuItem.Enabled = false;
             clearDataToolStripMenuItem.Name = "clearDataToolStripMenuItem";
-            clearDataToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            clearDataToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             clearDataToolStripMenuItem.Text = "Clear Data";
             clearDataToolStripMenuItem.Click += clearDataToolStripMenuItem_Click;
             // 
-            // setTextSizeToolStripMenuItem
+            // toolsToolStripMenuItem1
             // 
-            setTextSizeToolStripMenuItem.Name = "setTextSizeToolStripMenuItem";
-            setTextSizeToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            setTextSizeToolStripMenuItem.Text = "Set Text Size";
+            toolsToolStripMenuItem1.Name = "toolsToolStripMenuItem1";
+            toolsToolStripMenuItem1.Size = new System.Drawing.Size(210, 22);
+            toolsToolStripMenuItem1.Text = "Tools";
             // 
             // helpToolStripMenuItem
             // 
@@ -438,14 +446,6 @@
             checkBoxDay.UseVisualStyleBackColor = true;
             checkBoxDay.CheckedChanged += checkBoxDay_CheckedChanged;
             // 
-            // toolStrip1
-            // 
-            toolStrip1.Location = new System.Drawing.Point(0, 24);
-            toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new System.Drawing.Size(1399, 25);
-            toolStrip1.TabIndex = 28;
-            toolStrip1.Text = "toolStrip1";
-            // 
             // trackBarSize
             // 
             trackBarSize.Location = new System.Drawing.Point(1217, 995);
@@ -467,15 +467,24 @@
             labelText3.TabIndex = 30;
             labelText3.Text = "Set font size";
             // 
+            // labelStatus
+            // 
+            labelStatus.AutoSize = true;
+            labelStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            labelStatus.Location = new System.Drawing.Point(376, 1004);
+            labelStatus.Name = "labelStatus";
+            labelStatus.Size = new System.Drawing.Size(0, 17);
+            labelStatus.TabIndex = 31;
+            // 
             // FormShowData
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.SystemColors.ControlLight;
             ClientSize = new System.Drawing.Size(1399, 1038);
+            Controls.Add(labelStatus);
             Controls.Add(labelText3);
             Controls.Add(trackBarSize);
-            Controls.Add(toolStrip1);
             Controls.Add(checkBoxDay);
             Controls.Add(labelRows);
             Controls.Add(labelEndDate);
@@ -545,9 +554,10 @@
         private System.Windows.Forms.ToolStripMenuItem softwareInfoToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxDay;
         private System.Windows.Forms.ToolStripMenuItem clearDataToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem setTextSizeToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.TrackBar trackBarSize;
         private System.Windows.Forms.Label labelText3;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.Label labelStatus;
     }
 }
