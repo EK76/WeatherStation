@@ -10,6 +10,8 @@ using Font = System.Drawing.Font;
 using PageSize = iTextSharp.text.PageSize;
 using SortOrder = System.Windows.Forms.SortOrder;
 using System.IO;
+using System.Linq;
+using static System.Windows.Forms.ListViewItem;
 
 
 namespace ReadTemp
@@ -25,11 +27,12 @@ namespace ReadTemp
         private ListViewColumnSorter lvwColumnSorter;
         string[] chooseDatabase = File.ReadAllLines("configdb.txt");
         string timeString, connString, compareDay, checkDay, convertMonth, setValue, folderPdf, setDay, setDelay;
-        public static string checkString, forwardStartDate, newStartDate, newEndDate, currentDate;
+        public static string checkString, forwardStartDate, newStartDate, newEndDate, currentDate, firstItem, lastItem, fileName2;
         DateTime onlyTime, checkDay2, convertDate, startDate, endDate;
         int checkWeek, compareWeek = 0, checkMonth, compareMonth = 0, checkYear, compareYear = 0, setNewValue, setDelay2, delayStatus;
         public static int checkForward;
         bool allowDelay = false;
+        public static bool localData = false;
 
         private void delayToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
@@ -87,8 +90,8 @@ namespace ReadTemp
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            int counterItems = 0;
-
+            int counterItems = 0, countItems = -1;
+            localData = false;
             startDate = dateTimePickerStartDate.Value;
             endDate = dateTimePickerEndDate.Value;
             endDate = endDate.AddDays(1);
@@ -113,6 +116,7 @@ namespace ReadTemp
                     {
                         listViewShowData.Items.Clear();
                     }
+                    countItems++;
                     listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
                 }
                 if (counterItems == 0)
@@ -127,7 +131,9 @@ namespace ReadTemp
                     saveToolStripMenuItem.Enabled = true;
                     printToolStripMenuItem.Enabled = true;
                     labelRows.Text = "Numbers of rows: " + counterItems.ToString();
-                    labelStatus.Text = "Data from server database.";   
+                    labelStatus.Text = "Data from server database.";
+                    firstItem = listViewShowData.Items[0].SubItems[3].Text;
+                    lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
                 }
                 conn.Close();
             }
@@ -187,7 +193,7 @@ namespace ReadTemp
 
         private void listViewShowData_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listViewShowData.Items.Clear();
+         /*   listViewShowData.Items.Clear();
             comboBoxMonth.Text = "";
             setDay = comboBoxDay.Text;
             forwardStartDate = comboBoxDay.Text;
@@ -210,7 +216,7 @@ namespace ReadTemp
             graphViewToolStripMenuItem.Enabled = true;
             clearDataToolStripMenuItem.Enabled = true;
             saveToolStripMenuItem.Enabled = true;
-            printToolStripMenuItem.Enabled = true;
+            printToolStripMenuItem.Enabled = true;*/
         }
 
         private void exportToPDFToolStripMenuItem_Click(object sender, EventArgs e)
@@ -337,7 +343,10 @@ namespace ReadTemp
 
         private void comboBoxDay_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int counterItems = 0;
+            int counterItems = 0, countItems = -1;
+            localData = false;
+
+
             listViewShowData.Items.Clear();
             comboBoxMonth.Text = "";
             setDay = comboBoxDay.Text;
@@ -354,9 +363,14 @@ namespace ReadTemp
             while (reader.Read())
             {
                 counterItems++;
+                countItems++;
                 listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp") + " °C ", reader.GetDecimal("outhum") + " % ", reader.GetDecimal("pressure") + " hPa ", reader.GetDateTime("datecreated").ToString() }));
             }
             conn.Close();
+
+
+            firstItem = listViewShowData.Items[0].SubItems[3].Text;
+            lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
 
             exportToPDFToolStripMenuItem.Enabled = true;
             graphViewToolStripMenuItem.Enabled = true;
@@ -383,13 +397,11 @@ namespace ReadTemp
         {
             labelDate.Text = "To days date: " + DateTime.Now.ToString("dd.MM.yyyy");
             connString = chooseDatabase[0];
-
             startDate = DateTime.Now;
             endDate = DateTime.Now;
             endDate = endDate.AddDays(1);
             newStartDate = startDate.ToString("yyyy-MM-dd");
             newEndDate = endDate.ToString("yyyy-MM-dd");
-
             trackBarSize.Value = 18;
         }
 
@@ -411,7 +423,8 @@ namespace ReadTemp
         }
         private void checkBoxDay_CheckedChanged(object sender, EventArgs e)
         {
-            int counterItems = 0;
+            int counterItems = 0, countItems = -1;
+            localData = false;
             listViewShowData.Items.Clear();
             currentDate = DateTime.Now.ToString("yyyy-MM-dd");
             connString = chooseDatabase[0];
@@ -431,6 +444,7 @@ namespace ReadTemp
                 while (reader.Read())
                 {
                     counterItems++;
+                    countItems++;
                     listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
                 }
                 if (counterItems == 0)
@@ -446,6 +460,8 @@ namespace ReadTemp
                     printToolStripMenuItem.Enabled = true;
                     labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                     labelStatus.Text = "Data from server database.";
+                    firstItem = listViewShowData.Items[0].SubItems[3].Text;
+                    lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
                 }
 
             }
@@ -473,8 +489,9 @@ namespace ReadTemp
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        //    string filename = "";
+            localData = true;
             string line = "";
+            int countItems = -1;
             OpenFileDialog openContent = new OpenFileDialog();
 
             openContent.Title = "Open Data";
@@ -484,20 +501,26 @@ namespace ReadTemp
             {
                if (openContent.ShowDialog() == DialogResult.OK)
                {
-                 StreamReader filename =  new StreamReader(openContent.FileName.ToString());
+                  StreamReader fileName =  new StreamReader(openContent.FileName.ToString());
                  if (openContent.SafeFileName.Contains(".whf"))
                  {
-    
-                    while ((line = filename.ReadLine()) != null)
+                    while ((line = fileName.ReadLine()) != null)
                     {
-                      var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(),
-                      line.ToString().Split(';')[2].ToString(), line.ToString().Split(';')[3].ToString() });
-                      listViewShowData.Items.Add(itemAdd);
+                        countItems++;
+                        var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(),
+                        line.ToString().Split(';')[2].ToString(), line.ToString().Split(';')[3].ToString() });
+                        listViewShowData.Items.Add(itemAdd);    
                     }
-                    filename.Close();
+                    fileName.Close();
                     MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!");
                     labelStatus.Text = "Data from local wht file.";
-                        clearDataToolStripMenuItem.Enabled = true;
+                    clearDataToolStripMenuItem.Enabled = true;
+                    exportToPDFToolStripMenuItem.Enabled = true;
+                    graphViewToolStripMenuItem.Enabled = true;
+
+                    firstItem = listViewShowData.Items[0].SubItems[3].Text;
+                    lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
+                    fileName2 = openContent.FileName.ToString();
                  }
                  else
                  {

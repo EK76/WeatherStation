@@ -109,6 +109,7 @@
             menuStrip1.Size = new System.Drawing.Size(3354, 24);
             menuStrip1.TabIndex = 3;
             menuStrip1.Text = "menuStrip1";
+            menuStrip1.ItemClicked += menuStrip1_ItemClicked;
             // 
             // fileToolStripMenuItem
             // 
@@ -252,13 +253,13 @@
             // 
             toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { createRapportToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             toolsToolStripMenuItem.Text = "Tools";
             // 
             // createRapportToolStripMenuItem
             // 
             createRapportToolStripMenuItem.Name = "createRapportToolStripMenuItem";
-            createRapportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            createRapportToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             createRapportToolStripMenuItem.Text = "Create Rapport";
             createRapportToolStripMenuItem.Click += createRapportToolStripMenuItem_Click;
             // 

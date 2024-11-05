@@ -63,11 +63,12 @@
             // 
             // chartTemp
             // 
+            chartArea1.AxisX2.Minimum = 1D;
             chartArea1.Name = "ChartArea1";
             chartTemp.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             chartTemp.Legends.Add(legend1);
-            chartTemp.Location = new System.Drawing.Point(38, 43);
+            chartTemp.Location = new System.Drawing.Point(40, 51);
             chartTemp.Name = "chartTemp";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
@@ -180,6 +181,7 @@
             Controls.Add(buttonClose);
             MinimizeBox = false;
             Name = "FormViewAll";
+            ShowIcon = false;
             Text = "Weather Station";
             Load += FormViewAll_Load;
             Resize += FormViewAll_Resize;
