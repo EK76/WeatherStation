@@ -30,7 +30,7 @@ namespace ReadTemp
         public static string checkString, forwardStartDate, newStartDate, newEndDate, currentDate, firstItem, lastItem, fileName2;
         DateTime onlyTime, checkDay2, convertDate, startDate, endDate;
         int checkWeek, compareWeek = 0, checkMonth, compareMonth = 0, checkYear, compareYear = 0, setNewValue, setDelay2, delayStatus;
-        public static int checkForward;
+        public static int checkForward, counterItems = 0, countItems = -1;
         bool allowDelay = false;
         public static bool localData = false;
 
@@ -65,8 +65,8 @@ namespace ReadTemp
                 lvwColumnSorter.Order = SortOrder.Ascending;
             }
 
-            // Perform the sort with these new sort options.
             this.listViewShowData.Sort();
+            // Perform the sort with these new sort options.
         }
 
         private void delayToolStripMenuItem_Click(object sender, EventArgs e)
@@ -89,7 +89,7 @@ namespace ReadTemp
         }
 
         private void buttonSearch_Click(object sender, EventArgs e)
-        {
+        {                                                                                                                                                                                      
             int counterItems = 0, countItems = -1;
             localData = false;
             startDate = dateTimePickerStartDate.Value;
@@ -178,7 +178,7 @@ namespace ReadTemp
                         {
                             foreach (ListViewItem item in listViewShowData.Items)
                             {
-                                sw.WriteLine("{0}{1}{2}{3}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";" ,item.SubItems[2].Text + ";" ,item.SubItems[3].Text);
+                                sw.WriteLine("{0}{1}{2}{3}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";" ,item.SubItems[2].Text + ";" ,item.SubItems[3].Text + ";");
                             }
                         }
                         MessageBox.Show("File " + filename + " is susccessfully saved!");
@@ -189,34 +189,6 @@ namespace ReadTemp
             {
                 MessageBox.Show(i.Message);
             }
-        }
-
-        private void listViewShowData_SelectedIndexChanged(object sender, EventArgs e)
-        {
-         /*   listViewShowData.Items.Clear();
-            comboBoxMonth.Text = "";
-            setDay = comboBoxDay.Text;
-            forwardStartDate = comboBoxDay.Text;
-            convertDate = DateTime.Parse(setDay.ToString());
-            setDay = convertDate.ToString("yyyy-MM-dd");
-            connString = chooseDatabase[0];
-            MySqlConnection conn = new MySqlConnection(connString);
-            conn.Open();
-            checkString = "select intemp, inhum, outtemp, outhum, pressure, datecreated from weatherdata where datecreated like '" + comboBoxDay.Text + "%' &&;";
-            Clipboard.SetText(checkString);
-            MySqlCommand command = new MySqlCommand(checkString, conn);
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetString("outtemp") + " °C", reader.GetString("intemp") + " °C", reader.GetString("outhum") + " %", reader.GetString("inhum") + " %", reader.GetString("pressure") + " hPa", reader.GetDateTime("datecreated").ToString() }));
-            }
-            conn.Close();
-
-            exportToPDFToolStripMenuItem.Enabled = true;
-            graphViewToolStripMenuItem.Enabled = true;
-            clearDataToolStripMenuItem.Enabled = true;
-            saveToolStripMenuItem.Enabled = true;
-            printToolStripMenuItem.Enabled = true;*/
         }
 
         private void exportToPDFToolStripMenuItem_Click(object sender, EventArgs e)
@@ -245,9 +217,8 @@ namespace ReadTemp
                 }
 
                 foreach (ListViewItem itemRow in listViewShowData.Items)
-                {
-                    int i = 0;
-                    for (i = 0; i < itemRow.SubItems.Count; i++)
+                { 
+                    for (int i = 0; i < itemRow.SubItems.Count; i++)
                     {
                         pdfTable.AddCell(itemRow.SubItems[i].Text);
                     }
@@ -343,13 +314,12 @@ namespace ReadTemp
 
         private void comboBoxDay_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int counterItems = 0, countItems = -1;
             localData = false;
-
-
             listViewShowData.Items.Clear();
+            counterItems = 0;
             comboBoxMonth.Text = "";
             setDay = comboBoxDay.Text;
+            countItems = -1;
             convertDate = DateTime.Parse(setDay.ToString());
             setDay = convertDate.ToString("yyyy-MM-dd");
             forwardStartDate = comboBoxDay.Text;
@@ -423,7 +393,6 @@ namespace ReadTemp
         }
         private void checkBoxDay_CheckedChanged(object sender, EventArgs e)
         {
-            int counterItems = 0, countItems = -1;
             localData = false;
             listViewShowData.Items.Clear();
             currentDate = DateTime.Now.ToString("yyyy-MM-dd");
@@ -444,7 +413,7 @@ namespace ReadTemp
                 while (reader.Read())
                 {
                     counterItems++;
-                    countItems++;
+                 //   countItems++;
                     listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
                 }
                 if (counterItems == 0)
@@ -460,8 +429,14 @@ namespace ReadTemp
                     printToolStripMenuItem.Enabled = true;
                     labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                     labelStatus.Text = "Data from server database.";
-                    firstItem = listViewShowData.Items[0].SubItems[3].Text;
-                    lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
+                    try
+                    {
+                        firstItem = listViewShowData.Items[0].SubItems[3].Text;
+                        lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
+                    }
+                    catch
+                    {
+                    }
                 }
 
             }
@@ -491,7 +466,8 @@ namespace ReadTemp
         {
             localData = true;
             string line = "";
-            int countItems = -1;
+            countItems = -1;
+            counterItems = 0;
             OpenFileDialog openContent = new OpenFileDialog();
 
             openContent.Title = "Open Data";
@@ -499,13 +475,15 @@ namespace ReadTemp
             
             try
             {
+               listViewShowData.Items.Clear();
                if (openContent.ShowDialog() == DialogResult.OK)
-               {
-                  StreamReader fileName =  new StreamReader(openContent.FileName.ToString());
+               { 
+                 StreamReader fileName =  new StreamReader(openContent.FileName.ToString());
                  if (openContent.SafeFileName.Contains(".whf"))
                  {
                     while ((line = fileName.ReadLine()) != null)
                     {
+                        counterItems++;
                         countItems++;
                         var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(),
                         line.ToString().Split(';')[2].ToString(), line.ToString().Split(';')[3].ToString() });
@@ -513,7 +491,7 @@ namespace ReadTemp
                     }
                     fileName.Close();
                     MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!");
-                    labelStatus.Text = "Data from local wht file.";
+                    labelStatus.Text = "Data from local wht file (" + openContent.FileName.ToString() + ").";
                     clearDataToolStripMenuItem.Enabled = true;
                     exportToPDFToolStripMenuItem.Enabled = true;
                     graphViewToolStripMenuItem.Enabled = true;
@@ -521,6 +499,7 @@ namespace ReadTemp
                     firstItem = listViewShowData.Items[0].SubItems[3].Text;
                     lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
                     fileName2 = openContent.FileName.ToString();
+                    labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                  }
                  else
                  {
@@ -530,7 +509,7 @@ namespace ReadTemp
             }
             catch (Exception i)
             {
-               MessageBox.Show(i.Message);
+               MessageBox.Show("Error message:" + i.Message);
             }
 
         }

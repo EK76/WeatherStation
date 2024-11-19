@@ -39,11 +39,7 @@
             closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             copyChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            colorOptionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            chartLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            chartBackgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            formBackgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            defaultSettingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            defaultChartSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             oneChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             showOneToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
@@ -52,13 +48,26 @@
             diagramViewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             diagramToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             chartSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             createRapportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             colorDialog1 = new System.Windows.Forms.ColorDialog();
             listBoxShowValue = new System.Windows.Forms.ListBox();
+            panelSettings = new System.Windows.Forms.Panel();
+            buttonSetColor = new System.Windows.Forms.Button();
+            comboBoxChartColor = new System.Windows.Forms.ComboBox();
+            labelPanelMarker3 = new System.Windows.Forms.Label();
+            comboBoxMarkerSize = new System.Windows.Forms.ComboBox();
+            comboBoxMarkerType = new System.Windows.Forms.ComboBox();
+            labelPanelMarker2 = new System.Windows.Forms.Label();
+            labelPanelMarker = new System.Windows.Forms.Label();
+            labelColorPanel4 = new System.Windows.Forms.Label();
+            labelPanel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)chartInfo).BeginInit();
             menuStrip1.SuspendLayout();
+            panelSettings.SuspendLayout();
             SuspendLayout();
             // 
             // chartInfo
@@ -85,7 +94,7 @@
             legend1.TitleAlignment = System.Drawing.StringAlignment.Far;
             legend1.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
             chartInfo.Legends.Add(legend1);
-            chartInfo.Location = new System.Drawing.Point(12, 38);
+            chartInfo.Location = new System.Drawing.Point(0, 38);
             chartInfo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             chartInfo.Name = "chartInfo";
             chartInfo.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
@@ -95,7 +104,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Outdoor Temperature";
             chartInfo.Series.Add(series1);
-            chartInfo.Size = new System.Drawing.Size(3009, 1205);
+            chartInfo.Size = new System.Drawing.Size(3021, 1205);
             chartInfo.TabIndex = 2;
             chartInfo.Text = "Chart 3 (Outdoor Temperature).";
             chartInfo.GetToolTipText += chartInfo_GetToolTipText;
@@ -141,7 +150,7 @@
             // 
             // editToolStripMenuItem
             // 
-            editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { copyChartToolStripMenuItem, colorOptionToolStripMenuItem });
+            editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { copyChartToolStripMenuItem, defaultChartSettingsToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             editToolStripMenuItem.Text = "Edit";
@@ -149,49 +158,20 @@
             // copyChartToolStripMenuItem
             // 
             copyChartToolStripMenuItem.Name = "copyChartToolStripMenuItem";
-            copyChartToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            copyChartToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             copyChartToolStripMenuItem.Text = "Copy Chart";
             copyChartToolStripMenuItem.Click += copyChartToolStripMenuItem_Click;
             // 
-            // colorOptionToolStripMenuItem
+            // defaultChartSettingsToolStripMenuItem
             // 
-            colorOptionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { chartLineToolStripMenuItem, chartBackgroundToolStripMenuItem, formBackgroundToolStripMenuItem, defaultSettingToolStripMenuItem });
-            colorOptionToolStripMenuItem.Name = "colorOptionToolStripMenuItem";
-            colorOptionToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            colorOptionToolStripMenuItem.Text = "Color Option";
-            // 
-            // chartLineToolStripMenuItem
-            // 
-            chartLineToolStripMenuItem.Name = "chartLineToolStripMenuItem";
-            chartLineToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            chartLineToolStripMenuItem.Text = "Chart Line";
-            chartLineToolStripMenuItem.Click += chartLineToolStripMenuItem_Click;
-            // 
-            // chartBackgroundToolStripMenuItem
-            // 
-            chartBackgroundToolStripMenuItem.Name = "chartBackgroundToolStripMenuItem";
-            chartBackgroundToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            chartBackgroundToolStripMenuItem.Text = "Chart Background";
-            chartBackgroundToolStripMenuItem.Click += chartBackgroundToolStripMenuItem_Click;
-            // 
-            // formBackgroundToolStripMenuItem
-            // 
-            formBackgroundToolStripMenuItem.Name = "formBackgroundToolStripMenuItem";
-            formBackgroundToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            formBackgroundToolStripMenuItem.Text = "Form Background";
-            formBackgroundToolStripMenuItem.Click += formBackgroundToolStripMenuItem_Click;
-            // 
-            // defaultSettingToolStripMenuItem
-            // 
-            defaultSettingToolStripMenuItem.Enabled = false;
-            defaultSettingToolStripMenuItem.Name = "defaultSettingToolStripMenuItem";
-            defaultSettingToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            defaultSettingToolStripMenuItem.Text = "Default Setting";
-            defaultSettingToolStripMenuItem.Click += defaultSettingToolStripMenuItem_Click;
+            defaultChartSettingsToolStripMenuItem.Name = "defaultChartSettingsToolStripMenuItem";
+            defaultChartSettingsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            defaultChartSettingsToolStripMenuItem.Text = "Default Chart Settings";
+            defaultChartSettingsToolStripMenuItem.Click += defaultChartSettingsToolStripMenuItem_Click;
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { oneChartToolStripMenuItem, timeIntervallToolStripMenuItem, diagramViewToolStripMenuItem1, chartSummaryToolStripMenuItem });
+            viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { oneChartToolStripMenuItem, timeIntervallToolStripMenuItem, diagramViewToolStripMenuItem1, chartSummaryToolStripMenuItem, toolStripMenuItem1, settingsToolStripMenuItem });
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             viewToolStripMenuItem.Text = "View";
@@ -249,6 +229,18 @@
             chartSummaryToolStripMenuItem.Text = "Chart Summary";
             chartSummaryToolStripMenuItem.Click += chartSummaryToolStripMenuItem_Click;
             // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new System.Drawing.Size(154, 6);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            settingsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            settingsToolStripMenuItem.Text = "Settings";
+            settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
+            // 
             // toolsToolStripMenuItem
             // 
             toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { createRapportToolStripMenuItem });
@@ -261,7 +253,6 @@
             createRapportToolStripMenuItem.Name = "createRapportToolStripMenuItem";
             createRapportToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             createRapportToolStripMenuItem.Text = "Create Rapport";
-            createRapportToolStripMenuItem.Click += createRapportToolStripMenuItem_Click;
             // 
             // listBoxShowValue
             // 
@@ -273,6 +264,119 @@
             listBoxShowValue.Name = "listBoxShowValue";
             listBoxShowValue.Size = new System.Drawing.Size(312, 1200);
             listBoxShowValue.TabIndex = 9;
+            listBoxShowValue.Click += listBoxShowValue_Click;
+            listBoxShowValue.SelectedIndexChanged += listBoxShowValue_SelectedIndexChanged;
+            // 
+            // panelSettings
+            // 
+            panelSettings.BackColor = System.Drawing.Color.LightGray;
+            panelSettings.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            panelSettings.Controls.Add(buttonSetColor);
+            panelSettings.Controls.Add(comboBoxChartColor);
+            panelSettings.Controls.Add(labelPanelMarker3);
+            panelSettings.Controls.Add(comboBoxMarkerSize);
+            panelSettings.Controls.Add(comboBoxMarkerType);
+            panelSettings.Controls.Add(labelPanelMarker2);
+            panelSettings.Controls.Add(labelPanelMarker);
+            panelSettings.Controls.Add(labelColorPanel4);
+            panelSettings.Controls.Add(labelPanel);
+            panelSettings.Location = new System.Drawing.Point(12, 108);
+            panelSettings.Name = "panelSettings";
+            panelSettings.Size = new System.Drawing.Size(176, 324);
+            panelSettings.TabIndex = 10;
+            panelSettings.Visible = false;
+            panelSettings.Paint += panelSettings_Paint;
+            // 
+            // buttonSetColor
+            // 
+            buttonSetColor.Enabled = false;
+            buttonSetColor.Location = new System.Drawing.Point(8, 111);
+            buttonSetColor.Name = "buttonSetColor";
+            buttonSetColor.Size = new System.Drawing.Size(75, 23);
+            buttonSetColor.TabIndex = 11;
+            buttonSetColor.Text = "Set Color";
+            buttonSetColor.UseVisualStyleBackColor = true;
+            buttonSetColor.Click += buttonSetColor_Click;
+            // 
+            // comboBoxChartColor
+            // 
+            comboBoxChartColor.FormattingEnabled = true;
+            comboBoxChartColor.Items.AddRange(new object[] { "Chart", "Background", "Line" });
+            comboBoxChartColor.Location = new System.Drawing.Point(8, 73);
+            comboBoxChartColor.Name = "comboBoxChartColor";
+            comboBoxChartColor.Size = new System.Drawing.Size(139, 23);
+            comboBoxChartColor.TabIndex = 10;
+            comboBoxChartColor.SelectedIndexChanged += comboBoxChartColor_SelectedIndexChanged;
+            // 
+            // labelPanelMarker3
+            // 
+            labelPanelMarker3.AutoSize = true;
+            labelPanelMarker3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            labelPanelMarker3.Location = new System.Drawing.Point(11, 174);
+            labelPanelMarker3.Name = "labelPanelMarker3";
+            labelPanelMarker3.Size = new System.Drawing.Size(48, 15);
+            labelPanelMarker3.TabIndex = 9;
+            labelPanelMarker3.Text = "Marker";
+            // 
+            // comboBoxMarkerSize
+            // 
+            comboBoxMarkerSize.FormattingEnabled = true;
+            comboBoxMarkerSize.Items.AddRange(new object[] { "8", "9", "10", "11", "12", "13", "14", "15", "16" });
+            comboBoxMarkerSize.Location = new System.Drawing.Point(51, 244);
+            comboBoxMarkerSize.Name = "comboBoxMarkerSize";
+            comboBoxMarkerSize.Size = new System.Drawing.Size(51, 23);
+            comboBoxMarkerSize.TabIndex = 8;
+            comboBoxMarkerSize.SelectedIndexChanged += comboBoxMarkerSize_SelectedIndexChanged;
+            // 
+            // comboBoxMarkerType
+            // 
+            comboBoxMarkerType.FormattingEnabled = true;
+            comboBoxMarkerType.Items.AddRange(new object[] { "None", "Circle", "Square", "Triangle", "Cross", "Star" });
+            comboBoxMarkerType.Location = new System.Drawing.Point(50, 204);
+            comboBoxMarkerType.Name = "comboBoxMarkerType";
+            comboBoxMarkerType.Size = new System.Drawing.Size(97, 23);
+            comboBoxMarkerType.TabIndex = 7;
+            comboBoxMarkerType.SelectedIndexChanged += comboBoxMarkerType_SelectedIndexChanged;
+            // 
+            // labelPanelMarker2
+            // 
+            labelPanelMarker2.AutoSize = true;
+            labelPanelMarker2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            labelPanelMarker2.Location = new System.Drawing.Point(11, 247);
+            labelPanelMarker2.Name = "labelPanelMarker2";
+            labelPanelMarker2.Size = new System.Drawing.Size(30, 15);
+            labelPanelMarker2.TabIndex = 6;
+            labelPanelMarker2.Text = "Size";
+            // 
+            // labelPanelMarker
+            // 
+            labelPanelMarker.AutoSize = true;
+            labelPanelMarker.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            labelPanelMarker.Location = new System.Drawing.Point(11, 207);
+            labelPanelMarker.Name = "labelPanelMarker";
+            labelPanelMarker.Size = new System.Drawing.Size(33, 15);
+            labelPanelMarker.TabIndex = 5;
+            labelPanelMarker.Text = "Type";
+            // 
+            // labelColorPanel4
+            // 
+            labelColorPanel4.AutoSize = true;
+            labelColorPanel4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            labelColorPanel4.Location = new System.Drawing.Point(8, 50);
+            labelColorPanel4.Name = "labelColorPanel4";
+            labelColorPanel4.Size = new System.Drawing.Size(36, 15);
+            labelColorPanel4.TabIndex = 4;
+            labelColorPanel4.Text = "Color";
+            // 
+            // labelPanel
+            // 
+            labelPanel.AutoSize = true;
+            labelPanel.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            labelPanel.Location = new System.Drawing.Point(8, 12);
+            labelPanel.Name = "labelPanel";
+            labelPanel.Size = new System.Drawing.Size(117, 20);
+            labelPanel.TabIndex = 0;
+            labelPanel.Text = "Layout settings";
             // 
             // FormViewGraph
             // 
@@ -281,6 +385,7 @@
             AutoSize = true;
             BackColor = System.Drawing.Color.CadetBlue;
             ClientSize = new System.Drawing.Size(3354, 1255);
+            Controls.Add(panelSettings);
             Controls.Add(listBoxShowValue);
             Controls.Add(chartInfo);
             Controls.Add(menuStrip1);
@@ -295,6 +400,8 @@
             ((System.ComponentModel.ISupportInitialize)chartInfo).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            panelSettings.ResumeLayout(false);
+            panelSettings.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -309,7 +416,6 @@
         private System.Windows.Forms.ToolStripComboBox showOneToolStripComboBox;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyChartToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem colorOptionToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.ToolStripMenuItem saveChartToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printChartToolStripMenuItem;
@@ -318,13 +424,22 @@
         private System.Windows.Forms.ToolStripMenuItem chartSummaryToolStripMenuItem;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.ListBox listBoxShowValue;
-        private System.Windows.Forms.ToolStripMenuItem chartLineToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem chartBackgroundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem diagramViewToolStripMenuItem1;
         private System.Windows.Forms.ToolStripComboBox diagramToolStripComboBox;
-        private System.Windows.Forms.ToolStripMenuItem formBackgroundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createRapportToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem defaultSettingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.Panel panelSettings;
+        private System.Windows.Forms.Label labelPanelMarker2;
+        private System.Windows.Forms.Label labelPanelMarker;
+        private System.Windows.Forms.Label labelColorPanel4;
+        private System.Windows.Forms.Label labelPanel;
+        private System.Windows.Forms.ComboBox comboBoxMarkerSize;
+        private System.Windows.Forms.ComboBox comboBoxMarkerType;
+        private System.Windows.Forms.ComboBox comboBoxChartColor;
+        private System.Windows.Forms.Label labelPanelMarker3;
+        private System.Windows.Forms.Button buttonSetColor;
+        private System.Windows.Forms.ToolStripMenuItem defaultChartSettingsToolStripMenuItem;
     }
 }

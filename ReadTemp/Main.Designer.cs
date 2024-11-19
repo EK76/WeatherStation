@@ -153,7 +153,6 @@
             listViewShowData.UseCompatibleStateImageBehavior = false;
             listViewShowData.View = System.Windows.Forms.View.Details;
             listViewShowData.ColumnClick += listViewShowData_ColumnClick;
-            listViewShowData.SelectedIndexChanged += listViewShowData_SelectedIndexChanged;
             // 
             // columnHeaderOutTemp
             // 
