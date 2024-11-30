@@ -70,30 +70,47 @@ namespace ReadTemp
             conn.Close();
         }
 
-        void markerShow() 
+        void markerShow()
         {
+
             if (oneTime == false)
             {
-                oldValue = index;
-                try
-                {
-                    chartInfo.Series[0].Points[index].MarkerSize = 8;
-                }
-                catch
-                {
-                }
+              oldValue = index;
+              try
+              {
+                chartInfo.Update();
+                chartInfo.Series[0].Points[index].MarkerSize = markerSize;
+              }
+              catch
+              {
+              }
+            }
+            else
+            {
+              MySqlConnection conn = new MySqlConnection(connString);
+              conn.Open();
+              checkString = "select markersize from settings where id= 1;";
+              MySqlCommand command2 = new MySqlCommand(checkString, conn);
+              MySqlDataReader reader2 = command2.ExecuteReader();
+
+              while (reader2.Read())
+              {
+                markerSize = reader2.GetInt32("markersize");
+              }
+              conn.Close();
             }
             currentItem = listBoxShowValue.SelectedItem.ToString();
             index = listBoxShowValue.FindString(currentItem);
             index = index - 4;
             try
             {
-                chartInfo.Series[0].Points[index].MarkerSize = 20;
+              chartInfo.Update();
+              chartInfo.Series[0].Points[index].MarkerSize = markerSize + 8;
             }
             catch
             {
             }
-            oneTime = false;
+            oneTime = true;
         }
 
 
@@ -958,6 +975,7 @@ namespace ReadTemp
         {
             MySqlConnection conn = new MySqlConnection(connString);
             int value = 0;
+            oneTime = false;
             switch (comboBoxMarkerSize.SelectedIndex)
             {
                 case 0:

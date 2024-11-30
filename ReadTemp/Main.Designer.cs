@@ -54,7 +54,7 @@
             exportToPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             modifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             clearDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            toolsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            databaseConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
@@ -257,7 +257,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { exportToPDFToolStripMenuItem, modifyToolStripMenuItem, clearDataToolStripMenuItem, toolsToolStripMenuItem1 });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { exportToPDFToolStripMenuItem, modifyToolStripMenuItem, clearDataToolStripMenuItem, databaseConfigToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -285,11 +285,12 @@
             clearDataToolStripMenuItem.Text = "Clear Data";
             clearDataToolStripMenuItem.Click += clearDataToolStripMenuItem_Click;
             // 
-            // toolsToolStripMenuItem1
+            // databaseConfigToolStripMenuItem
             // 
-            toolsToolStripMenuItem1.Name = "toolsToolStripMenuItem1";
-            toolsToolStripMenuItem1.Size = new System.Drawing.Size(210, 22);
-            toolsToolStripMenuItem1.Text = "Tools";
+            databaseConfigToolStripMenuItem.Name = "databaseConfigToolStripMenuItem";
+            databaseConfigToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            databaseConfigToolStripMenuItem.Text = "Database Config";
+            databaseConfigToolStripMenuItem.Click += databaseConfigToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
@@ -555,8 +556,8 @@
         private System.Windows.Forms.ToolStripMenuItem clearDataToolStripMenuItem;
         private System.Windows.Forms.TrackBar trackBarSize;
         private System.Windows.Forms.Label labelText3;
-        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.Label labelStatus;
+        private System.Windows.Forms.ToolStripMenuItem databaseConfigToolStripMenuItem;
     }
 }

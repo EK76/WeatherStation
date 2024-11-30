@@ -89,7 +89,7 @@ namespace ReadTemp
         }
 
         private void buttonSearch_Click(object sender, EventArgs e)
-        {                                                                                                                                                                                      
+        {
             int counterItems = 0, countItems = -1;
             localData = false;
             startDate = dateTimePickerStartDate.Value;
@@ -178,7 +178,7 @@ namespace ReadTemp
                         {
                             foreach (ListViewItem item in listViewShowData.Items)
                             {
-                                sw.WriteLine("{0}{1}{2}{3}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";" ,item.SubItems[2].Text + ";" ,item.SubItems[3].Text + ";");
+                                sw.WriteLine("{0}{1}{2}{3}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";", item.SubItems[2].Text + ";", item.SubItems[3].Text + ";");
                             }
                         }
                         MessageBox.Show("File " + filename + " is susccessfully saved!");
@@ -217,7 +217,7 @@ namespace ReadTemp
                 }
 
                 foreach (ListViewItem itemRow in listViewShowData.Items)
-                { 
+                {
                     for (int i = 0; i < itemRow.SubItems.Count; i++)
                     {
                         pdfTable.AddCell(itemRow.SubItems[i].Text);
@@ -413,7 +413,7 @@ namespace ReadTemp
                 while (reader.Read())
                 {
                     counterItems++;
-                 //   countItems++;
+                    //   countItems++;
                     listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
                 }
                 if (counterItems == 0)
@@ -472,46 +472,52 @@ namespace ReadTemp
 
             openContent.Title = "Open Data";
             openContent.Filter = "Weather File (.whf) | *.whf";
-            
+
             try
             {
-               listViewShowData.Items.Clear();
-               if (openContent.ShowDialog() == DialogResult.OK)
-               { 
-                 StreamReader fileName =  new StreamReader(openContent.FileName.ToString());
-                 if (openContent.SafeFileName.Contains(".whf"))
-                 {
-                    while ((line = fileName.ReadLine()) != null)
+                listViewShowData.Items.Clear();
+                if (openContent.ShowDialog() == DialogResult.OK)
+                {
+                    StreamReader fileName = new StreamReader(openContent.FileName.ToString());
+                    if (openContent.SafeFileName.Contains(".whf"))
                     {
-                        counterItems++;
-                        countItems++;
-                        var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(),
+                        while ((line = fileName.ReadLine()) != null)
+                        {
+                            counterItems++;
+                            countItems++;
+                            var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(),
                         line.ToString().Split(';')[2].ToString(), line.ToString().Split(';')[3].ToString() });
-                        listViewShowData.Items.Add(itemAdd);    
-                    }
-                    fileName.Close();
-                    MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!");
-                    labelStatus.Text = "Data from local wht file (" + openContent.FileName.ToString() + ").";
-                    clearDataToolStripMenuItem.Enabled = true;
-                    exportToPDFToolStripMenuItem.Enabled = true;
-                    graphViewToolStripMenuItem.Enabled = true;
+                            listViewShowData.Items.Add(itemAdd);
+                        }
+                        fileName.Close();
+                        MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!");
+                        labelStatus.Text = "Data from local wht file (" + openContent.FileName.ToString() + ").";
+                        clearDataToolStripMenuItem.Enabled = true;
+                        exportToPDFToolStripMenuItem.Enabled = true;
+                        graphViewToolStripMenuItem.Enabled = true;
 
-                    firstItem = listViewShowData.Items[0].SubItems[3].Text;
-                    lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
-                    fileName2 = openContent.FileName.ToString();
-                    labelRows.Text = "Numbers of rows: " + counterItems.ToString();
-                 }
-                 else
-                 {
-                    MessageBox.Show(("This application supports only whf files"));
-                 }
-               }
+                        firstItem = listViewShowData.Items[0].SubItems[3].Text;
+                        lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
+                        fileName2 = openContent.FileName.ToString();
+                        labelRows.Text = "Numbers of rows: " + counterItems.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show(("This application supports only whf files"));
+                    }
+                }
             }
             catch (Exception i)
             {
-               MessageBox.Show("Error message:" + i.Message);
+                MessageBox.Show("Error message:" + i.Message);
             }
 
+        }
+
+        private void databaseConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormConfigDatabase configDatabase = new FormConfigDatabase();
+            configDatabase.ShowDialog();
         }
     }
 }
