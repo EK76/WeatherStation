@@ -51,7 +51,7 @@ namespace ReadTemp
         decimal avgTemp, avgHum, avgPressure, averageValue2, convertValue2;
         string currentItem;
         int index = 0, oldValue = 0;
-        Boolean oneTime = true;
+        Boolean oneTime = false;
         List<String> listDate = new List<String>();
         List<String> listDate2 = new List<String>();
         List<decimal> listSum = new List<decimal>();
@@ -73,13 +73,14 @@ namespace ReadTemp
         void markerShow()
         {
 
-            if (oneTime == false)
+            if (oneTime == true)
             {
               oldValue = index;
               try
               {
                 chartInfo.Update();
                 chartInfo.Series[0].Points[index].MarkerSize = markerSize;
+                  //  MessageBox.Show(markerSize.ToString());
               }
               catch
               {
@@ -773,7 +774,6 @@ namespace ReadTemp
             {
                 conn.Open();
                 checkString = "select " + value2[i] + " from settings where id= 1;";
-                Clipboard.SetText(checkString);
                 MySqlCommand command2 = new MySqlCommand(checkString, conn);
                 MySqlDataReader reader2 = command2.ExecuteReader();
 
@@ -785,6 +785,7 @@ namespace ReadTemp
                 {
                     case 0:
                         chartInfo.Series[0].MarkerSize = markerValue;
+                        comboBoxMarkerSize.Text = markerValue.ToString();
                         break;
                     case 1:
                         loadStyle = markerValue;
@@ -797,28 +798,35 @@ namespace ReadTemp
             {
                 case 1:
                     chartInfo.Series[0].MarkerStyle = MarkerStyle.None;
+                    comboBoxMarkerType.Text = "None";
                     break;
 
                 case 2:
                     chartInfo.Series[0].MarkerStyle = MarkerStyle.Circle;
+                    comboBoxMarkerType.Text = "Circle";
                     break;
 
                 case 3:
                     chartInfo.Series[0].MarkerStyle = MarkerStyle.Square;
+                    comboBoxMarkerType.Text = "Square";
                     break;
 
                 case 4:
                     chartInfo.Series[0].MarkerStyle = MarkerStyle.Triangle;
+                    comboBoxMarkerType.Text = "Triangle";
                     break;
 
                 case 5:
                     chartInfo.Series[0].MarkerStyle = MarkerStyle.Cross;
+                    comboBoxMarkerType.Text = "Cross";
                     break;
 
                 case 6:
-                    chartInfo.Series[0].MarkerStyle = MarkerStyle.Cross;
+                    chartInfo.Series[0].MarkerStyle = MarkerStyle.Star5;
+                    comboBoxMarkerType.Text = "Star";
                     break;
             }
+
         }
 
         private void chartSummaryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -976,61 +984,62 @@ namespace ReadTemp
             MySqlConnection conn = new MySqlConnection(connString);
             int value = 0;
             oneTime = false;
+
             switch (comboBoxMarkerSize.SelectedIndex)
             {
                 case 0:
-                    chartInfo.Series[0].MarkerSize = 8;
                     value = 8;
                     break;
 
                 case 1:
-                    chartInfo.Series[0].MarkerSize = 9;
                     value = 9;
                     break;
 
                 case 2:
-                    chartInfo.Series[0].MarkerSize = 10;
                     value = 10;
                     break;
 
                 case 3:
-                    chartInfo.Series[0].MarkerSize = 11;
                     value = 11;
                     break;
 
                 case 4:
-                    chartInfo.Series[0].MarkerSize = 12;
                     value = 12;
                     break;
 
                 case 5:
-                    chartInfo.Series[0].MarkerSize = 13;
                     value = 13;
                     break;
 
                 case 6:
-                    chartInfo.Series[0].MarkerSize = 14;
                     value = 14;
                     break;
 
                 case 7:
-                    chartInfo.Series[0].MarkerSize = 15;
                     value = 15;
                     break;
 
                 case 8:
-                    chartInfo.Series[0].MarkerSize = 16;
                     value = 16;
                     break;
             }
+
+            for (int i = 0; i < recordSum; i++)
+            {
+                chartInfo.Series[0].Points[i].MarkerSize = value;
+            }
+
+            comboBoxMarkerSize.Text = value.ToString();
+
             conn.Open();
+        //    chartInfo.Update();
             checkString = "update settings set markersize = " + value + " where id = 1;";
-            Clipboard.SetText(checkString);
             MySqlCommand command = new MySqlCommand(checkString, conn);
             MySqlDataReader reader = command.ExecuteReader();
             conn.Close();
-
         }
+
+       
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
