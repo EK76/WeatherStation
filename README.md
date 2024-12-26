@@ -158,14 +158,18 @@ create table weathererrorlog (
 
 ```
 ### After creation of database and tables are done.
-- Edit configdb.txt file with the correct info about your MySQL credentials.
+- Edit configdb.txt file with the correct info about your MySQL credentials with text editor of your choosing.
 - Compaile or publish the project with Visual Studio 2022 to test it.
+> [!NOTE]
+>  _**You can also edit your MySQL credentials with the WeatherStation application.**_<br><br>
+>  _**If configdb.txt file is missing, then WeatherStaion application will redirect you to a page where you can create the file with your <br>MySQL credentials info.**_
+
 
 #### How to clone this repository with git.
   
   `https://github.com/EK76/WeatherStation.git`
 
-  ### Pictures that show how the application looks like.
+### Pictures that show how the application looks like.
 
 ![image](https://github.com/user-attachments/assets/01d002e4-b189-48a3-bcea-1bdc485c766d)
 
