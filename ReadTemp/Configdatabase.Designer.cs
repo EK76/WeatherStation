@@ -28,89 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            labelText = new System.Windows.Forms.Label();
-            labelText2 = new System.Windows.Forms.Label();
-            labelText3 = new System.Windows.Forms.Label();
-            labelText4 = new System.Windows.Forms.Label();
-            textBoxUsername = new System.Windows.Forms.TextBox();
-            textBoxPassword = new System.Windows.Forms.TextBox();
-            textBoxDatabase = new System.Windows.Forms.TextBox();
-            textBoxServer = new System.Windows.Forms.TextBox();
             buttonClose = new System.Windows.Forms.Button();
             buttonSave = new System.Windows.Forms.Button();
+            labelText = new System.Windows.Forms.Label();
+            textBoxServer = new System.Windows.Forms.TextBox();
+            textBoxUser = new System.Windows.Forms.TextBox();
+            textBoxPassword = new System.Windows.Forms.TextBox();
+            labelServer = new System.Windows.Forms.Label();
+            labelUser = new System.Windows.Forms.Label();
+            labelPassword = new System.Windows.Forms.Label();
+            checkBoxShow = new System.Windows.Forms.CheckBox();
             SuspendLayout();
-            // 
-            // labelText
-            // 
-            labelText.AutoSize = true;
-            labelText.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold);
-            labelText.Location = new System.Drawing.Point(34, 37);
-            labelText.Name = "labelText";
-            labelText.Size = new System.Drawing.Size(84, 20);
-            labelText.TabIndex = 2;
-            labelText.Text = "User name";
-            // 
-            // labelText2
-            // 
-            labelText2.AutoSize = true;
-            labelText2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold);
-            labelText2.Location = new System.Drawing.Point(34, 102);
-            labelText2.Name = "labelText2";
-            labelText2.Size = new System.Drawing.Size(76, 20);
-            labelText2.TabIndex = 3;
-            labelText2.Text = "Password";
-            // 
-            // labelText3
-            // 
-            labelText3.AutoSize = true;
-            labelText3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold);
-            labelText3.Location = new System.Drawing.Point(34, 168);
-            labelText3.Name = "labelText3";
-            labelText3.Size = new System.Drawing.Size(74, 20);
-            labelText3.TabIndex = 4;
-            labelText3.Text = "Database";
-            // 
-            // labelText4
-            // 
-            labelText4.AutoSize = true;
-            labelText4.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold);
-            labelText4.Location = new System.Drawing.Point(34, 224);
-            labelText4.Name = "labelText4";
-            labelText4.Size = new System.Drawing.Size(54, 20);
-            labelText4.TabIndex = 5;
-            labelText4.Text = "Server";
-            // 
-            // textBoxUsername
-            // 
-            textBoxUsername.Location = new System.Drawing.Point(34, 60);
-            textBoxUsername.Name = "textBoxUsername";
-            textBoxUsername.Size = new System.Drawing.Size(214, 23);
-            textBoxUsername.TabIndex = 6;
-            // 
-            // textBoxPassword
-            // 
-            textBoxPassword.Location = new System.Drawing.Point(34, 125);
-            textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.Size = new System.Drawing.Size(214, 23);
-            textBoxPassword.TabIndex = 7;
-            // 
-            // textBoxDatabase
-            // 
-            textBoxDatabase.Location = new System.Drawing.Point(35, 193);
-            textBoxDatabase.Name = "textBoxDatabase";
-            textBoxDatabase.Size = new System.Drawing.Size(213, 23);
-            textBoxDatabase.TabIndex = 8;
-            // 
-            // textBoxServer
-            // 
-            textBoxServer.Location = new System.Drawing.Point(34, 247);
-            textBoxServer.Name = "textBoxServer";
-            textBoxServer.Size = new System.Drawing.Size(214, 23);
-            textBoxServer.TabIndex = 9;
             // 
             // buttonClose
             // 
-            buttonClose.Location = new System.Drawing.Point(240, 295);
+            buttonClose.Location = new System.Drawing.Point(166, 269);
             buttonClose.Name = "buttonClose";
             buttonClose.Size = new System.Drawing.Size(75, 23);
             buttonClose.TabIndex = 0;
@@ -120,25 +52,104 @@
             // 
             // buttonSave
             // 
-            buttonSave.Location = new System.Drawing.Point(146, 295);
+            buttonSave.Enabled = false;
+            buttonSave.Location = new System.Drawing.Point(72, 269);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new System.Drawing.Size(75, 23);
             buttonSave.TabIndex = 1;
             buttonSave.Text = "Save";
             buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click;
+            // 
+            // labelText
+            // 
+            labelText.AutoSize = true;
+            labelText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            labelText.Location = new System.Drawing.Point(60, 9);
+            labelText.Name = "labelText";
+            labelText.Size = new System.Drawing.Size(136, 21);
+            labelText.TabIndex = 3;
+            labelText.Text = "Database Config";
+            // 
+            // textBoxServer
+            // 
+            textBoxServer.Location = new System.Drawing.Point(9, 72);
+            textBoxServer.Name = "textBoxServer";
+            textBoxServer.Size = new System.Drawing.Size(234, 23);
+            textBoxServer.TabIndex = 4;
+            textBoxServer.TextChanged += textBoxServer_TextChanged;
+            // 
+            // textBoxUser
+            // 
+            textBoxUser.Location = new System.Drawing.Point(7, 131);
+            textBoxUser.Name = "textBoxUser";
+            textBoxUser.Size = new System.Drawing.Size(234, 23);
+            textBoxUser.TabIndex = 5;
+            textBoxUser.TextChanged += textBoxUser_TextChanged;
+            // 
+            // textBoxPassword
+            // 
+            textBoxPassword.Location = new System.Drawing.Point(8, 194);
+            textBoxPassword.Name = "textBoxPassword";
+            textBoxPassword.PasswordChar = '*';
+            textBoxPassword.Size = new System.Drawing.Size(233, 23);
+            textBoxPassword.TabIndex = 6;
+            textBoxPassword.TextChanged += textBoxPassword_TextChanged;
+            // 
+            // labelServer
+            // 
+            labelServer.AutoSize = true;
+            labelServer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            labelServer.Location = new System.Drawing.Point(12, 45);
+            labelServer.Name = "labelServer";
+            labelServer.Size = new System.Drawing.Size(47, 17);
+            labelServer.TabIndex = 7;
+            labelServer.Text = "Server";
+            // 
+            // labelUser
+            // 
+            labelUser.AutoSize = true;
+            labelUser.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            labelUser.Location = new System.Drawing.Point(12, 107);
+            labelUser.Name = "labelUser";
+            labelUser.Size = new System.Drawing.Size(35, 17);
+            labelUser.TabIndex = 8;
+            labelUser.Text = "User";
+            // 
+            // labelPassword
+            // 
+            labelPassword.AutoSize = true;
+            labelPassword.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            labelPassword.Location = new System.Drawing.Point(11, 170);
+            labelPassword.Name = "labelPassword";
+            labelPassword.Size = new System.Drawing.Size(66, 17);
+            labelPassword.TabIndex = 9;
+            labelPassword.Text = "Password";
+            // 
+            // checkBoxShow
+            // 
+            checkBoxShow.AutoSize = true;
+            checkBoxShow.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            checkBoxShow.Location = new System.Drawing.Point(11, 236);
+            checkBoxShow.Name = "checkBoxShow";
+            checkBoxShow.Size = new System.Drawing.Size(127, 21);
+            checkBoxShow.TabIndex = 10;
+            checkBoxShow.Text = "Show plain text.";
+            checkBoxShow.UseVisualStyleBackColor = true;
+            checkBoxShow.CheckedChanged += checkBoxShow_CheckedChanged;
             // 
             // FormConfigDatabase
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(321, 326);
-            Controls.Add(textBoxServer);
-            Controls.Add(textBoxDatabase);
+            ClientSize = new System.Drawing.Size(259, 313);
+            Controls.Add(checkBoxShow);
+            Controls.Add(labelPassword);
+            Controls.Add(labelUser);
+            Controls.Add(labelServer);
             Controls.Add(textBoxPassword);
-            Controls.Add(textBoxUsername);
-            Controls.Add(labelText4);
-            Controls.Add(labelText3);
-            Controls.Add(labelText2);
+            Controls.Add(textBoxUser);
+            Controls.Add(textBoxServer);
             Controls.Add(labelText);
             Controls.Add(buttonSave);
             Controls.Add(buttonClose);
@@ -148,20 +159,21 @@
             Name = "FormConfigDatabase";
             ShowIcon = false;
             Text = "Weather Station";
+            Load += FormConfigDatabase_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private System.Windows.Forms.Label labelText;
-        private System.Windows.Forms.Label labelText2;
-        private System.Windows.Forms.Label labelText3;
-        private System.Windows.Forms.Label labelText4;
-        private System.Windows.Forms.TextBox textBoxUsername;
-        private System.Windows.Forms.TextBox textBoxPassword;
-        private System.Windows.Forms.TextBox textBoxDatabase;
-        private System.Windows.Forms.TextBox textBoxServer;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Label labelText;
+        private System.Windows.Forms.TextBox textBoxServer;
+        private System.Windows.Forms.TextBox textBoxUser;
+        private System.Windows.Forms.TextBox textBoxPassword;
+        private System.Windows.Forms.Label labelServer;
+        private System.Windows.Forms.Label labelUser;
+        private System.Windows.Forms.Label labelPassword;
+        private System.Windows.Forms.CheckBox checkBoxShow;
     }
 }

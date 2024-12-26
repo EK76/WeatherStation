@@ -59,6 +59,7 @@
     <None Remove="configdb.txt" />
     <None Remove="Files\database.txt" />
     <None Remove="Files\temp.py" />
+    <None Remove="input.txt" />
     <None Remove="Pictures\Landscape\evening.jpg" />
     <None Remove="Pictures\Landscape\landscape.jpg" />
     <None Remove="Pictures\Landscape\morning.jpg" />
@@ -95,13 +96,16 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="configdb.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Files\database.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Files\temp.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Pictures\Landscape\landscape.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

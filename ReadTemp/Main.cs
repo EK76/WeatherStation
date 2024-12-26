@@ -12,6 +12,8 @@ using SortOrder = System.Windows.Forms.SortOrder;
 using System.IO;
 using System.Linq;
 using static System.Windows.Forms.ListViewItem;
+using System.Security.Cryptography;
+using System.Text;
 
 
 namespace ReadTemp
@@ -25,18 +27,32 @@ namespace ReadTemp
             this.listViewShowData.ListViewItemSorter = lvwColumnSorter;
         }
         private ListViewColumnSorter lvwColumnSorter;
-        string[] chooseDatabase = File.ReadAllLines("configdb.txt");
-        string timeString, connString, compareDay, checkDay, convertMonth, setValue, folderPdf, setDay, setDelay;
-        public static string checkString, forwardStartDate, newStartDate, newEndDate, currentDate, firstItem, lastItem, fileName2;
+        //    string[] chooseDatabase = File.ReadAllLines("configdb.txt");
+        //  string[] inputPass = File.ReadAllLines("input.txt");
+        string timeString, compareDay, checkDay, convertMonth, setValue, folderPdf, setDay, setDelay, passwordString;
+        public static string checkString, forwardStartDate, newStartDate, newEndDate, currentDate, firstItem, lastItem, fileName2, connString;
         DateTime onlyTime, checkDay2, convertDate, startDate, endDate;
         int checkWeek, compareWeek = 0, checkMonth, compareMonth = 0, checkYear, compareYear = 0, setNewValue, setDelay2, delayStatus;
         public static int checkForward, counterItems = 0, countItems = -1;
         bool allowDelay = false;
         public static bool localData = false;
+        private static string passWordString;
 
-        private void delayToolStripMenuItem_Click_1(object sender, EventArgs e)
+
+
+        public static string decrypt(string encrypt, string key)
         {
-
+            using (TripleDESCryptoServiceProvider tripleDESCryptoService = new TripleDESCryptoServiceProvider())
+            {
+                using (MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider())
+                {
+                    byte[] byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
+                    tripleDESCryptoService.Key = byteHash;
+                    tripleDESCryptoService.Mode = CipherMode.ECB;//CBC, CFB
+                    byte[] byteBuff = Convert.FromBase64String(encrypt);
+                    return Encoding.Unicode.GetString(tripleDESCryptoService.CreateDecryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
+                }
+            }
         }
 
         private void delayToolStripMenuItem_MouseHover(object sender, EventArgs e)
@@ -48,7 +64,6 @@ namespace ReadTemp
         {
             if (e.Column == lvwColumnSorter.SortColumn)
             {
-                // Reverse the current sort direction for this column.
                 if (lvwColumnSorter.Order == SortOrder.Ascending)
                 {
                     lvwColumnSorter.Order = SortOrder.Descending;
@@ -60,13 +75,11 @@ namespace ReadTemp
             }
             else
             {
-                // Set the column number that is to be sorted; default to ascending.
                 lvwColumnSorter.SortColumn = e.Column;
                 lvwColumnSorter.Order = SortOrder.Ascending;
             }
 
             this.listViewShowData.Sort();
-            // Perform the sort with these new sort options.
         }
 
         private void delayToolStripMenuItem_Click(object sender, EventArgs e)
@@ -103,7 +116,6 @@ namespace ReadTemp
             {
                 comboBoxMonth.Text = "";
                 checkForward = 1;
-                connString = chooseDatabase[0];
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
                 checkString = "select outtemp, outhum, pressure, datecreated from weatherdata where datecreated between '" + newStartDate + "' and '" + newEndDate + "';";
@@ -292,7 +304,6 @@ namespace ReadTemp
             }
             comboBoxDay.Enabled = true;
 
-            connString = chooseDatabase[0];
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
             checkString = "select outtemp, outhum, pressure, datecreated from weatherdata where month(datecreated) = " + setNewValue + " && year(datecreated) = " + comboBoxYear.Text + ";";
@@ -309,7 +320,6 @@ namespace ReadTemp
                 }
             }
             conn.Close();
-
         }
 
         private void comboBoxDay_SelectedIndexChanged(object sender, EventArgs e)
@@ -324,7 +334,6 @@ namespace ReadTemp
             setDay = convertDate.ToString("yyyy-MM-dd");
             forwardStartDate = comboBoxDay.Text;
             checkForward = 2;
-            connString = chooseDatabase[0];
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
             checkString = "select outtemp, outhum, pressure, datecreated from weatherdata where datecreated like '" + comboBoxDay.Text + "%';";
@@ -337,7 +346,6 @@ namespace ReadTemp
                 listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp") + " °C ", reader.GetDecimal("outhum") + " % ", reader.GetDecimal("pressure") + " hPa ", reader.GetDateTime("datecreated").ToString() }));
             }
             conn.Close();
-
 
             firstItem = listViewShowData.Items[0].SubItems[3].Text;
             lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
@@ -356,8 +364,6 @@ namespace ReadTemp
             Close();
         }
 
-
-
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
             //  showData();
@@ -365,8 +371,35 @@ namespace ReadTemp
 
         private void FormShowData_Load(object sender, EventArgs e)
         {
+
+            if (!File.Exists("input.txt"))
+            {
+                File.AppendAllText("input.txt", "password");
+            }
+
+            if (!File.Exists("configdb.txt"))
+            {
+                File.AppendAllText("configdb.txt", "SERVER=Server;DATABASE=weatherstation;UID=User;PASSWORD=");
+                FormConfigDatabase configDatabase = new FormConfigDatabase();
+                configDatabase.ShowDialog();
+            }
+            
+            string[] chooseDatabase = File.ReadAllLines("configdb.txt");
+            string[] inputPass = File.ReadAllLines("input.txt");
+
+            try
+            {
+                connString = chooseDatabase[0];
+                passwordString = decrypt(inputPass[0], "weather");
+            }
+            catch
+            {
+                MessageBox.Show("Database configuration fail! Check database settings!");
+            }
+
+
+            connString = connString + passwordString + ";";
             labelDate.Text = "To days date: " + DateTime.Now.ToString("dd.MM.yyyy");
-            connString = chooseDatabase[0];
             startDate = DateTime.Now;
             endDate = DateTime.Now;
             endDate = endDate.AddDays(1);
@@ -395,8 +428,9 @@ namespace ReadTemp
         {
             localData = false;
             listViewShowData.Items.Clear();
+            counterItems = 0;
             currentDate = DateTime.Now.ToString("yyyy-MM-dd");
-            connString = chooseDatabase[0];
+
             if (checkBoxDay.Checked == true)
             {
                 dateTimePickerEndDate.Enabled = false;
@@ -413,7 +447,6 @@ namespace ReadTemp
                 while (reader.Read())
                 {
                     counterItems++;
-                    //   countItems++;
                     listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
                 }
                 if (counterItems == 0)
@@ -519,5 +552,6 @@ namespace ReadTemp
             FormConfigDatabase configDatabase = new FormConfigDatabase();
             configDatabase.ShowDialog();
         }
+
     }
 }

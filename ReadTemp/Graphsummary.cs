@@ -30,7 +30,8 @@ namespace ReadTemp
             InitializeComponent();
         }
         string[] chooseDatabase = File.ReadAllLines(@"configdb.txt");
-        string connString, checkString, dateString, dateString2;
+        string[] inputPass = File.ReadAllLines(@"input.txt");
+        string connString, checkString, dateString, dateString2, passwordString;
         string maxValue, minValue, averageValue, minData, maxData, checkNewString, line, convertValue, convertValue2, convertValue3;
         int addPoint;
         decimal avgData, decimalValue, decimalValue2, decimalValue3;
@@ -57,6 +58,8 @@ namespace ReadTemp
             labelEndDate.Text = FormShowData.lastItem.ToString();
 
             connString = chooseDatabase[0];
+            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
            
             chartTemp.Update();

@@ -26,6 +26,8 @@ using DocumentFormat.OpenXml.Vml.Spreadsheet;
 using Windows.UI.Xaml;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 using Org.BouncyCastle.Asn1.Cmp;
+using System.Security.Cryptography;
+using System.Text;
 
 
 namespace ReadTemp
@@ -45,11 +47,12 @@ namespace ReadTemp
 
 
         string[] chooseDatabase = File.ReadAllLines(@"configdb.txt");
+        string[] inputPass = File.ReadAllLines(@"input.txt");
         string connString, checkString, dateString, dateString2, showBeginDate, showEndDate, yAxisText, yAxisValue, maxValue, averageValue, minValue, checkNewString, checkSaveString, theValue;
         string choosenValue, legendText, yTitle, yValue, convertValue, colorHex;
         int addPoint = -1, chooseValue = 1, chooseItem = 1, recordSum, yMin, yMax, counterRows = -1, counterRowsSkip = -2, dateChoose = 0, markerSize, markerType, markerValue;
         decimal avgTemp, avgHum, avgPressure, averageValue2, convertValue2;
-        string currentItem;
+        string currentItem, passwordString;
         int index = 0, oldValue = 0;
         Boolean oneTime = false;
         List<String> listDate = new List<String>();
@@ -72,41 +75,40 @@ namespace ReadTemp
 
         void markerShow()
         {
-
             if (oneTime == true)
             {
-              oldValue = index;
-              try
-              {
-                chartInfo.Update();
-                chartInfo.Series[0].Points[index].MarkerSize = markerSize;
-                  //  MessageBox.Show(markerSize.ToString());
-              }
-              catch
-              {
-              }
+                oldValue = index;
+                try
+                {
+                    chartInfo.Update();
+                    chartInfo.Series[0].Points[index].MarkerSize = markerSize;
+                    //  MessageBox.Show(markerSize.ToString());
+                }
+                catch
+                {
+                }
             }
             else
             {
-              MySqlConnection conn = new MySqlConnection(connString);
-              conn.Open();
-              checkString = "select markersize from settings where id= 1;";
-              MySqlCommand command2 = new MySqlCommand(checkString, conn);
-              MySqlDataReader reader2 = command2.ExecuteReader();
+                MySqlConnection conn = new MySqlConnection(connString);
+                conn.Open();
+                checkString = "select markersize from settings where id= 1;";
+                MySqlCommand command2 = new MySqlCommand(checkString, conn);
+                MySqlDataReader reader2 = command2.ExecuteReader();
 
-              while (reader2.Read())
-              {
-                markerSize = reader2.GetInt32("markersize");
-              }
-              conn.Close();
+                while (reader2.Read())
+                {
+                    markerSize = reader2.GetInt32("markersize");
+                }
+                conn.Close();
             }
             currentItem = listBoxShowValue.SelectedItem.ToString();
             index = listBoxShowValue.FindString(currentItem);
             index = index - 4;
             try
             {
-              chartInfo.Update();
-              chartInfo.Series[0].Points[index].MarkerSize = markerSize + 8;
+                chartInfo.Update();
+                chartInfo.Series[0].Points[index].MarkerSize = markerSize + 8;
             }
             catch
             {
@@ -146,6 +148,8 @@ namespace ReadTemp
             }
 
             connString = chooseDatabase[0];
+            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
 
             recordSum = 0;
@@ -354,6 +358,8 @@ namespace ReadTemp
 
             dateChoose = 1;
             connString = chooseDatabase[0];
+            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
 
             chartInfo.Update();
@@ -621,6 +627,8 @@ namespace ReadTemp
             choosenValue = "outtemp";
 
             connString = chooseDatabase[0];
+            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
             chooseItem = 1;
 

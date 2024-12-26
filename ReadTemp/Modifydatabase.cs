@@ -30,9 +30,10 @@ namespace ReadTemp
         }
 
         string[] chooseDatabase = File.ReadAllLines(@"configdb.txt");
+        string[] inputPass = File.ReadAllLines(@"input.txt");
         public static string checkString;
         public static int rowIndex;
-        string connString, newStartDate, newEndDate, checkString2, backupFolder, fileName,sqlQuery;
+        string connString, newStartDate, newEndDate, checkString2, backupFolder, fileName,sqlQuery, passwordString;
         DateTime startDate, endDate;
         int colorIndex, tableView, countRow = 0;
         public static bool refreshTable;
@@ -43,6 +44,8 @@ namespace ReadTemp
             countRow = 0;
             tableView = 1;
             connString = chooseDatabase[0];
+            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
             checkString = "select id, outtemp, outhum, pressure, datecreated from weatherdata";
@@ -107,6 +110,8 @@ namespace ReadTemp
         private void emptyTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             connString = chooseDatabase[0];
+            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
             if (MessageBox.Show("Are you sure to delete the weather table?", "Weather Station",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -142,6 +147,8 @@ namespace ReadTemp
                 colorIndex = 0;
                 tableView = 1;
                 connString = chooseDatabase[0];
+                passwordString = FormShowData.decrypt(inputPass[0], "weather");
+                connString = connString + passwordString + ";";
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
                 checkString = "select id, outtemp, outhum, pressure, datecreated from weatherdata";
@@ -176,6 +183,8 @@ namespace ReadTemp
 
             DialogResult result = openFileDialog.ShowDialog();
             openFileDialog.RestoreDirectory = true;
+            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            connString = connString + passwordString + ";";
             if (result == DialogResult.OK)
             {
                 fileName = System.IO.Path.GetFullPath(openFileDialog.FileName);
@@ -247,6 +256,8 @@ namespace ReadTemp
             {
                 backupFolder = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.LastIndexOf("."));
                 connString = chooseDatabase[0];
+                passwordString = FormShowData.decrypt(inputPass[0], "weather");
+                connString = connString + passwordString + ";";
                 if (tableView == 1)
                 {
                   using (MySqlConnection conn = new MySqlConnection(connString))
@@ -285,6 +296,9 @@ namespace ReadTemp
 
         private void deleteRowsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            connString = chooseDatabase[0];
+            connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
            if (MessageBox.Show("Are you sure to delete selected values?", "Weather Station",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -300,7 +314,6 @@ namespace ReadTemp
                         this.listViewShowData.Items.Remove(deleteValue);
                         conn.Close();
                         countRow--;
-
                     }
                 }
                 MessageBox.Show("Values are deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -329,8 +342,7 @@ namespace ReadTemp
             endDate = endDate.AddDays(1);
 
             newStartDate = startDate.ToString("yyyy-MM-dd");
-            newEndDate = endDate.ToString("yyyy-MM-dd");
-            
+            newEndDate = endDate.ToString("yyyy-MM-dd");         
 
             if (dateTimePickerEndDate.Value >= dateTimePickerStartDate.Value)
             {
@@ -338,6 +350,8 @@ namespace ReadTemp
                 listViewShowData.Items.Clear();
                 deleteRowsToolStripMenuItem.Enabled = true;
                 connString = chooseDatabase[0];
+                passwordString = FormShowData.decrypt(inputPass[0], "weather");
+                connString = connString + passwordString + ";";
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
                 checkString = "select id, outtemp, outhum, pressure, datecreated from weatherdata where (datecreated between '" + newStartDate + "' and '" + newEndDate + "');";

@@ -22,7 +22,8 @@ namespace ReadTemp
         }
 
         string[] chooseDatabase = File.ReadAllLines(@"configdb.txt");
-        string connString, sqlQuery, textTemp, textHum, textPressure;
+        string[] inputPass = File.ReadAllLines(@"input.txt");
+        string connString, sqlQuery, textTemp, textHum, textPressure, passwordString;
         bool checkSave = false, checkClose = true;
         int checkValue;
 
@@ -31,6 +32,8 @@ namespace ReadTemp
             try
             {
                 connString = chooseDatabase[0];
+                passwordString = FormShowData.decrypt(inputPass[0], "weather");
+                connString = connString + passwordString + ";";
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
                 sqlQuery = "update weatherdata set outtemp = '" + textBoxTemp.Text + "', outhum = '" + textBoxHum.Text + "', pressure = '" + textBoxPressure.Text + "' where id = '" + FormModifyTable.rowIndex + "'";
@@ -153,6 +156,8 @@ namespace ReadTemp
         private void FormEditRow_Load(object sender, EventArgs e)
         {
             connString = chooseDatabase[0];
+            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
             sqlQuery = "select * from weatherdata where id = '" + FormModifyTable.rowIndex + "'";
