@@ -5,6 +5,12 @@ I started this Visual Studio C# project in spring 2024.
 Purpose for this project is to measure temperature, humidity and pressure
 with help of two sensors (DHT11 and BMP180) and Raspberry PI 5.
 
+In May 2025 I added a second project that working alongside the previous project and purpose is that these two project use these files together. 
+Because they use same form that show statistics in graphic form.
+- Showgraph.cs
+- ShowGraph.Designer.cs
+- ShowGraph.resx
+
 ![image](https://github.com/user-attachments/assets/bf30352a-59cb-4e20-9109-404ea8a64ff6) DHT22 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![image](https://github.com/user-attachments/assets/322ec1e0-5bf2-49c0-96a0-3c0c5373fa87) &nbsp;&nbsp;&nbsp;&nbsp; BMP180
 
 DHT22 is temperature and humitidy sensor.<br>
@@ -45,6 +51,7 @@ on Raspberry PI 5 is pyhton.
 #!/usr/bin/python
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.SPI as SPI
+
 import mysql.connector, sys, Adafruit_DHT, datetime, time
 from mysql.connector import Error
 from mysql.connector import errorcode
@@ -55,12 +62,12 @@ import RPi.GPIO as GPIO
 import board
 import adafruit_dht
 
-sensor =  adafruit_dht(board.D26)
+sensor =  adafruit_dht.DHT22(board.D26)
 
 config = {
   'host':'ServerPC',
   'user':'ken',
-  'password':'*******',
+  'password':'*****',
   'database':'weatherstation'
 }
 
@@ -74,15 +81,22 @@ try:
        record = cursor.fetchone()
        cursor.close()
        print("You're connected to database: ", record)
-       delay = 600
+
+       cursor = connection.cursor()
+       cursor.execute("select delay from settings;")
+       delay = cursor.fetchone() 
+       connection.commit()
+       cursor.close()
+       delay = int(delay[0])
+       delay = delay * 60
+       print("Delay ", delay)
        sleep(5)
 
        temperature = sensor.temperature
        humidity = sensor.humidity
        while True:      
-          
+
           if humidity is not None and temperature is not None or humidity < 101:
-            print("Part 1!")
             temperature = sensor.temperature
             humidity = sensor.humidity
             temp, pressure, altitude = bmpsensor.readBmp180()
@@ -108,7 +122,7 @@ try:
             connection.commit()
             cursor.close()
             sleep(5)
-              
+     
 except mysql.connector.Error as error:
     print("Failed to insert record into table {}".format(error))
 
@@ -120,6 +134,7 @@ finally:
     if (connection.is_connected()):
         connection.close()
         print("MySQL connection is closed")
+
 ```
 
 </details>
@@ -156,6 +171,23 @@ create table weathererrorlog (
     primary key(id)
 );
 
+create table delaylog(
+  id int not null auto_increment,
+  logdate datetime default CURRENT_TIMESTAMP,
+  delayvalue varchar(255),
+  primary key(id)
+);
+
+create table settings(
+  id int not null auto_increment,
+  chartcolor varchar(100),
+  delay int,
+  linecolor varchar(100),
+  formcolor varchar(100),
+  markersize int
+  markertype int,
+  primary key(id)
+); 
 ```
 ### After creation of database and tables are done.
 - Edit configdb.txt file with the correct info about your MySQL credentials with text editor of your choosing.
