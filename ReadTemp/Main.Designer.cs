@@ -29,48 +29,54 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormShowData));
-            labelDate = new System.Windows.Forms.Label();
-            comboBoxDay = new System.Windows.Forms.ComboBox();
-            comboBoxMonth = new System.Windows.Forms.ComboBox();
-            labelText2 = new System.Windows.Forms.Label();
-            labelText4 = new System.Windows.Forms.Label();
-            listViewShowData = new System.Windows.Forms.ListView();
-            columnHeaderOutTemp = new System.Windows.Forms.ColumnHeader();
-            columnHeaderOutHum = new System.Windows.Forms.ColumnHeader();
-            columnHeaderPressure = new System.Windows.Forms.ColumnHeader();
-            columnHeaderDate = new System.Windows.Forms.ColumnHeader();
-            menuStrip1 = new System.Windows.Forms.MenuStrip();
-            fileStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            graphViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            technicalInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            softwareInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            exportToPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            modifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            clearDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            databaseConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
-            labelText = new System.Windows.Forms.Label();
-            comboBoxYear = new System.Windows.Forms.ComboBox();
-            dateTimePickerStartDate = new System.Windows.Forms.DateTimePicker();
-            dateTimePickerEndDate = new System.Windows.Forms.DateTimePicker();
-            labelStartDate = new System.Windows.Forms.Label();
-            buttonSearch = new System.Windows.Forms.Button();
-            labelEndDate = new System.Windows.Forms.Label();
+            labelDate = new Label();
+            comboBoxDay = new ComboBox();
+            comboBoxMonth = new ComboBox();
+            labelText2 = new Label();
+            labelText4 = new Label();
+            listViewShowData = new ListView();
+            columnHeaderOutTemp = new ColumnHeader();
+            columnHeaderOutHum = new ColumnHeader();
+            columnHeaderPressure = new ColumnHeader();
+            columnHeaderDate = new ColumnHeader();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            saveToolStripMenuItem = new ToolStripMenuItem();
+            openToolStripMenuItem = new ToolStripMenuItem();
+            printToolStripMenuItem = new ToolStripMenuItem();
+            closeToolStripMenuItem = new ToolStripMenuItem();
+            editToolStripMenuItem = new ToolStripMenuItem();
+            deleteSelectedRowsToolStripMenuItem = new ToolStripMenuItem();
+            clearDataToolStripMenuItem = new ToolStripMenuItem();
+            viewToolStripMenuItem1 = new ToolStripMenuItem();
+            graphViewToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
+            technicalInfoToolStripMenuItem = new ToolStripMenuItem();
+            softwareInfoToolStripMenuItem = new ToolStripMenuItem();
+            showDelayTimeLogToolStripMenuItem = new ToolStripMenuItem();
+            toolsToolStripMenuItem = new ToolStripMenuItem();
+            exportToPDFToolStripMenuItem = new ToolStripMenuItem();
+            changeTimeToolStripMenuItem = new ToolStripMenuItem();
+            delayValueToolStripComboBox = new ToolStripComboBox();
+            modifyToolStripMenuItem = new ToolStripMenuItem();
+            databaseConfigToolStripMenuItem = new ToolStripMenuItem();
+            helpToolStripMenuItem = new ToolStripMenuItem();
+            aboutToolStripMenuItem = new ToolStripMenuItem();
+            printPreviewDialog1 = new PrintPreviewDialog();
+            labelText = new Label();
+            comboBoxYear = new ComboBox();
+            dateTimePickerStartDate = new DateTimePicker();
+            dateTimePickerEndDate = new DateTimePicker();
+            labelStartDate = new Label();
+            buttonSearch = new Button();
+            labelEndDate = new Label();
             listViewPrinter1 = new BrightIdeasSoftware.ListViewPrinter();
-            labelRows = new System.Windows.Forms.Label();
-            checkBoxDay = new System.Windows.Forms.CheckBox();
-            trackBarSize = new System.Windows.Forms.TrackBar();
-            labelText3 = new System.Windows.Forms.Label();
-            labelStatus = new System.Windows.Forms.Label();
+            labelRows = new Label();
+            checkBoxDay = new CheckBox();
+            trackBarSize = new TrackBar();
+            labelText3 = new Label();
+            labelStatus = new Label();
+            labelShowDelay = new Label();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBarSize).BeginInit();
             SuspendLayout();
@@ -78,53 +84,53 @@
             // labelDate
             // 
             labelDate.AutoSize = true;
-            labelDate.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold);
-            labelDate.ForeColor = System.Drawing.Color.Black;
-            labelDate.Location = new System.Drawing.Point(14, 60);
-            labelDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelDate.Font = new Font("Calibri", 12F, FontStyle.Bold);
+            labelDate.ForeColor = Color.Black;
+            labelDate.Location = new Point(14, 60);
+            labelDate.Margin = new Padding(4, 0, 4, 0);
             labelDate.Name = "labelDate";
-            labelDate.Size = new System.Drawing.Size(50, 19);
+            labelDate.Size = new Size(50, 19);
             labelDate.TabIndex = 5;
             labelDate.Text = "label2";
             // 
             // comboBoxDay
             // 
-            comboBoxDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxDay.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxDay.Enabled = false;
-            comboBoxDay.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            comboBoxDay.ForeColor = System.Drawing.Color.DarkSlateBlue;
+            comboBoxDay.Font = new Font("Calibri", 10F, FontStyle.Bold);
+            comboBoxDay.ForeColor = Color.DarkSlateBlue;
             comboBoxDay.FormattingEnabled = true;
-            comboBoxDay.Location = new System.Drawing.Point(499, 111);
-            comboBoxDay.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBoxDay.Location = new Point(496, 116);
+            comboBoxDay.Margin = new Padding(4, 3, 4, 3);
             comboBoxDay.Name = "comboBoxDay";
-            comboBoxDay.Size = new System.Drawing.Size(215, 23);
+            comboBoxDay.Size = new Size(215, 23);
             comboBoxDay.TabIndex = 7;
             comboBoxDay.SelectedIndexChanged += comboBoxDay_SelectedIndexChanged;
             // 
             // comboBoxMonth
             // 
-            comboBoxMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxMonth.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxMonth.Enabled = false;
-            comboBoxMonth.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            comboBoxMonth.ForeColor = System.Drawing.Color.DarkSlateBlue;
+            comboBoxMonth.Font = new Font("Calibri", 10F, FontStyle.Bold);
+            comboBoxMonth.ForeColor = Color.DarkSlateBlue;
             comboBoxMonth.FormattingEnabled = true;
             comboBoxMonth.Items.AddRange(new object[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
-            comboBoxMonth.Location = new System.Drawing.Point(257, 112);
-            comboBoxMonth.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBoxMonth.Location = new Point(257, 112);
+            comboBoxMonth.Margin = new Padding(4, 3, 4, 3);
             comboBoxMonth.Name = "comboBoxMonth";
-            comboBoxMonth.Size = new System.Drawing.Size(215, 23);
+            comboBoxMonth.Size = new Size(215, 23);
             comboBoxMonth.TabIndex = 9;
             comboBoxMonth.SelectedIndexChanged += comboBoxMonth_SelectedIndexChanged;
             // 
             // labelText2
             // 
             labelText2.AutoSize = true;
-            labelText2.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            labelText2.ForeColor = System.Drawing.Color.Black;
-            labelText2.Location = new System.Drawing.Point(496, 88);
-            labelText2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelText2.Font = new Font("Calibri", 10F, FontStyle.Bold);
+            labelText2.ForeColor = Color.Black;
+            labelText2.Location = new Point(496, 88);
+            labelText2.Margin = new Padding(4, 0, 4, 0);
             labelText2.Name = "labelText2";
-            labelText2.Size = new System.Drawing.Size(71, 17);
+            labelText2.Size = new Size(71, 17);
             labelText2.TabIndex = 14;
             labelText2.Text = "Select day.";
             // 
@@ -132,26 +138,27 @@
             // 
             labelText4.AutoSize = true;
             labelText4.Enabled = false;
-            labelText4.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            labelText4.ForeColor = System.Drawing.Color.Black;
-            labelText4.Location = new System.Drawing.Point(257, 88);
-            labelText4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelText4.Font = new Font("Calibri", 10F, FontStyle.Bold);
+            labelText4.ForeColor = Color.Black;
+            labelText4.Location = new Point(257, 88);
+            labelText4.Margin = new Padding(4, 0, 4, 0);
             labelText4.Name = "labelText4";
-            labelText4.Size = new System.Drawing.Size(90, 17);
+            labelText4.Size = new Size(90, 17);
             labelText4.TabIndex = 16;
             labelText4.Text = "Select month.";
             // 
             // listViewShowData
             // 
-            listViewShowData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeaderOutTemp, columnHeaderOutHum, columnHeaderPressure, columnHeaderDate });
-            listViewShowData.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            listViewShowData.Location = new System.Drawing.Point(14, 151);
-            listViewShowData.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            listViewShowData.Columns.AddRange(new ColumnHeader[] { columnHeaderOutTemp, columnHeaderOutHum, columnHeaderPressure, columnHeaderDate });
+            listViewShowData.Font = new Font("Calibri", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            listViewShowData.FullRowSelect = true;
+            listViewShowData.Location = new Point(14, 163);
+            listViewShowData.Margin = new Padding(4, 3, 4, 3);
             listViewShowData.Name = "listViewShowData";
-            listViewShowData.Size = new System.Drawing.Size(1372, 838);
+            listViewShowData.Size = new Size(1372, 838);
             listViewShowData.TabIndex = 17;
             listViewShowData.UseCompatibleStateImageBehavior = false;
-            listViewShowData.View = System.Windows.Forms.View.Details;
+            listViewShowData.View = View.Details;
             listViewShowData.ColumnClick += listViewShowData_ColumnClick;
             // 
             // columnHeaderOutTemp
@@ -176,33 +183,33 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { fileStripMenuItem, viewToolStripMenuItem1, toolsToolStripMenuItem, helpToolStripMenuItem });
-            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem1, toolsToolStripMenuItem, helpToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            menuStrip1.Size = new System.Drawing.Size(1399, 24);
+            menuStrip1.Padding = new Padding(7, 2, 0, 2);
+            menuStrip1.Size = new Size(1421, 24);
             menuStrip1.TabIndex = 18;
             menuStrip1.Text = "menuStrip1";
             // 
-            // fileStripMenuItem
+            // fileToolStripMenuItem
             // 
-            fileStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { saveToolStripMenuItem, openToolStripMenuItem, printToolStripMenuItem, closeToolStripMenuItem });
-            fileStripMenuItem.Name = "fileStripMenuItem";
-            fileStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            fileStripMenuItem.Text = "File";
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveToolStripMenuItem, openToolStripMenuItem, printToolStripMenuItem, closeToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Text = "File";
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Enabled = false;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            saveToolStripMenuItem.Size = new Size(103, 22);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            openToolStripMenuItem.Size = new Size(103, 22);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
@@ -210,109 +217,145 @@
             // 
             printToolStripMenuItem.Enabled = false;
             printToolStripMenuItem.Name = "printToolStripMenuItem";
-            printToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            printToolStripMenuItem.Size = new Size(103, 22);
             printToolStripMenuItem.Text = "Print";
             printToolStripMenuItem.Click += printToolStripMenuItem_Click;
             // 
             // closeToolStripMenuItem
             // 
             closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            closeToolStripMenuItem.Size = new Size(103, 22);
             closeToolStripMenuItem.Text = "Close";
             closeToolStripMenuItem.Click += closeToolStripMenuItem_Click;
             // 
+            // editToolStripMenuItem
+            // 
+            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { deleteSelectedRowsToolStripMenuItem, clearDataToolStripMenuItem });
+            editToolStripMenuItem.Name = "editToolStripMenuItem";
+            editToolStripMenuItem.Size = new Size(39, 20);
+            editToolStripMenuItem.Text = "Edit";
+            // 
+            // deleteSelectedRowsToolStripMenuItem
+            // 
+            deleteSelectedRowsToolStripMenuItem.Enabled = false;
+            deleteSelectedRowsToolStripMenuItem.Name = "deleteSelectedRowsToolStripMenuItem";
+            deleteSelectedRowsToolStripMenuItem.Size = new Size(181, 22);
+            deleteSelectedRowsToolStripMenuItem.Text = "Delete selected rows";
+            deleteSelectedRowsToolStripMenuItem.Click += deleteSelectedRowsToolStripMenuItem_Click;
+            // 
+            // clearDataToolStripMenuItem
+            // 
+            clearDataToolStripMenuItem.Enabled = false;
+            clearDataToolStripMenuItem.Name = "clearDataToolStripMenuItem";
+            clearDataToolStripMenuItem.Size = new Size(181, 22);
+            clearDataToolStripMenuItem.Text = "Clear Data";
+            clearDataToolStripMenuItem.Click += clearDataToolStripMenuItem_Click_1;
+            // 
             // viewToolStripMenuItem1
             // 
-            viewToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { graphViewToolStripMenuItem, toolStripSeparator1, technicalInfoToolStripMenuItem, softwareInfoToolStripMenuItem });
+            viewToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { graphViewToolStripMenuItem, toolStripSeparator1, technicalInfoToolStripMenuItem, softwareInfoToolStripMenuItem, showDelayTimeLogToolStripMenuItem });
             viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
-            viewToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
+            viewToolStripMenuItem1.Size = new Size(44, 20);
             viewToolStripMenuItem1.Text = "View";
             // 
             // graphViewToolStripMenuItem
             // 
             graphViewToolStripMenuItem.Enabled = false;
             graphViewToolStripMenuItem.Name = "graphViewToolStripMenuItem";
-            graphViewToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            graphViewToolStripMenuItem.Size = new Size(188, 22);
             graphViewToolStripMenuItem.Text = "Graph View";
             graphViewToolStripMenuItem.Click += graphViewToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
+            toolStripSeparator1.Size = new Size(185, 6);
             // 
             // technicalInfoToolStripMenuItem
             // 
             technicalInfoToolStripMenuItem.Name = "technicalInfoToolStripMenuItem";
-            technicalInfoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            technicalInfoToolStripMenuItem.Size = new Size(188, 22);
             technicalInfoToolStripMenuItem.Text = "Technical Info";
             technicalInfoToolStripMenuItem.Click += technicalInfoToolStripMenuItem_Click;
             // 
             // softwareInfoToolStripMenuItem
             // 
             softwareInfoToolStripMenuItem.Name = "softwareInfoToolStripMenuItem";
-            softwareInfoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            softwareInfoToolStripMenuItem.Size = new Size(188, 22);
             softwareInfoToolStripMenuItem.Text = "Software Info";
             softwareInfoToolStripMenuItem.Click += softwareInfoToolStripMenuItem_Click;
             // 
+            // showDelayTimeLogToolStripMenuItem
+            // 
+            showDelayTimeLogToolStripMenuItem.Name = "showDelayTimeLogToolStripMenuItem";
+            showDelayTimeLogToolStripMenuItem.Size = new Size(188, 22);
+            showDelayTimeLogToolStripMenuItem.Text = "Show Delay Time Log";
+            showDelayTimeLogToolStripMenuItem.Click += showDelayTimeLogToolStripMenuItem_Click;
+            // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { exportToPDFToolStripMenuItem, modifyToolStripMenuItem, clearDataToolStripMenuItem, databaseConfigToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportToPDFToolStripMenuItem, changeTimeToolStripMenuItem, modifyToolStripMenuItem, databaseConfigToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            toolsToolStripMenuItem.Size = new Size(47, 20);
             toolsToolStripMenuItem.Text = "Tools";
             // 
             // exportToPDFToolStripMenuItem
             // 
             exportToPDFToolStripMenuItem.Enabled = false;
             exportToPDFToolStripMenuItem.Name = "exportToPDFToolStripMenuItem";
-            exportToPDFToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            exportToPDFToolStripMenuItem.Size = new Size(210, 22);
             exportToPDFToolStripMenuItem.Text = "Create table as PDF report";
             exportToPDFToolStripMenuItem.Click += exportToPDFToolStripMenuItem_Click;
+            // 
+            // changeTimeToolStripMenuItem
+            // 
+            changeTimeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { delayValueToolStripComboBox });
+            changeTimeToolStripMenuItem.Name = "changeTimeToolStripMenuItem";
+            changeTimeToolStripMenuItem.Size = new Size(210, 22);
+            changeTimeToolStripMenuItem.Text = "Change Delay Time";
+            // 
+            // delayValueToolStripComboBox
+            // 
+            delayValueToolStripComboBox.Items.AddRange(new object[] { "10", "20", "30", "45", "60" });
+            delayValueToolStripComboBox.Name = "delayValueToolStripComboBox";
+            delayValueToolStripComboBox.Size = new Size(121, 23);
+            delayValueToolStripComboBox.TextChanged += delayValueToolStripComboBox_TextChanged;
             // 
             // modifyToolStripMenuItem
             // 
             modifyToolStripMenuItem.Name = "modifyToolStripMenuItem";
-            modifyToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            modifyToolStripMenuItem.Size = new Size(210, 22);
             modifyToolStripMenuItem.Text = "Modify Weather Table";
             modifyToolStripMenuItem.Click += modifyToolStripMenuItem_Click;
-            // 
-            // clearDataToolStripMenuItem
-            // 
-            clearDataToolStripMenuItem.Enabled = false;
-            clearDataToolStripMenuItem.Name = "clearDataToolStripMenuItem";
-            clearDataToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            clearDataToolStripMenuItem.Text = "Clear Data";
-            clearDataToolStripMenuItem.Click += clearDataToolStripMenuItem_Click;
             // 
             // databaseConfigToolStripMenuItem
             // 
             databaseConfigToolStripMenuItem.Name = "databaseConfigToolStripMenuItem";
-            databaseConfigToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            databaseConfigToolStripMenuItem.Size = new Size(210, 22);
             databaseConfigToolStripMenuItem.Text = "Database Config";
             databaseConfigToolStripMenuItem.Click += databaseConfigToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
-            helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { aboutToolStripMenuItem });
+            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { aboutToolStripMenuItem });
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            helpToolStripMenuItem.Size = new Size(44, 20);
             helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            aboutToolStripMenuItem.Size = new Size(178, 22);
             aboutToolStripMenuItem.Text = "About Weather Info";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
             // printPreviewDialog1
             // 
-            printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            printPreviewDialog1.AutoScrollMargin = new Size(0, 0);
+            printPreviewDialog1.AutoScrollMinSize = new Size(0, 0);
+            printPreviewDialog1.ClientSize = new Size(400, 300);
             printPreviewDialog1.Enabled = true;
-            printPreviewDialog1.Icon = (System.Drawing.Icon)resources.GetObject("printPreviewDialog1.Icon");
+            printPreviewDialog1.Icon = (Icon)resources.GetObject("printPreviewDialog1.Icon");
             printPreviewDialog1.Name = "printPreviewDialog1";
             printPreviewDialog1.Visible = false;
             // 
@@ -320,67 +363,67 @@
             // 
             labelText.AutoSize = true;
             labelText.Enabled = false;
-            labelText.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            labelText.ForeColor = System.Drawing.Color.Black;
-            labelText.Location = new System.Drawing.Point(14, 88);
-            labelText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelText.Font = new Font("Calibri", 10F, FontStyle.Bold);
+            labelText.ForeColor = Color.Black;
+            labelText.Location = new Point(14, 88);
+            labelText.Margin = new Padding(4, 0, 4, 0);
             labelText.Name = "labelText";
-            labelText.Size = new System.Drawing.Size(75, 17);
+            labelText.Size = new Size(75, 17);
             labelText.TabIndex = 20;
             labelText.Text = "Select year.";
             // 
             // comboBoxYear
             // 
-            comboBoxYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            comboBoxYear.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            comboBoxYear.ForeColor = System.Drawing.Color.DarkSlateBlue;
+            comboBoxYear.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxYear.Font = new Font("Calibri", 10F, FontStyle.Bold);
+            comboBoxYear.ForeColor = Color.DarkSlateBlue;
             comboBoxYear.FormattingEnabled = true;
-            comboBoxYear.Items.AddRange(new object[] { "2024" });
-            comboBoxYear.Location = new System.Drawing.Point(14, 112);
-            comboBoxYear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBoxYear.Location = new Point(14, 112);
+            comboBoxYear.Margin = new Padding(4, 3, 4, 3);
             comboBoxYear.Name = "comboBoxYear";
-            comboBoxYear.Size = new System.Drawing.Size(215, 23);
+            comboBoxYear.Size = new Size(215, 23);
             comboBoxYear.TabIndex = 19;
             comboBoxYear.SelectedIndexChanged += comboBoxYear_SelectedIndexChanged;
+            comboBoxYear.Click += comboBoxYear_Click;
             // 
             // dateTimePickerStartDate
             // 
-            dateTimePickerStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            dateTimePickerStartDate.Location = new System.Drawing.Point(760, 112);
-            dateTimePickerStartDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            dateTimePickerStartDate.Format = DateTimePickerFormat.Custom;
+            dateTimePickerStartDate.Location = new Point(760, 112);
+            dateTimePickerStartDate.Margin = new Padding(4, 3, 4, 3);
             dateTimePickerStartDate.Name = "dateTimePickerStartDate";
-            dateTimePickerStartDate.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            dateTimePickerStartDate.Size = new System.Drawing.Size(111, 23);
+            dateTimePickerStartDate.RightToLeft = RightToLeft.No;
+            dateTimePickerStartDate.Size = new Size(111, 23);
             dateTimePickerStartDate.TabIndex = 21;
             // 
             // dateTimePickerEndDate
             // 
-            dateTimePickerEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            dateTimePickerEndDate.Location = new System.Drawing.Point(935, 112);
-            dateTimePickerEndDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            dateTimePickerEndDate.Format = DateTimePickerFormat.Custom;
+            dateTimePickerEndDate.Location = new Point(935, 112);
+            dateTimePickerEndDate.Margin = new Padding(4, 3, 4, 3);
             dateTimePickerEndDate.Name = "dateTimePickerEndDate";
-            dateTimePickerEndDate.Size = new System.Drawing.Size(111, 23);
+            dateTimePickerEndDate.Size = new Size(111, 23);
             dateTimePickerEndDate.TabIndex = 22;
             // 
             // labelStartDate
             // 
             labelStartDate.AutoSize = true;
-            labelStartDate.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            labelStartDate.ForeColor = System.Drawing.Color.Black;
-            labelStartDate.Location = new System.Drawing.Point(756, 84);
-            labelStartDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelStartDate.Font = new Font("Calibri", 10F, FontStyle.Bold);
+            labelStartDate.ForeColor = Color.Black;
+            labelStartDate.Location = new Point(756, 84);
+            labelStartDate.Margin = new Padding(4, 0, 4, 0);
             labelStartDate.Name = "labelStartDate";
-            labelStartDate.Size = new System.Drawing.Size(67, 17);
+            labelStartDate.Size = new Size(67, 17);
             labelStartDate.TabIndex = 23;
             labelStartDate.Text = "Start date";
             // 
             // buttonSearch
             // 
-            buttonSearch.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            buttonSearch.Location = new System.Drawing.Point(1064, 110);
-            buttonSearch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonSearch.Font = new Font("Calibri", 10F, FontStyle.Bold);
+            buttonSearch.Location = new Point(1064, 110);
+            buttonSearch.Margin = new Padding(4, 3, 4, 3);
             buttonSearch.Name = "buttonSearch";
-            buttonSearch.Size = new System.Drawing.Size(88, 27);
+            buttonSearch.Size = new Size(88, 27);
             buttonSearch.TabIndex = 24;
             buttonSearch.Text = "Search";
             buttonSearch.UseVisualStyleBackColor = true;
@@ -389,12 +432,12 @@
             // labelEndDate
             // 
             labelEndDate.AutoSize = true;
-            labelEndDate.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            labelEndDate.ForeColor = System.Drawing.Color.Black;
-            labelEndDate.Location = new System.Drawing.Point(931, 84);
-            labelEndDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelEndDate.Font = new Font("Calibri", 10F, FontStyle.Bold);
+            labelEndDate.ForeColor = Color.Black;
+            labelEndDate.Location = new Point(931, 84);
+            labelEndDate.Margin = new Padding(4, 0, 4, 0);
             labelEndDate.Name = "labelEndDate";
-            labelEndDate.Size = new System.Drawing.Size(61, 17);
+            labelEndDate.Size = new Size(61, 17);
             labelEndDate.TabIndex = 25;
             labelEndDate.Text = "End date";
             // 
@@ -404,43 +447,43 @@
             // 
             // 
             listViewPrinter1.CellFormat.CanWrap = true;
-            listViewPrinter1.CellFormat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            listViewPrinter1.CellFormat.Font = new Font("Microsoft Sans Serif", 9F);
             // 
             // 
             // 
-            listViewPrinter1.FooterFormat.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Italic);
+            listViewPrinter1.FooterFormat.Font = new Font("Verdana", 10F, FontStyle.Italic);
             // 
             // 
             // 
-            listViewPrinter1.GroupHeaderFormat.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
+            listViewPrinter1.GroupHeaderFormat.Font = new Font("Verdana", 10F, FontStyle.Bold);
             // 
             // 
             // 
-            listViewPrinter1.HeaderFormat.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            listViewPrinter1.HeaderFormat.Font = new Font("Calibri", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             // 
             // 
             // 
             listViewPrinter1.ListHeaderFormat.CanWrap = true;
-            listViewPrinter1.ListHeaderFormat.Font = new System.Drawing.Font("Verdana", 12F);
+            listViewPrinter1.ListHeaderFormat.Font = new Font("Verdana", 12F);
             listViewPrinter1.ListView = listViewShowData;
             // 
             // labelRows
             // 
             labelRows.AutoSize = true;
-            labelRows.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            labelRows.Location = new System.Drawing.Point(14, 1004);
+            labelRows.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelRows.Location = new Point(14, 1004);
             labelRows.Name = "labelRows";
-            labelRows.Size = new System.Drawing.Size(122, 17);
+            labelRows.Size = new Size(122, 17);
             labelRows.TabIndex = 26;
             labelRows.Text = "Numbers of rows: ";
             // 
             // checkBoxDay
             // 
             checkBoxDay.AutoSize = true;
-            checkBoxDay.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            checkBoxDay.Location = new System.Drawing.Point(1240, 118);
+            checkBoxDay.Font = new Font("Calibri", 10F, FontStyle.Bold);
+            checkBoxDay.Location = new Point(1240, 118);
             checkBoxDay.Name = "checkBoxDay";
-            checkBoxDay.Size = new System.Drawing.Size(98, 21);
+            checkBoxDay.Size = new Size(98, 21);
             checkBoxDay.TabIndex = 27;
             checkBoxDay.Text = "Current Day";
             checkBoxDay.UseVisualStyleBackColor = true;
@@ -448,11 +491,11 @@
             // 
             // trackBarSize
             // 
-            trackBarSize.Location = new System.Drawing.Point(1217, 995);
+            trackBarSize.Location = new Point(1217, 1004);
             trackBarSize.Maximum = 28;
             trackBarSize.Minimum = 12;
             trackBarSize.Name = "trackBarSize";
-            trackBarSize.Size = new System.Drawing.Size(169, 45);
+            trackBarSize.Size = new Size(169, 45);
             trackBarSize.TabIndex = 29;
             trackBarSize.Value = 15;
             trackBarSize.Scroll += trackBarSize_Scroll;
@@ -460,28 +503,41 @@
             // labelText3
             // 
             labelText3.AutoSize = true;
-            labelText3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            labelText3.Location = new System.Drawing.Point(1127, 1004);
+            labelText3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            labelText3.Location = new Point(1127, 1004);
             labelText3.Name = "labelText3";
-            labelText3.Size = new System.Drawing.Size(84, 17);
+            labelText3.Size = new Size(84, 17);
             labelText3.TabIndex = 30;
             labelText3.Text = "Set font size";
             // 
             // labelStatus
             // 
             labelStatus.AutoSize = true;
-            labelStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            labelStatus.Location = new System.Drawing.Point(376, 1004);
+            labelStatus.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            labelStatus.Location = new Point(376, 1004);
             labelStatus.Name = "labelStatus";
-            labelStatus.Size = new System.Drawing.Size(0, 17);
+            labelStatus.Size = new Size(0, 17);
             labelStatus.TabIndex = 31;
+            // 
+            // labelShowDelay
+            // 
+            labelShowDelay.AutoSize = true;
+            labelShowDelay.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            labelShowDelay.LiveSetting = System.Windows.Forms.Automation.AutomationLiveSetting.Assertive;
+            labelShowDelay.Location = new Point(805, 1010);
+            labelShowDelay.Name = "labelShowDelay";
+            labelShowDelay.Size = new Size(71, 17);
+            labelShowDelay.TabIndex = 32;
+            labelShowDelay.Tag = "z";
+            labelShowDelay.Text = "Delay text";
             // 
             // FormShowData
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            BackColor = System.Drawing.SystemColors.ControlLight;
-            ClientSize = new System.Drawing.Size(1399, 1038);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ControlLight;
+            ClientSize = new Size(1421, 1045);
+            Controls.Add(labelShowDelay);
             Controls.Add(labelStatus);
             Controls.Add(labelText3);
             Controls.Add(trackBarSize);
@@ -502,7 +558,7 @@
             Controls.Add(labelDate);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
-            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormShowData";
@@ -530,7 +586,7 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToPDFToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fileStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem graphViewToolStripMenuItem;
@@ -553,11 +609,17 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem softwareInfoToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxDay;
-        private System.Windows.Forms.ToolStripMenuItem clearDataToolStripMenuItem;
         private System.Windows.Forms.TrackBar trackBarSize;
         private System.Windows.Forms.Label labelText3;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.ToolStripMenuItem databaseConfigToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeTimeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox delayValueToolStripComboBox;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteSelectedRowsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showDelayTimeLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearDataToolStripMenuItem;
+        private System.Windows.Forms.Label labelShowDelay;
     }
 }

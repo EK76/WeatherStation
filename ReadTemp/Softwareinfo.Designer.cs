@@ -42,6 +42,8 @@
             printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             codePrintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             databasePrintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolTip1 = new System.Windows.Forms.ToolTip(components);
             printDocument1 = new System.Drawing.Printing.PrintDocument();
@@ -49,6 +51,7 @@
             buttonCopy2 = new System.Windows.Forms.Button();
             timerCopy = new System.Windows.Forms.Timer(components);
             timerCopy2 = new System.Windows.Forms.Timer(components);
+            downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -112,7 +115,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { saveToolStripMenuItem, printToolStripMenuItem, exitToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { saveToolStripMenuItem, printToolStripMenuItem, copyToolStripMenuItem, downloadToolStripMenuItem, toolStripSeparator1, exitToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             fileToolStripMenuItem.Text = "File";
@@ -121,7 +124,7 @@
             // 
             saveToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { codeSaveToolStripMenuItem, databasesSaveToolStripMenuItem });
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            saveToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             saveToolStripMenuItem.Text = "Save";
             // 
             // codeSaveToolStripMenuItem
@@ -142,27 +145,39 @@
             // 
             printToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { codePrintToolStripMenuItem, databasePrintToolStripMenuItem });
             printToolStripMenuItem.Name = "printToolStripMenuItem";
-            printToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            printToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             printToolStripMenuItem.Text = "Print";
             // 
             // codePrintToolStripMenuItem
             // 
             codePrintToolStripMenuItem.Name = "codePrintToolStripMenuItem";
-            codePrintToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            codePrintToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             codePrintToolStripMenuItem.Text = "Code";
             codePrintToolStripMenuItem.Click += codePrintToolStripMenuItem_Click;
             // 
             // databasePrintToolStripMenuItem
             // 
             databasePrintToolStripMenuItem.Name = "databasePrintToolStripMenuItem";
-            databasePrintToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            databasePrintToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             databasePrintToolStripMenuItem.Text = "Database";
             databasePrintToolStripMenuItem.Click += databasePrintToolStripMenuItem_Click;
+            // 
+            // copyToolStripMenuItem
+            // 
+            copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            copyToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            copyToolStripMenuItem.Text = "Copy Database Configuration";
+            copyToolStripMenuItem.Click += copyToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new System.Drawing.Size(253, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            exitToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -198,6 +213,13 @@
             // 
             timerCopy2.Interval = 1000;
             timerCopy2.Tick += timerCopy2_Tick;
+            // 
+            // downloadToolStripMenuItem
+            // 
+            downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
+            downloadToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            downloadToolStripMenuItem.Text = "Download Database Configuration";
+            downloadToolStripMenuItem.Click += downloadToolStripMenuItem_Click;
             // 
             // FormSoftwareInfo
             // 
@@ -248,5 +270,8 @@
         private System.Windows.Forms.Button buttonCopy2;
         private System.Windows.Forms.Timer timerCopy;
         private System.Windows.Forms.Timer timerCopy2;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenuItem;
     }
 }

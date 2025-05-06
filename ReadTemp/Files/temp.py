@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.SPI as SPI
+
 import mysql.connector, sys, Adafruit_DHT, datetime, time
 from mysql.connector import Error
 from mysql.connector import errorcode
@@ -11,7 +12,7 @@ import RPi.GPIO as GPIO
 import board
 import adafruit_dht
 
-sensor =  adafruit_dht(board.D26)
+sensor =  adafruit_dht.DHT22(board.D26)
 
 config = {
   'host':'ServerPC',
@@ -30,15 +31,22 @@ try:
        record = cursor.fetchone()
        cursor.close()
        print("You're connected to database: ", record)
-       delay = 600
+
+       cursor = connection.cursor()
+       cursor.execute("select delay from settings;")
+       delay = cursor.fetchone() 
+       connection.commit()
+       cursor.close()
+       delay = int(delay[0])
+       delay = delay * 60
+       print("Delay ", delay)
        sleep(5)
 
        temperature = sensor.temperature
        humidity = sensor.humidity
        while True:      
-          
+
           if humidity is not None and temperature is not None or humidity < 101:
-            print("Part 1!")
             temperature = sensor.temperature
             humidity = sensor.humidity
             temp, pressure, altitude = bmpsensor.readBmp180()
@@ -64,8 +72,7 @@ try:
             connection.commit()
             cursor.close()
             sleep(5)
-          
-              
+     
 except mysql.connector.Error as error:
     print("Failed to insert record into table {}".format(error))
 

@@ -1,6 +1,3 @@
-mysql> create database weatherstation;
-Query OK, 1 row affected (0.01 sec)
-
 mysql> desc settings;
 +-------+--------------+------+-----+---------+----------------+
 | Field | Type         | Null | Key | Default | Extra          |
@@ -35,16 +32,27 @@ mysql> desc weathererrorlog;
 +-------------+--------------+------+-----+---------+-------------------+
 5 rows in set (0.01 sec)
 
+mysql> desc delaylog;
++------------+--------------+------+-----+-------------------+-------------------+
+| Field      | Type         | Null | Key | Default           | Extra             |
++------------+--------------+------+-----+-------------------+-------------------+
+| id         | int          | NO   | PRI | NULL              | auto_increment    |
+| logdate    | datetime     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| delayvalue | varchar(255) | YES  |     | NULL              |                   |
++------------+--------------+------+-----+-------------------+-------------------+
+3 rows in set (0.00 sec)
+
 mysql> show tables;
 +--------------------------+
 | Tables_in_weatherstation |
 +--------------------------+
+| delaylog                 |
 | settings                 |
 | weathercurrent           |
 | weatherdata              |
 | weathererrorlog          |
 +--------------------------+
-4 rows in set (0.00 sec)
+5 rows in set (0.00 sec)
 
 
 

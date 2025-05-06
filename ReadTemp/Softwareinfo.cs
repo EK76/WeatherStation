@@ -32,8 +32,17 @@ namespace ReadTemp
             string filename = "";
             SaveFileDialog saveContent = new SaveFileDialog();
 
-            saveContent.Title = "Save Data";
-            saveContent.Filter = "Text File (.txt) | *.txt| Word Document (.doc) | *.doc";
+            if (check == 0)
+            {
+
+                saveContent.Title = "Save pyhton file";
+                saveContent.Filter = "Pyhton File (.py) | *.py";
+            }
+            else
+            {
+                saveContent.Title = "Save Data";
+                saveContent.Filter = "Text File (.txt) | *.txt";
+            }
 
             try
             {
@@ -192,6 +201,7 @@ namespace ReadTemp
             {
                 buttonCopy.Image = Image.FromFile(@"Pictures\Technical\copy4.png");
                 timerCopy.Stop();
+                toolTip1.RemoveAll();
             }
             intervall++;
         }
@@ -202,8 +212,29 @@ namespace ReadTemp
             {
                 buttonCopy2.Image = Image.FromFile(@"Pictures\Technical\copy4.png");
                 timerCopy2.Stop();
+                toolTip1.RemoveAll();
             }
             intervall2++;
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var fileContent = File.ReadAllText(@"Files\createdatabase.txt");
+            Clipboard.SetText(fileContent);
+            MessageBox.Show("Database configuration copied!", "Wheather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void downloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using  (SaveFileDialog saveDatabase = new SaveFileDialog())
+            {
+                saveDatabase.FileName = "databases.txt";
+                if (saveDatabase.ShowDialog() == DialogResult.OK)
+                {
+                   File.Copy(@"Files\createdatabase.txt", saveDatabase.FileName, true);
+                   MessageBox.Show("File have been succesfully downloaded!", "Wheather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

@@ -43,8 +43,6 @@
             viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             oneChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             showOneToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
-            timeIntervallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            intervallToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             diagramViewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             diagramToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             chartSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -108,6 +106,7 @@
             chartInfo.TabIndex = 2;
             chartInfo.Text = "Chart 3 (Outdoor Temperature).";
             chartInfo.GetToolTipText += chartInfo_GetToolTipText;
+            chartInfo.Click += chartInfo_Click;
             // 
             // menuStrip1
             // 
@@ -171,7 +170,7 @@
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { oneChartToolStripMenuItem, timeIntervallToolStripMenuItem, diagramViewToolStripMenuItem1, chartSummaryToolStripMenuItem, toolStripMenuItem1, settingsToolStripMenuItem });
+            viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { oneChartToolStripMenuItem, diagramViewToolStripMenuItem1, chartSummaryToolStripMenuItem, toolStripMenuItem1, settingsToolStripMenuItem });
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             viewToolStripMenuItem.Text = "View";
@@ -191,21 +190,6 @@
             showOneToolStripComboBox.Size = new System.Drawing.Size(121, 23);
             showOneToolStripComboBox.Text = "Temperature";
             showOneToolStripComboBox.SelectedIndexChanged += showOneToolStripComboBox_SelectedIndexChanged;
-            // 
-            // timeIntervallToolStripMenuItem
-            // 
-            timeIntervallToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { intervallToolStripComboBox });
-            timeIntervallToolStripMenuItem.Name = "timeIntervallToolStripMenuItem";
-            timeIntervallToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            timeIntervallToolStripMenuItem.Text = "Time intervall";
-            // 
-            // intervallToolStripComboBox
-            // 
-            intervallToolStripComboBox.Items.AddRange(new object[] { "10 minutes", "30 minutes", "60 minutes" });
-            intervallToolStripComboBox.Name = "intervallToolStripComboBox";
-            intervallToolStripComboBox.Size = new System.Drawing.Size(121, 23);
-            intervallToolStripComboBox.Text = "10 minutes";
-            intervallToolStripComboBox.SelectedIndexChanged += intervallToolStripComboBox_SelectedIndexChanged;
             // 
             // diagramViewToolStripMenuItem1
             // 
@@ -419,8 +403,6 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.ToolStripMenuItem saveChartToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printChartToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem timeIntervallToolStripMenuItem;
-        private System.Windows.Forms.ToolStripComboBox intervallToolStripComboBox;
         private System.Windows.Forms.ToolStripMenuItem chartSummaryToolStripMenuItem;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.ListBox listBoxShowValue;

@@ -28,7 +28,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 using Org.BouncyCastle.Asn1.Cmp;
 using System.Security.Cryptography;
 using System.Text;
-
+using Mysqlx.Crud;
+using ReadTemp.Properties;
+using Locations;
 
 namespace ReadTemp
 {
@@ -46,11 +48,11 @@ namespace ReadTemp
         }
 
 
-        string[] chooseDatabase = File.ReadAllLines(@"configdb.txt");
-        string[] inputPass = File.ReadAllLines(@"input.txt");
+        string[] chooseDatabase;
+        string[] inputPass;
         string connString, checkString, dateString, dateString2, showBeginDate, showEndDate, yAxisText, yAxisValue, maxValue, averageValue, minValue, checkNewString, checkSaveString, theValue;
-        string choosenValue, legendText, yTitle, yValue, convertValue, colorHex;
-        int addPoint = -1, chooseValue = 1, chooseItem = 1, recordSum, yMin, yMax, counterRows = -1, counterRowsSkip = -2, dateChoose = 0, markerSize, markerType, markerValue;
+        string choosenValue, legendText, yTitle, yValue, convertValue, colorHex, colorHex2, colorHex3;
+        int addPoint = -1, chooseValue = 1, chooseItem = 1, recordSum, yMin, yMax, counterRows = -1, counterRowsSkip, dateChoose = 0, markerSize, markerType;
         decimal avgTemp, avgHum, avgPressure, averageValue2, convertValue2;
         string currentItem, passwordString;
         int index = 0, oldValue = 0;
@@ -90,17 +92,19 @@ namespace ReadTemp
             }
             else
             {
-                MySqlConnection conn = new MySqlConnection(connString);
-                conn.Open();
-                checkString = "select markersize from settings where id= 1;";
-                MySqlCommand command2 = new MySqlCommand(checkString, conn);
-                MySqlDataReader reader2 = command2.ExecuteReader();
+                /*  MySqlConnection conn = new MySqlConnection(connString);
+                  conn.Open();
+                  checkString = "select markersize from settings where id= 1;";
+                  MySqlCommand command2 = new MySqlCommand(checkString, conn);
+                  MySqlDataReader reader2 = command2.ExecuteReader();
 
-                while (reader2.Read())
-                {
-                    markerSize = reader2.GetInt32("markersize");
-                }
-                conn.Close();
+                  while (reader2.Read())
+                  {
+                      markerSize = reader2.GetInt32("markersize");
+                  }
+                  conn.Close();*/
+                markerSize = (int)Settings.Default["markerSize"];
+
             }
             currentItem = listBoxShowValue.SelectedItem.ToString();
             index = listBoxShowValue.FindString(currentItem);
@@ -115,236 +119,6 @@ namespace ReadTemp
             }
             oneTime = true;
         }
-
-
-        private void intervallToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string unitValue = "°C";
-            string line;
-            int nthValue = 1;
-
-            dateChoose = 1;
-            chartInfo.Update();
-            chartInfo.Series[0].Points.Clear();
-            checkSaveString = checkNewString;
-            addPoint = -1;
-
-            switch (intervallToolStripComboBox.SelectedIndex)
-            {
-                case 0:
-                    checkNewString += " and id mod 1 = 0";
-                    nthValue = 1;
-                    break;
-
-                case 1:
-                    checkNewString += " and id mod 3 = 0";
-                    nthValue = 2;
-                    break;
-
-                case 2:
-                    checkNewString += " and id mod 6 = 0";
-                    nthValue = 3;
-                    break;
-            }
-
-            connString = chooseDatabase[0];
-            passwordString = FormShowData.decrypt(inputPass[0], "weather");
-            connString = connString + passwordString + ";";
-            MySqlConnection conn = new MySqlConnection(connString);
-
-            recordSum = 0;
-
-            switch (chooseItem)
-            {
-                case 1:
-                    chartInfo.Series[0].LegendText = "Temperature";
-                    chartInfo.ChartAreas[0].AxisY.Title = "Celsius";
-                    yAxisText = "Temperature";
-                    yAxisValue = " °C";
-                    unitValue = "°C";
-                    chartInfo.ChartAreas[0].AxisY.Minimum = -40;
-                    chartInfo.ChartAreas[0].AxisY.Maximum = 40;
-                    break;
-
-                case 2:
-                    chartInfo.Series[0].LegendText = "Indoor Humidity";
-                    chartInfo.ChartAreas[0].AxisY.Title = "Procent";
-                    yAxisText = "Humidity";
-                    yAxisValue = " %";
-                    unitValue = "%";
-                    chartInfo.ChartAreas[0].AxisY.Minimum = 0;
-                    chartInfo.ChartAreas[0].AxisY.Maximum = 100;
-                    break;
-
-                case 3:
-                    chartInfo.Series[0].LegendText = "Pressure";
-                    chartInfo.ChartAreas[0].AxisY.Title = "Pressure";
-                    yAxisText = "Pressure";
-                    yAxisValue = " hPa";
-                    unitValue = "hPa";
-                    chartInfo.ChartAreas[0].AxisY.Minimum = 1000;
-                    chartInfo.ChartAreas[0].AxisY.Maximum = 1200;
-                    break;
-            }
-
-            chartInfo.Update();
-            chartInfo.Series[0].Points.Clear();
-            listBoxShowValue.Items.Clear();
-            listSum.Clear();
-            if (FormShowData.localData == false)
-            {
-                conn.Open();
-                MySqlCommand command = new MySqlCommand(checkNewString, conn);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    addPoint++;
-                    switch (chooseItem)
-                    {
-                        case 1:
-                            chartInfo.Series[0].Points.AddXY(addPoint, reader.GetDecimal("outtemp"));
-                            listBoxShowValue.Items.Add(reader.GetDecimal("outtemp") + " °C" + " " + reader.GetDateTime("datecreated"));
-                            listSum.Add(reader.GetDecimal("outtemp"));
-                            break;
-
-                        case 2:
-                            chartInfo.Series[0].Points.AddXY(addPoint, reader.GetDecimal("outhum"));
-                            listBoxShowValue.Items.Add(reader.GetDecimal("outhum") + " %" + " " + reader.GetDateTime("datecreated"));
-                            listSum.Add(reader.GetDecimal("outhum"));
-                            break;
-
-                        case 3:
-                            chartInfo.Series[0].Points.AddXY(addPoint, reader.GetDecimal("pressure"));
-                            listBoxShowValue.Items.Add(reader.GetDecimal("pressure") + " hPa" + " " + reader.GetDateTime("datecreated"));
-                            listSum.Add(reader.GetDecimal("pressure"));
-                            break;
-                    }
-                    recordSum++;
-                }
-
-                conn.Close();
-                listBoxShowValue.Items.Insert(0, "Average value: " + Math.Round(listSum.Average(), 1) + " " + unitValue);
-                listBoxShowValue.Items.Insert(0, "Min value: " + listSum.Min() + " " + unitValue);
-                listBoxShowValue.Items.Insert(0, "Max value: " + listSum.Max() + " " + unitValue);
-                listBoxShowValue.Items.Insert(0, "-----------------------------------------------");
-                listBoxShowValue.Items.Add("------------------------------------------------");
-                listBoxShowValue.Items.Add(recordSum.ToString() + " rows selected");
-            }
-            else
-            {
-                StreamReader fileName3 = new StreamReader(FormShowData.fileName2);
-                listSumNew.Clear();
-                while ((line = fileName3.ReadLine()) != null)
-                {
-                    //  addPoint++;
-                    recordSum++;
-
-                    switch (chooseItem)
-                    {
-                        case 1:
-                            convertValue = line.ToString().Split(';')[0].ToString();
-                            var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
-                            foreach (var rc in removeChars)
-                            {
-                                convertValue = convertValue.Replace(rc, string.Empty);
-                            }
-                            convertValue2 = decimal.Parse(convertValue);
-                            listSum.Add(convertValue2);
-                            break;
-
-                        case 2:
-                            convertValue = line.ToString().Split(';')[1].ToString();
-                            var removeChars2 = new string[] { "°", "C", "%", "h", "P", "A", "a" };
-                            foreach (var rc in removeChars2)
-                            {
-                                convertValue = convertValue.Replace(rc, string.Empty);
-                            }
-                            convertValue2 = decimal.Parse(convertValue);
-                            listSum.Add(convertValue2);
-                            break;
-
-                        case 3:
-                            convertValue = line.ToString().Split(';')[2].ToString();
-                            var removeChars3 = new string[] { "°", "C", "%", "h", "P", "A", "a" };
-                            foreach (var rc in removeChars3)
-                            {
-                                convertValue = convertValue.Replace(rc, string.Empty);
-                            }
-                            convertValue2 = decimal.Parse(convertValue);
-                            listSum.Add(convertValue2);
-                            break;
-                    }
-                }
-
-                recordSum = 0;
-                listDate2.Clear();
-                listBoxShowValue.Items.Clear();
-                switch (nthValue)
-                {
-                    case 1:
-                        var ListSum1 = listSum.Where((x, i) => i % 1 == 0);
-                        foreach (var listItems in ListSum1)
-                        {
-                            counterRows++;
-                            addPoint++;
-                            recordSum++;
-                            listSumNew.Add(listItems);
-                            chartInfo.Series[0].Points.AddXY(addPoint, listItems);
-                            listBoxShowValue.Items.Add(listItems + " " + unitValue + " " + listDate[counterRows]);
-                            listDate2.Add(listDate[counterRows]);
-                        }
-                        counterRows = -1;
-                        counterRowsSkip = -2;
-                        dateChoose = 1;
-                        break;
-
-                    case 2:
-                        var ListSum2 = listSum.Where((x, i) => i % 3 == 0);
-                        foreach (var listItems in ListSum2)
-                        {
-                            counterRows++;
-                            counterRowsSkip = counterRowsSkip + 3;
-                            addPoint++;
-                            recordSum++;
-                            listSumNew.Add(listItems);
-                            chartInfo.Series[0].Points.AddXY(addPoint, listItems);
-                            listBoxShowValue.Items.Add(listItems + " " + unitValue + " " + listDate[counterRowsSkip]);
-                            listDate2.Add(listDate[counterRowsSkip]);
-                        }
-                        counterRows = -1;
-                        counterRowsSkip = -2;
-                        dateChoose = 1;
-                        break;
-
-                    case 3:
-                        var ListSum3 = listSum.Where((x, i) => i % 6 == 0);
-                        foreach (var listItems in ListSum3)
-                        {
-                            addPoint++;
-                            counterRows++;
-                            recordSum++;
-                            listSumNew.Add(listItems);
-                            counterRowsSkip = counterRowsSkip + 6;
-                            //       MessageBox.Show(listDate[counterRowsSkip].ToString());
-                            chartInfo.Series[0].Points.AddXY(addPoint, listItems);
-                            listBoxShowValue.Items.Add(listItems + " " + unitValue + " " + listDate[counterRowsSkip]);
-                            listDate2.Add(listDate[counterRowsSkip]);
-                        }
-                        counterRows = -1;
-                        counterRowsSkip = -2;
-                        dateChoose = 1;
-                        break;
-                }
-                listBoxShowValue.Items.Insert(0, "Average value: " + Math.Round(listSumNew.Average(), 1) + " " + unitValue);
-                listBoxShowValue.Items.Insert(0, "Min value: " + listSumNew.Min() + " " + unitValue);
-                listBoxShowValue.Items.Insert(0, "Max value: " + listSumNew.Max() + " " + unitValue);
-                listBoxShowValue.Items.Insert(3, "-----------------------------------------------");
-                listBoxShowValue.Items.Add("------------------------------------------------");
-                listBoxShowValue.Items.Add(recordSum.ToString() + " rows selected");
-            }
-            checkNewString = checkSaveString;
-        }
-
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
@@ -357,15 +131,10 @@ namespace ReadTemp
             int index = 0;
 
             dateChoose = 1;
-            connString = chooseDatabase[0];
-            passwordString = FormShowData.decrypt(inputPass[0], "weather");
-            connString = connString + passwordString + ";";
-            MySqlConnection conn = new MySqlConnection(connString);
 
             chartInfo.Update();
             chartInfo.Series[0].Points.Clear();
             addPoint = -1;
-            intervallToolStripComboBox.Text = "10 minutes";
             recordSum = 0;
             listBoxShowValue.Items.Clear();
             switch (showOneToolStripComboBox.SelectedIndex)
@@ -404,8 +173,12 @@ namespace ReadTemp
                     break;
             }
 
-            if (FormShowData.localData == false)
+            if (Choice.localData == false)
             {
+                connString = chooseDatabase[0];
+                passwordString = Choice.decrypt(inputPass[0], "weather");
+                connString = connString + passwordString + ";";
+                MySqlConnection conn = new MySqlConnection(connString);
                 maxValue = "select max(" + choosenValue + ") from (" + checkNewString + ")max;";
                 Clipboard.SetText(maxValue);
                 conn.Open();
@@ -428,7 +201,7 @@ namespace ReadTemp
                 }
                 conn.Close();
 
-                averageValue = FormShowData.checkString;
+                averageValue = Choice.checkString;
                 averageValue = "select avg(" + choosenValue + ") from (" + checkNewString + ")avg;";
                 Clipboard.SetText(averageValue);
                 conn.Open();
@@ -442,6 +215,7 @@ namespace ReadTemp
                 }
                 conn.Close();
 
+                listDate.Clear();
                 listBoxShowValue.Items.Add("------------------------------------------------");
                 chartInfo.Series[0].LegendText = legendText;
                 chartInfo.ChartAreas[0].AxisY.Title = yTitle;
@@ -450,12 +224,13 @@ namespace ReadTemp
                 chartInfo.Update();
                 chartInfo.Series[0].Points.Clear();
                 conn.Open();
-                MySqlCommand command = new MySqlCommand(FormShowData.checkString, conn);
+                MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
                     addPoint++;
+                    listDate.Add(reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm"));
                     chartInfo.Series[0].Points.AddXY(addPoint, reader.GetDecimal(choosenValue));
                     listBoxShowValue.Items.Add(reader.GetDecimal(choosenValue) + " " + yValue + " " + reader.GetDateTime("datecreated"));
                     recordSum++;
@@ -481,7 +256,7 @@ namespace ReadTemp
                 yAxisValue = yValue;
                 addPoint = -1;
                 listBoxShowValue.Items.Clear();
-                StreamReader fileName3 = new StreamReader(FormShowData.fileName2);
+                StreamReader fileName3 = new StreamReader(Choice.fileName2);
                 while ((line = fileName3.ReadLine()) != null)
                 {
                     addPoint++;
@@ -509,7 +284,7 @@ namespace ReadTemp
 
                 chartInfo.ChartAreas[0].AxisY.Minimum = yMin;
                 chartInfo.ChartAreas[0].AxisY.Maximum = yMax;
-                conn.Close();
+             //   conn.Close();
             }
         }
 
@@ -527,8 +302,8 @@ namespace ReadTemp
                     }
                     else
                     {
-                        e.Text = string.Format("Date: {0}\n" + yAxisText + ": {1} " + yAxisValue, listDate2[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                        chartInfo.ChartAreas[0].AxisX.Title = string.Format("Date: {0} " + yAxisText + ":{1} " + yAxisValue, listDate2[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                        e.Text = string.Format("Date: {0}\n" + yAxisText + ": {1} " + yAxisValue, listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                        chartInfo.ChartAreas[0].AxisX.Title = string.Format("Date: {0} " + yAxisText + ":{1} " + yAxisValue, listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
                     }
                     break;
 
@@ -612,30 +387,39 @@ namespace ReadTemp
                 printPreview.ShowDialog();
             }
         }
-
         private void FormViewGraph_Load(object sender, EventArgs e)
         {
             defautSize = new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height);
             chartInfoOrginal = new Rectangle(chartInfo.Location.X, chartInfo.Location.Y, chartInfo.Width, chartInfo.Height);
             listBoxShowValueOrginal = new Rectangle(listBoxShowValue.Location.X, listBoxShowValue.Location.Y, listBoxShowValue.Width, listBoxShowValue.Height);
 
+            try
+            {
+                chooseDatabase = File.ReadAllLines(@"configdb.txt");
+                inputPass = File.ReadAllLines(@"input.txt");
+                connString = chooseDatabase[0];
+
+            }
+            catch 
+            { 
+            }
+                        
             string line, convertValue;
             decimal convertValue2;
 
-            showBeginDate = FormShowData.firstItem.ToString();
-            showEndDate = FormShowData.lastItem.ToString();
+            showBeginDate = Choice.firstItem;
+            showEndDate = Choice.lastItem;
             choosenValue = "outtemp";
+            chooseItem = 1;        
 
-            connString = chooseDatabase[0];
-            passwordString = FormShowData.decrypt(inputPass[0], "weather");
-            connString = connString + passwordString + ";";
-            MySqlConnection conn = new MySqlConnection(connString);
-            chooseItem = 1;
+            if (Choice.localData == false)
+            { 
+                passwordString = Choice.decrypt(inputPass[0], "weather");
+                connString = connString + passwordString + ";";
+                MySqlConnection conn = new MySqlConnection(connString);
 
-            if (FormShowData.localData == false)
-            {
                 this.Text = "Weather Station (Data from database)";
-                checkNewString = Regex.Replace(FormShowData.checkString, @";", "");
+                checkNewString = Regex.Replace(Choice.checkString, @";", "");
                 maxValue = "select max(outtemp) from (" + checkNewString + ")max;";
                 Clipboard.SetText(maxValue);
                 conn.Open();
@@ -657,7 +441,7 @@ namespace ReadTemp
                 }
                 conn.Close();
 
-                averageValue = FormShowData.checkString;
+                averageValue = Choice.checkString;
                 averageValue = "select avg(outtemp) from (" + checkNewString + ")avg;";
                 conn.Open();
                 MySqlCommand command6 = new MySqlCommand(averageValue, conn);
@@ -671,7 +455,7 @@ namespace ReadTemp
 
                 listBoxShowValue.Items.Add("------------------------------------------------");
                 conn.Open();
-                MySqlCommand command = new MySqlCommand(FormShowData.checkString, conn);
+                MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
                 MySqlDataReader reader = command.ExecuteReader();
                 recordSum = 0;
                 chartInfo.Update();
@@ -708,7 +492,7 @@ namespace ReadTemp
                 yAxisText = "Temperature ";
                 yAxisValue = " °C";
                 addPoint = -1;
-                StreamReader fileName3 = new StreamReader(FormShowData.fileName2);
+                StreamReader fileName3 = new StreamReader(Choice.fileName2);
 
                 while ((line = fileName3.ReadLine()) != null)
                 {
@@ -743,66 +527,27 @@ namespace ReadTemp
             Title showOne = chartInfo.Titles.Add("Begin date " + showBeginDate + "\n\n End date " + showEndDate);
             showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10f, FontStyle.Bold);
 
-            string[] value = { "chartcolor", "formcolor", "linecolor" };
-            string[] value2 = { "markersize", "markertype" };
-            int loadStyle = 0;
+            colorHex = Settings.Default["chartColor"].ToString();
+            Color color = System.Drawing.ColorTranslator.FromHtml(colorHex);
+            chartInfo.ChartAreas[0].BackColor = color;
 
-            for (int i = 0; i <= 2; i++)
-            {
-                conn.Open();
-                checkString = "select " + value[i] + " from settings where id= 1;";
-                MySqlCommand command = new MySqlCommand(checkString, conn);
-                MySqlDataReader reader = command.ExecuteReader();
+            colorHex2 = Settings.Default["formColor"].ToString();
+            Color color2 = System.Drawing.ColorTranslator.FromHtml(colorHex2);
+            chartInfo.BackColor = color2;
 
-                while (reader.Read())
-                {
-                    colorHex = reader.GetString(value[i]);
-                }
-                Color color = System.Drawing.ColorTranslator.FromHtml(colorHex);
-                switch (i)
-                {
-                    case 0:
-                        chartInfo.BackColor = color;
-                        break;
+            colorHex = Settings.Default["lineColor"].ToString();
+            Color color3 = System.Drawing.ColorTranslator.FromHtml(colorHex3);
+            chartInfo.Series[0].Color = color3;
 
-                    case 1:
-                        panelSettings.BackColor = color;
-                        chartInfo.BackColor = color;
-                        break;
+            markerSize = (int)Settings.Default["markerSize"];
+            chartInfo.Series[0].MarkerSize = markerSize;
+            comboBoxMarkerSize.Text = markerSize.ToString();
 
-                    case 2:
-                        chartInfo.Series[0].Color = color;
-                        break;
-                }
-                conn.Close();
-            }
+            markerType = (int)Settings.Default["markerType"];
 
+            MessageBox.Show(markerType.ToString());
 
-            for (int i = 0; i <= 1; i++)
-            {
-                conn.Open();
-                checkString = "select " + value2[i] + " from settings where id= 1;";
-                MySqlCommand command2 = new MySqlCommand(checkString, conn);
-                MySqlDataReader reader2 = command2.ExecuteReader();
-
-                while (reader2.Read())
-                {
-                    markerValue = reader2.GetInt32(value2[i]);
-                }
-                switch (i)
-                {
-                    case 0:
-                        chartInfo.Series[0].MarkerSize = markerValue;
-                        comboBoxMarkerSize.Text = markerValue.ToString();
-                        break;
-                    case 1:
-                        loadStyle = markerValue;
-                        break;
-                }
-                conn.Close();
-            }
-
-            switch (loadStyle)
+            switch (markerType)
             {
                 case 1:
                     chartInfo.Series[0].MarkerStyle = MarkerStyle.None;
@@ -835,6 +580,96 @@ namespace ReadTemp
                     break;
             }
 
+            /*   string[] value = { "chartcolor", "formcolor", "linecolor" };
+               string[] value2 = { "markersize", "markertype" };
+               int loadStyle = 0;
+
+               for (int i = 0; i <= 2; i++)
+               {
+                   conn.Open();
+                   checkString = "select " + value[i] + " from settings where id= 1;";
+                   MySqlCommand command = new MySqlCommand(checkString, conn);
+                   MySqlDataReader reader = command.ExecuteReader();
+
+                   while (reader.Read())
+                   {
+                       colorHex = reader.GetString(value[i]);
+                   }
+                   Color color = System.Drawing.ColorTranslator.FromHtml(colorHex);
+                   switch (i)
+                   {
+                       case 0:
+                           chartInfo.BackColor = color;
+                           break;
+
+                       case 1:
+                           panelSettings.BackColor = color;
+                           chartInfo.BackColor = color;
+                           break;
+
+                       case 2:
+                           chartInfo.Series[0].Color = color;
+                           break;
+                   }
+                   conn.Close();
+               }
+
+               for (int i = 0; i <= 1; i++)
+               {
+                   conn.Open();
+                   checkString = "select " + value2[i] + " from settings where id= 1;";
+                   MySqlCommand command2 = new MySqlCommand(checkString, conn);
+                   MySqlDataReader reader2 = command2.ExecuteReader();
+
+                   while (reader2.Read())
+                   {
+                       markerValue = reader2.GetInt32(value2[i]);
+                   }
+                   switch (i)
+                   {
+                       case 0:
+                           chartInfo.Series[0].MarkerSize = markerValue;
+                           comboBoxMarkerSize.Text = markerValue.ToString();
+                           break;
+                       case 1:
+                           loadStyle = markerValue;
+                           break;
+                   }
+                   conn.Close();
+               }
+
+               switch (loadStyle)
+               {
+                   case 1:
+                       chartInfo.Series[0].MarkerStyle = MarkerStyle.None;
+                       comboBoxMarkerType.Text = "None";
+                       break;
+
+                   case 2:
+                       chartInfo.Series[0].MarkerStyle = MarkerStyle.Circle;
+                       comboBoxMarkerType.Text = "Circle";
+                       break;
+
+                   case 3:
+                       chartInfo.Series[0].MarkerStyle = MarkerStyle.Square;
+                       comboBoxMarkerType.Text = "Square";
+                       break;
+
+                   case 4:
+                       chartInfo.Series[0].MarkerStyle = MarkerStyle.Triangle;
+                       comboBoxMarkerType.Text = "Triangle";
+                       break;
+
+                   case 5:
+                       chartInfo.Series[0].MarkerStyle = MarkerStyle.Cross;
+                       comboBoxMarkerType.Text = "Cross";
+                       break;
+
+                   case 6:
+                       chartInfo.Series[0].MarkerStyle = MarkerStyle.Star5;
+                       comboBoxMarkerType.Text = "Star";
+                       break;
+               } */
         }
 
         private void chartSummaryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -914,21 +749,25 @@ namespace ReadTemp
             DialogResult result = MessageBox.Show("Are you sure?", "Weather Station", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                MySqlConnection conn = new MySqlConnection(connString);
+          //    MySqlConnection conn = new MySqlConnection(connString);
                 chartInfo.BackColor = Color.LightGray;
                 panelSettings.BackColor = Color.LightGray;
                 chartInfo.Series[0].Color = Color.SeaGreen;
                 chartInfo.ChartAreas[0].BackColor = Color.White;
                 chartInfo.Series[0].MarkerStyle = MarkerStyle.Circle;
                 chartInfo.Series[0].MarkerSize = 8;
-
                 defaultChartSettingsToolStripMenuItem.Enabled = false;
-                string[] color = { "#ffffff", "#d3d3d3", "#2e8b57" };
-                string[] value = { "chartcolor", "formcolor", "linecolor" };
-                string[] markers = { "markersize", "markertype" };
-                int[] value2 = { 8, 2 };
-                ;
-                for (int i = 0; i <= 2; i++)
+                comboBoxMarkerType.Text = "2";
+                comboBoxMarkerSize.Text = "8";
+
+                Settings.Default["chartColor"] = "#ffffff";
+                Settings.Default["lineColor"] = "#2e8b57";
+                Settings.Default["formColor"] = "#d3d3d3";
+                Settings.Default["markersize"] = 8;
+                Settings.Default["markerType"] = 2;
+                Settings.Default.Save();
+
+             /*  for (int i = 0; i <= 2; i++)
                 {
                     conn.Open();
                     checkString = "update settings set " + value[i] + " = '" + color[i] + "' where id = 1;";
@@ -944,7 +783,7 @@ namespace ReadTemp
                     MySqlCommand command = new MySqlCommand(checkString, conn);
                     MySqlDataReader reader = command.ExecuteReader();
                     conn.Close();
-                }
+                }*/
             }
         }
 
@@ -960,7 +799,12 @@ namespace ReadTemp
                         chartInfo.ChartAreas[0].BackColor = colorDialog1.Color;
                         defaultChartSettingsToolStripMenuItem.Enabled = true;
                         buttonSetColor.Enabled = false;
-                        colorChoose("chartcolor");
+                        string color = colorDialog1.Color.ToArgb().ToString("x");
+                        color = color.Substring(2, 6);
+                        color = "#" + color;
+                        Settings.Default["chartColor"] = color;
+                        Settings.Default.Save();
+                        //  colorChoose("chartcolor");
                     }
                     break;
 
@@ -971,7 +815,12 @@ namespace ReadTemp
                         panelSettings.BackColor = colorDialog1.Color;
                         defaultChartSettingsToolStripMenuItem.Enabled = true;
                         buttonSetColor.Enabled = false;
-                        colorChoose("formcolor");
+                        string color = colorDialog1.Color.ToArgb().ToString("x");
+                        color = color.Substring(2, 6);
+                        color = "#" + color;
+                        Settings.Default["formColor"] = color;
+                        Settings.Default.Save();
+                        //colorChoose("formcolor");
                     }
                     break;
 
@@ -981,7 +830,12 @@ namespace ReadTemp
                         chartInfo.Series[0].Color = colorDialog1.Color;
                         defaultChartSettingsToolStripMenuItem.Enabled = true;
                         buttonSetColor.Enabled = false;
-                        colorChoose("linecolor");
+                        string color = colorDialog1.Color.ToArgb().ToString("x");
+                        color = color.Substring(2, 6);
+                        color = "#" + color;
+                        Settings.Default["lineColor"] = color;
+                        Settings.Default.Save();
+                        // colorChoose("linecolor");
                     }
                     break;
             }
@@ -989,7 +843,7 @@ namespace ReadTemp
 
         private void comboBoxMarkerSize_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
+          //  MySqlConnection conn = new MySqlConnection(connString);
             int value = 0;
             oneTime = false;
 
@@ -1038,16 +892,18 @@ namespace ReadTemp
             }
 
             comboBoxMarkerSize.Text = value.ToString();
+            Settings.Default["markerSize"] = value;
+            Settings.Default.Save();
 
-            conn.Open();
-        //    chartInfo.Update();
-            checkString = "update settings set markersize = " + value + " where id = 1;";
-            MySqlCommand command = new MySqlCommand(checkString, conn);
-            MySqlDataReader reader = command.ExecuteReader();
-            conn.Close();
+            /* conn.Open();
+             //    chartInfo.Update();
+             checkString = "update settings set markersize = " + value + " where id = 1;";
+             MySqlCommand command = new MySqlCommand(checkString, conn);
+             MySqlDataReader reader = command.ExecuteReader();
+             conn.Close();*/
         }
 
-       
+
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -1056,7 +912,7 @@ namespace ReadTemp
 
         private void comboBoxMarkerType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
+         //   MySqlConnection conn = new MySqlConnection(connString);
             int value = 0;
             switch (comboBoxMarkerType.SelectedIndex)
             {
@@ -1091,18 +947,28 @@ namespace ReadTemp
                     break;
 
             }
+
+            Settings.Default["markerType"] = value;
+            Settings.Default.Save();
+
+            /*
             conn.Open();
             checkString = "update settings set markertype = " + value + " where id = 1;";
             Clipboard.SetText(checkString);
             MySqlCommand command = new MySqlCommand(checkString, conn);
             MySqlDataReader reader = command.ExecuteReader();
-            conn.Close();
+            conn.Close();*/
 
         }
 
         private void listBoxShowValue_SelectedIndexChanged(object sender, EventArgs e)
         {
             markerShow();
+        }
+
+        private void chartInfo_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

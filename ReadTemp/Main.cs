@@ -14,7 +14,12 @@ using System.Linq;
 using static System.Windows.Forms.ListViewItem;
 using System.Security.Cryptography;
 using System.Text;
-
+using System.Data;
+using Windows.UI.Xaml;
+using System.Collections.Generic;
+using MySqlX.XDevAPI.Common;
+using ReadTemp.Properties;
+using Locations;
 
 namespace ReadTemp
 {
@@ -27,33 +32,19 @@ namespace ReadTemp
             this.listViewShowData.ListViewItemSorter = lvwColumnSorter;
         }
         private ListViewColumnSorter lvwColumnSorter;
-        //    string[] chooseDatabase = File.ReadAllLines("configdb.txt");
-        //  string[] inputPass = File.ReadAllLines("input.txt");
         string timeString, compareDay, checkDay, convertMonth, setValue, folderPdf, setDay, setDelay, passwordString;
-        public static string checkString, forwardStartDate, newStartDate, newEndDate, currentDate, firstItem, lastItem, fileName2, connString;
+        public static string forwardStartDate, newStartDate, newEndDate, currentDate, firstItem, lastItem, fileName2, connString;
         DateTime onlyTime, checkDay2, convertDate, startDate, endDate;
-        int checkWeek, compareWeek = 0, checkMonth, compareMonth = 0, checkYear, compareYear = 0, setNewValue, setDelay2, delayStatus;
-        public static int checkForward, counterItems = 0, countItems = -1;
-        bool allowDelay = false;
+        int checkWeek, compareWeek = 0, checkMonth, compareMonth = 0, checkYear, compareYear = 0, setNewValue, setDelay2, delayStatus, checkNumbers;
+        public static int checkForward, counterItems = 0, countItems = -1, localChoice = 1;
+        long getYear;
+        bool allowDelay = false, createDatabase = true;
         public static bool localData = false;
         private static string passWordString;
+        string[] settingsStorage;
 
 
-
-        public static string decrypt(string encrypt, string key)
-        {
-            using (TripleDESCryptoServiceProvider tripleDESCryptoService = new TripleDESCryptoServiceProvider())
-            {
-                using (MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider())
-                {
-                    byte[] byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
-                    tripleDESCryptoService.Key = byteHash;
-                    tripleDESCryptoService.Mode = CipherMode.ECB;//CBC, CFB
-                    byte[] byteBuff = Convert.FromBase64String(encrypt);
-                    return Encoding.Unicode.GetString(tripleDESCryptoService.CreateDecryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
-                }
-            }
-        }
+       
 
         private void delayToolStripMenuItem_MouseHover(object sender, EventArgs e)
         {
@@ -87,8 +78,6 @@ namespace ReadTemp
             allowDelay = true;
         }
 
-
-
         private void modifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormModifyTable modifyData = new FormModifyTable();
@@ -104,7 +93,7 @@ namespace ReadTemp
         private void buttonSearch_Click(object sender, EventArgs e)
         {
             int counterItems = 0, countItems = -1;
-            localData = false;
+            Choice.localData = false;
             startDate = dateTimePickerStartDate.Value;
             endDate = dateTimePickerEndDate.Value;
             endDate = endDate.AddDays(1);
@@ -118,8 +107,8 @@ namespace ReadTemp
                 checkForward = 1;
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
-                checkString = "select outtemp, outhum, pressure, datecreated from weatherdata where datecreated between '" + newStartDate + "' and '" + newEndDate + "';";
-                MySqlCommand command = new MySqlCommand(checkString, conn);
+                Choice.checkString = "select outtemp, outhum, pressure, datecreated from weatherdata where datecreated between '" + newStartDate + "' and '" + newEndDate + "';";
+                MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -140,12 +129,13 @@ namespace ReadTemp
                     exportToPDFToolStripMenuItem.Enabled = true;
                     graphViewToolStripMenuItem.Enabled = true;
                     clearDataToolStripMenuItem.Enabled = true;
+                    deleteSelectedRowsToolStripMenuItem.Enabled = true;
                     saveToolStripMenuItem.Enabled = true;
                     printToolStripMenuItem.Enabled = true;
                     labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                     labelStatus.Text = "Data from server database.";
-                    firstItem = listViewShowData.Items[0].SubItems[3].Text;
-                    lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
+                    Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
+                    Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
                 }
                 conn.Close();
             }
@@ -168,7 +158,7 @@ namespace ReadTemp
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.listViewPrinter1.PrintPreview();
+            listViewPrinter1.PrintPreview();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -306,8 +296,8 @@ namespace ReadTemp
 
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
-            checkString = "select outtemp, outhum, pressure, datecreated from weatherdata where month(datecreated) = " + setNewValue + " && year(datecreated) = " + comboBoxYear.Text + ";";
-            MySqlCommand command = new MySqlCommand(checkString, conn);
+            Choice.checkString = "select outtemp, outhum, pressure, datecreated from weatherdata where month(datecreated) = " + setNewValue + " && year(datecreated) = " + comboBoxYear.Text + ";";
+            MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -324,7 +314,7 @@ namespace ReadTemp
 
         private void comboBoxDay_SelectedIndexChanged(object sender, EventArgs e)
         {
-            localData = false;
+            Choice.localData = false;
             listViewShowData.Items.Clear();
             counterItems = 0;
             comboBoxMonth.Text = "";
@@ -336,8 +326,8 @@ namespace ReadTemp
             checkForward = 2;
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
-            checkString = "select outtemp, outhum, pressure, datecreated from weatherdata where datecreated like '" + comboBoxDay.Text + "%';";
-            MySqlCommand command = new MySqlCommand(checkString, conn);
+            Choice.checkString = "select outtemp, outhum, pressure, datecreated from weatherdata where datecreated like '" + comboBoxDay.Text + "%';";
+            MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -346,13 +336,14 @@ namespace ReadTemp
                 listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp") + " °C ", reader.GetDecimal("outhum") + " % ", reader.GetDecimal("pressure") + " hPa ", reader.GetDateTime("datecreated").ToString() }));
             }
             conn.Close();
-
-            firstItem = listViewShowData.Items[0].SubItems[3].Text;
-            lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
+            
+            Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
+            Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
 
             exportToPDFToolStripMenuItem.Enabled = true;
             graphViewToolStripMenuItem.Enabled = true;
             clearDataToolStripMenuItem.Enabled = true;
+            deleteSelectedRowsToolStripMenuItem.Enabled = true;
             saveToolStripMenuItem.Enabled = true;
             printToolStripMenuItem.Enabled = true;
             labelRows.Text = "Numbers of rows: " + counterItems.ToString();
@@ -383,31 +374,41 @@ namespace ReadTemp
                 FormConfigDatabase configDatabase = new FormConfigDatabase();
                 configDatabase.ShowDialog();
             }
-            
+
             string[] chooseDatabase = File.ReadAllLines("configdb.txt");
             string[] inputPass = File.ReadAllLines("input.txt");
 
             try
             {
                 connString = chooseDatabase[0];
-                passwordString = decrypt(inputPass[0], "weather");
+                passwordString = Choice.decrypt(inputPass[0], "weather");
+
+                connString = connString + passwordString + ";";
+                labelDate.Text = "To days date: " + DateTime.Now.ToString("dd.MM.yyyy");
+                startDate = DateTime.Now;
+                endDate = DateTime.Now;
+                endDate = endDate.AddDays(1);
+                newStartDate = startDate.ToString("yyyy-MM-dd");
+                newEndDate = endDate.ToString("yyyy-MM-dd");
+                trackBarSize.Value = 18;
+
+                MySqlConnection conn = new MySqlConnection(connString);
+                conn.Open();
+                Choice.checkString = "select delay from settings where id =1";
+                MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    delayValueToolStripComboBox.Text = reader.GetInt64("delay").ToString();
+                }
+                conn.Close();
+                labelShowDelay.Text = "Delay value is set to " + delayValueToolStripComboBox.Text + " minutes.";
             }
             catch
             {
                 MessageBox.Show("Database configuration fail! Check database settings!");
             }
-
-
-            connString = connString + passwordString + ";";
-            labelDate.Text = "To days date: " + DateTime.Now.ToString("dd.MM.yyyy");
-            startDate = DateTime.Now;
-            endDate = DateTime.Now;
-            endDate = endDate.AddDays(1);
-            newStartDate = startDate.ToString("yyyy-MM-dd");
-            newEndDate = endDate.ToString("yyyy-MM-dd");
-            trackBarSize.Value = 18;
         }
-
         private void technicalInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormTechnicalInfo showTech = new FormTechnicalInfo();
@@ -426,9 +427,10 @@ namespace ReadTemp
         }
         private void checkBoxDay_CheckedChanged(object sender, EventArgs e)
         {
-            localData = false;
-            listViewShowData.Items.Clear();
+            Choice.localData = false;
+
             counterItems = 0;
+            countItems = -1;
             currentDate = DateTime.Now.ToString("yyyy-MM-dd");
 
             if (checkBoxDay.Checked == true)
@@ -439,15 +441,34 @@ namespace ReadTemp
                 comboBoxYear.Enabled = false;
                 comboBoxMonth.Enabled = false;
                 comboBoxDay.Enabled = false;
+
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
-                checkString = "select outtemp, outhum, pressure, datecreated from weatherdata where datecreated like '" + currentDate + "%';";
-                MySqlCommand command = new MySqlCommand(checkString, conn);
+                Choice.checkString = "select count(*) as 'numbers' from weatherdata where datecreated like '" + currentDate + "%';";
+                MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
                 MySqlDataReader reader = command.ExecuteReader();
+
                 while (reader.Read())
                 {
+                    checkNumbers = reader.GetInt32("numbers");
+                }
+
+                if (checkNumbers > 0)
+                {
+                    listViewShowData.Items.Clear();
+                    MessageBox.Show("Cleared " + checkNumbers);
+                }
+
+                conn.Close();
+                conn.Open();
+                Choice.checkString = "select outtemp, outhum, pressure, datecreated from weatherdata where datecreated like '" + currentDate + "%';";
+                MySqlCommand command2 = new MySqlCommand(Choice.checkString, conn);
+                MySqlDataReader reader2 = command2.ExecuteReader();
+                while (reader2.Read())
+                {
                     counterItems++;
-                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
+                    countItems++;
+                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader2.GetDecimal("outtemp").ToString() + " °C", reader2.GetDecimal("outhum").ToString() + " %", reader2.GetDecimal("pressure").ToString() + " hPa", reader2.GetDateTime("datecreated").ToString() }));
                 }
                 if (counterItems == 0)
                 {
@@ -457,21 +478,17 @@ namespace ReadTemp
                 {
                     exportToPDFToolStripMenuItem.Enabled = true;
                     graphViewToolStripMenuItem.Enabled = true;
+                    deleteSelectedRowsToolStripMenuItem.Enabled = true;
                     clearDataToolStripMenuItem.Enabled = true;
                     saveToolStripMenuItem.Enabled = true;
                     printToolStripMenuItem.Enabled = true;
                     labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                     labelStatus.Text = "Data from server database.";
-                    try
-                    {
-                        firstItem = listViewShowData.Items[0].SubItems[3].Text;
-                        lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
-                    }
-                    catch
-                    {
-                    }
-                }
+                    Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
+                    Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
 
+                }
+                conn.Close();
             }
             else
             {
@@ -497,7 +514,7 @@ namespace ReadTemp
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            localData = true;
+            Choice.localData = true;
             string line = "";
             countItems = -1;
             counterItems = 0;
@@ -529,9 +546,9 @@ namespace ReadTemp
                         exportToPDFToolStripMenuItem.Enabled = true;
                         graphViewToolStripMenuItem.Enabled = true;
 
-                        firstItem = listViewShowData.Items[0].SubItems[3].Text;
-                        lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
-                        fileName2 = openContent.FileName.ToString();
+                        Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
+                        Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
+                        Choice.fileName2 = openContent.FileName.ToString();
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                     }
                     else
@@ -552,6 +569,102 @@ namespace ReadTemp
             FormConfigDatabase configDatabase = new FormConfigDatabase();
             configDatabase.ShowDialog();
         }
+
+        private void comboBoxYear_Click(object sender, EventArgs e)
+        {
+            comboBoxYear.Items.Clear();
+            MySqlConnection conn = new MySqlConnection(connString);
+            conn.Open();
+            Choice.checkString = "select year(datecreated) from weatherdata group by year(datecreated) having count(*)>1;";
+            MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                getYear = reader.GetInt64("year(datecreated)");
+                comboBoxYear.Items.Add(getYear);
+
+            }
+            conn.Close();
+        }
+
+        private void delayValueToolStripComboBox_TextChanged(object sender, EventArgs e)
+        {
+            string delayValue;
+
+            if (allowDelay == true)
+            {
+                MySqlConnection conn = new MySqlConnection(connString);
+                conn.Open();
+                delayValue = "update settings set delay = '" + delayValueToolStripComboBox.Text + "' where id = 1";
+                MySqlCommand command = new MySqlCommand(delayValue, conn);
+                MySqlDataReader reader = command.ExecuteReader();
+                conn.Close();
+
+                conn.Open();
+                delayValue = "insert into delaylog(delayvalue) values('" + delayValueToolStripComboBox.Text + "')";
+                MySqlCommand command2 = new MySqlCommand(delayValue, conn);
+                MySqlDataReader reader2 = command2.ExecuteReader();
+                conn.Close();
+
+                labelShowDelay.Text = "Delay value is set to " + delayValueToolStripComboBox.Text + " minutes.";
+                try
+                {
+                    System.Diagnostics.Process process = new System.Diagnostics.Process();
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.Arguments = "/C ssh ken@raspberrypi5 sudo systemctl restart rc-local.service";
+                    process.StartInfo = startInfo;
+                    process.Start();
+                }
+                catch
+                {
+                    MessageBox.Show("RaspberryPI device is down!");
+                }
+            }
+            allowDelay = true;
+        }
+
+        private void showDelayTimeLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormDelayTimeLog delayLog = new FormDelayTimeLog();
+            delayLog.Show();
+        }
+
+        private void deleteSelectedRowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Delete selected rows?", "Confirm delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                foreach (ListViewItem deleteValue in listViewShowData.Items)
+                {
+                    if (deleteValue.Selected)
+                    {
+                        this.listViewShowData.Items.Remove(deleteValue);
+
+                    }
+                }
+            }
+        }
+
+        private void listViewShowData_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void clearDataToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Clear data?", "Confirm clear", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                deleteSelectedRowsToolStripMenuItem.Enabled = false;
+                clearDataToolStripMenuItem.Enabled = false;
+                listViewShowData.Items.Clear();
+            }
+        }
+
+        private void createDatabaseWeatherstationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }    
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Drawing;
+﻿using Locations;
+using DocumentFormat.OpenXml.Drawing;
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
 using System;
@@ -32,7 +33,7 @@ namespace ReadTemp
             try
             {
                 connString = chooseDatabase[0];
-                passwordString = FormShowData.decrypt(inputPass[0], "weather");
+                passwordString = Choice.decrypt(inputPass[0], "weather");
                 connString = connString + passwordString + ";";
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
@@ -156,7 +157,7 @@ namespace ReadTemp
         private void FormEditRow_Load(object sender, EventArgs e)
         {
             connString = chooseDatabase[0];
-            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            passwordString = Choice.decrypt(inputPass[0], "weather");
             connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();

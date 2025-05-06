@@ -1,0 +1,56 @@
+DROP DATABASE IF EXISTS `weatherstation`;
+USE DATABASE weatherstation;
+
+DROP TABLE IF EXISTS `delaylog`;
+CREATE TABLE IF NOT EXISTS `delaylog` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `logdate` datetime DEFAULT CURRENT_TIMESTAMP,
+  `delayvalue` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `chartcolor` varchar(100) DEFAULT NULL,
+  `delay` int DEFAULT NULL,
+  `linecolor` varchar(100) DEFAULT NULL,
+  `formcolor` varchar(100) DEFAULT NULL,
+  `markersize` int DEFAULT NULL,
+  `markertype` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+); 
+
+INSERT INTO `settings`(`id`,`chartcolor`,`delay`,`linecolor`,`formcolor`,`markersize`,`markertype`) VALUES(1,'#ffffff',20,'#2e8b57','#d3d3d3',8,2);
+
+DROP TABLE IF EXISTS `weathercurrent`;
+CREATE TABLE IF NOT EXISTS `weathercurrent` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `temp` varchar(250) DEFAULT NULL,
+  `hum` varchar(250) DEFAULT NULL,
+  `dateupdated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `pressure` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `weathercurrent`(`id`,`temp`,`hum`,`dateupdated`,`pressure`) VALUES(1,'13.6','99.9','2025-01-01 22:33:39','984.98');
+
+DROP TABLE IF EXISTS `weatherdata`;
+CREATE TABLE IF NOT EXISTS `weatherdata` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `outtemp` decimal(3,1) DEFAULT NULL,
+  `outhum` decimal(4,1) DEFAULT NULL,
+  `datecreated` datetime DEFAULT CURRENT_TIMESTAMP,
+  `pressure` decimal(6,2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `weathererrorlog`;
+CREATE TABLE IF NOT EXISTS `weathererrorlog` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `outtemp` decimal(3,1) DEFAULT NULL,
+  `outhum` decimal(4,1) DEFAULT NULL,
+  `pressure` decimal(6,2) DEFAULT NULL,
+  `datecreated` datetime DEFAULT (now()),
+  PRIMARY KEY (`id`)
+);

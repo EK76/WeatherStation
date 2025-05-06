@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Drawing;
+﻿using Locations;
+using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Wordprocessing;
 using MySql.Data.MySqlClient;
@@ -44,7 +45,7 @@ namespace ReadTemp
             countRow = 0;
             tableView = 1;
             connString = chooseDatabase[0];
-            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            passwordString = Choice.decrypt(inputPass[0], "weather");
             connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
@@ -110,7 +111,7 @@ namespace ReadTemp
         private void emptyTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             connString = chooseDatabase[0];
-            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            passwordString = Choice.decrypt(inputPass[0], "weather");
             connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
             if (MessageBox.Show("Are you sure to delete the weather table?", "Weather Station",
@@ -147,7 +148,7 @@ namespace ReadTemp
                 colorIndex = 0;
                 tableView = 1;
                 connString = chooseDatabase[0];
-                passwordString = FormShowData.decrypt(inputPass[0], "weather");
+                passwordString = Choice.decrypt(inputPass[0], "weather");
                 connString = connString + passwordString + ";";
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
@@ -183,7 +184,8 @@ namespace ReadTemp
 
             DialogResult result = openFileDialog.ShowDialog();
             openFileDialog.RestoreDirectory = true;
-            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            connString = chooseDatabase[0];
+            passwordString = Choice.decrypt(inputPass[0], "weather");
             connString = connString + passwordString + ";";
             if (result == DialogResult.OK)
             {
@@ -256,7 +258,7 @@ namespace ReadTemp
             {
                 backupFolder = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.LastIndexOf("."));
                 connString = chooseDatabase[0];
-                passwordString = FormShowData.decrypt(inputPass[0], "weather");
+                passwordString = Choice.decrypt(inputPass[0], "weather");
                 connString = connString + passwordString + ";";
                 if (tableView == 1)
                 {
@@ -296,26 +298,14 @@ namespace ReadTemp
 
         private void deleteRowsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            passwordString = FormShowData.decrypt(inputPass[0], "weather");
+            passwordString = Choice.decrypt(inputPass[0], "weather");
             connString = chooseDatabase[0];
             connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
            if (MessageBox.Show("Are you sure to delete selected values?", "Weather Station",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                foreach (ListViewItem deleteValue in listViewShowData.Items)
-                {
-                    if (deleteValue.Selected)
-                    {
-                        conn.Open();
-                        sqlQuery = "delete from weatherdata where id = '" + deleteValue.Text + "'";
-                        MySqlCommand command2 = new MySqlCommand(sqlQuery, conn);
-                        MySqlDataReader reader2 = command2.ExecuteReader();
-                        this.listViewShowData.Items.Remove(deleteValue);
-                        conn.Close();
-                        countRow--;
-                    }
-                }
+               
                 MessageBox.Show("Values are deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 deleteRowsToolStripMenuItem.Enabled = false;
            }
@@ -350,7 +340,7 @@ namespace ReadTemp
                 listViewShowData.Items.Clear();
                 deleteRowsToolStripMenuItem.Enabled = true;
                 connString = chooseDatabase[0];
-                passwordString = FormShowData.decrypt(inputPass[0], "weather");
+                passwordString = Choice.decrypt(inputPass[0], "weather");
                 connString = connString + passwordString + ";";
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();

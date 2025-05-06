@@ -12,6 +12,7 @@ using DocumentFormat.OpenXml.Drawing.Diagrams;
 using Google.Protobuf.Collections;
 using Point = System.Drawing.Point;
 using System.Linq;
+using Locations;
 
 namespace ReadTemp
 {
@@ -29,8 +30,8 @@ namespace ReadTemp
         {
             InitializeComponent();
         }
-        string[] chooseDatabase = File.ReadAllLines(@"configdb.txt");
-        string[] inputPass = File.ReadAllLines(@"input.txt");
+        string[] chooseDatabase;
+        string[] inputPass;
         string connString, checkString, dateString, dateString2, passwordString;
         string maxValue, minValue, averageValue, minData, maxData, checkNewString, line, convertValue, convertValue2, convertValue3;
         int addPoint;
@@ -53,15 +54,21 @@ namespace ReadTemp
             labelTempOrginal = new Rectangle(labelTemp.Location.X, labelTemp.Location.Y, labelTemp.Width, labelTemp.Height);
             labelHumOrginal = new Rectangle(labelHum.Location.X, labelHum.Location.Y, labelHum.Width, labelHum.Height);
             labelPressureOrginal = new Rectangle(labelPressure.Location.X, labelPressure.Location.Y, labelPressure.Width, labelPressure.Height);
+        
+            labelBeginDate.Text = Choice.firstItem.ToString();
+            labelEndDate.Text = Choice.lastItem.ToString();
 
-            labelBeginDate.Text = FormShowData.firstItem.ToString();
-            labelEndDate.Text = FormShowData.lastItem.ToString();
+            try
+            {
+                chooseDatabase = File.ReadAllLines(@"configdb.txt");
+                inputPass = File.ReadAllLines(@"input.txt");
+                connString = chooseDatabase[0];
 
-            connString = chooseDatabase[0];
-            passwordString = FormShowData.decrypt(inputPass[0], "weather");
-            connString = connString + passwordString + ";";
-            MySqlConnection conn = new MySqlConnection(connString);
-           
+            }
+            catch
+            {
+            }
+                       
             chartTemp.Update();
             chartTemp.Series[0].Points.Clear();
             addPoint = -1;
@@ -88,10 +95,13 @@ namespace ReadTemp
 
 
 
-            if (FormShowData.localData == false)
+            if (Choice.localData == false)
             {
+                passwordString = Choice.decrypt(inputPass[0], "weather");
+                connString = connString + passwordString + ";";
+                MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
-                MySqlCommand command = new MySqlCommand(FormShowData.checkString, conn);
+                MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -110,7 +120,7 @@ namespace ReadTemp
                     chartPressure.Series[0].MarkerSize = 8;
                 }
                 conn.Close();
-                checkNewString = Regex.Replace(FormShowData.checkString, @";", "");
+                checkNewString = Regex.Replace(Choice.checkString, @";", "");
 
                 maxValue = "select max(outtemp) from (" + checkNewString + ")max;";
                 conn.Open();
@@ -217,7 +227,7 @@ namespace ReadTemp
             else
             {
                 addPoint = 0;
-                StreamReader fileName3 = new StreamReader(FormShowData.fileName2);
+                StreamReader fileName3 = new StreamReader(Choice.fileName2);
 
                 while ((line = fileName3.ReadLine()) != null)
                 {
