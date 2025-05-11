@@ -284,7 +284,7 @@ namespace ReadTemp
 
                 chartInfo.ChartAreas[0].AxisY.Minimum = yMin;
                 chartInfo.ChartAreas[0].AxisY.Maximum = yMax;
-             //   conn.Close();
+                //   conn.Close();
             }
         }
 
@@ -400,20 +400,20 @@ namespace ReadTemp
                 connString = chooseDatabase[0];
 
             }
-            catch 
-            { 
+            catch
+            {
             }
-                        
+
             string line, convertValue;
             decimal convertValue2;
 
             showBeginDate = Choice.firstItem;
             showEndDate = Choice.lastItem;
             choosenValue = "outtemp";
-            chooseItem = 1;        
+            chooseItem = 1;
 
             if (Choice.localData == false)
-            { 
+            {
                 passwordString = Choice.decrypt(inputPass[0], "weather");
                 connString = connString + passwordString + ";";
                 MySqlConnection conn = new MySqlConnection(connString);
@@ -749,7 +749,7 @@ namespace ReadTemp
             DialogResult result = MessageBox.Show("Are you sure?", "Weather Station", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-          //    MySqlConnection conn = new MySqlConnection(connString);
+                //    MySqlConnection conn = new MySqlConnection(connString);
                 chartInfo.BackColor = Color.LightGray;
                 panelSettings.BackColor = Color.LightGray;
                 chartInfo.Series[0].Color = Color.SeaGreen;
@@ -767,23 +767,23 @@ namespace ReadTemp
                 Settings.Default["markerType"] = 2;
                 Settings.Default.Save();
 
-             /*  for (int i = 0; i <= 2; i++)
-                {
-                    conn.Open();
-                    checkString = "update settings set " + value[i] + " = '" + color[i] + "' where id = 1;";
-                    MySqlCommand command2 = new MySqlCommand(checkString, conn);
-                    MySqlDataReader reader2 = command2.ExecuteReader();
-                    conn.Close();
-                }
+                /*  for (int i = 0; i <= 2; i++)
+                   {
+                       conn.Open();
+                       checkString = "update settings set " + value[i] + " = '" + color[i] + "' where id = 1;";
+                       MySqlCommand command2 = new MySqlCommand(checkString, conn);
+                       MySqlDataReader reader2 = command2.ExecuteReader();
+                       conn.Close();
+                   }
 
-                for (int i = 0; i <= 1; i++)
-                {
-                    conn.Open();
-                    checkString = "update settings set " + markers[i] + " = " + value2[i] + "  where id = 1;";
-                    MySqlCommand command = new MySqlCommand(checkString, conn);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    conn.Close();
-                }*/
+                   for (int i = 0; i <= 1; i++)
+                   {
+                       conn.Open();
+                       checkString = "update settings set " + markers[i] + " = " + value2[i] + "  where id = 1;";
+                       MySqlCommand command = new MySqlCommand(checkString, conn);
+                       MySqlDataReader reader = command.ExecuteReader();
+                       conn.Close();
+                   }*/
             }
         }
 
@@ -843,7 +843,7 @@ namespace ReadTemp
 
         private void comboBoxMarkerSize_SelectedIndexChanged(object sender, EventArgs e)
         {
-          //  MySqlConnection conn = new MySqlConnection(connString);
+            //  MySqlConnection conn = new MySqlConnection(connString);
             int value = 0;
             oneTime = false;
 
@@ -912,7 +912,7 @@ namespace ReadTemp
 
         private void comboBoxMarkerType_SelectedIndexChanged(object sender, EventArgs e)
         {
-         //   MySqlConnection conn = new MySqlConnection(connString);
+            //   MySqlConnection conn = new MySqlConnection(connString);
             int value = 0;
             switch (comboBoxMarkerType.SelectedIndex)
             {
@@ -966,9 +966,17 @@ namespace ReadTemp
             markerShow();
         }
 
-        private void chartInfo_Click(object sender, EventArgs e)
+        private void chartInfo_MouseClick(object sender, MouseEventArgs e)
         {
+            int undex;
+            var showvalue = chartInfo.HitTest(e.X, e.Y);
 
+            if (showvalue.ChartElementType == ChartElementType.DataPoint)
+            {
+                index = showvalue.PointIndex;
+                index = index + 4;
+                listBoxShowValue.SetSelected(index, true);
+            }
         }
     }
 }
