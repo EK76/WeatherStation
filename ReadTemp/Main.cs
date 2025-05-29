@@ -39,13 +39,10 @@ namespace ReadTemp
         int checkWeek, compareWeek = 0, checkMonth, compareMonth = 0, checkYear, compareYear = 0, setNewValue, setDelay2, delayStatus, checkNumbers;
         public static int checkForward, counterItems = 0, countItems = -1, localChoice = 1;
         long getYear;
-        bool allowDelay = false, createDatabase = true;
+        bool allowDelay = false, createDatabase = true, checkExist = false;
         public static bool localData = false;
         private static string passWordString;
         string[] settingsStorage;
-
-
-
 
         private void delayToolStripMenuItem_MouseHover(object sender, EventArgs e)
         {
@@ -701,11 +698,21 @@ namespace ReadTemp
 
         private void FormShowData_Activated(object sender, EventArgs e)
         {
-            string[] chooseDatabase = File.ReadAllLines("configdb.txt");
-            string[] inputPass = File.ReadAllLines("input.txt");
-            connString = chooseDatabase[0];
-            passwordString = Choice.decrypt(inputPass[0], "weather");
-            connString = connString + passwordString + ";";
+            if (checkExist == true)
+            {
+
+                string[] chooseDatabase = File.ReadAllLines("configdb.txt");
+                string[] inputPass = File.ReadAllLines("input.txt");
+                connString = chooseDatabase[0];
+                passwordString = Choice.decrypt(inputPass[0], "weather");
+                connString = connString + passwordString + ";";
+            }
+            checkExist = true;
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }

@@ -9,8 +9,7 @@
     <PackageOutputPath>C:\Applications\</PackageOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\ReadTemp\Showgraph.cs" Link="Showgraph.cs" />
-    <Compile Include="..\ReadTemp\ShowGraph.Designer.cs" Link="ShowGraph.Designer.cs" />
+    <EmbeddedResource Remove="Showgraph.resx" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

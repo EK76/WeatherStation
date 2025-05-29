@@ -60,7 +60,7 @@
             listViewShowData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeaderOutTemp, columnHeaderOutHum, columnHeaderPressure, columnHeaderDate });
             listViewShowData.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             listViewShowData.FullRowSelect = true;
-            listViewShowData.Location = new System.Drawing.Point(13, 37);
+            listViewShowData.Location = new System.Drawing.Point(21, 37);
             listViewShowData.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             listViewShowData.Name = "listViewShowData";
             listViewShowData.Size = new System.Drawing.Size(1372, 857);
@@ -110,7 +110,7 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
@@ -118,14 +118,14 @@
             // 
             printStripMenuItem.Enabled = false;
             printStripMenuItem.Name = "printStripMenuItem";
-            printStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            printStripMenuItem.Size = new System.Drawing.Size(180, 22);
             printStripMenuItem.Text = "Print";
             printStripMenuItem.Click += printStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -140,7 +140,7 @@
             // 
             deleteRowsToolStripMenuItem.Enabled = false;
             deleteRowsToolStripMenuItem.Name = "deleteRowsToolStripMenuItem";
-            deleteRowsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            deleteRowsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             deleteRowsToolStripMenuItem.Text = "Delete Rows";
             deleteRowsToolStripMenuItem.Click += deleteRowsToolStripMenuItem_Click;
             // 
@@ -148,7 +148,7 @@
             // 
             clearDataToolStripMenuItem.Enabled = false;
             clearDataToolStripMenuItem.Name = "clearDataToolStripMenuItem";
-            clearDataToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            clearDataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             clearDataToolStripMenuItem.Text = "Clear Data";
             clearDataToolStripMenuItem.Click += clearDataToolStripMenuItem_Click;
             // 
@@ -163,7 +163,7 @@
             // 
             graphViewToolStripMenuItem.Enabled = false;
             graphViewToolStripMenuItem.Name = "graphViewToolStripMenuItem";
-            graphViewToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            graphViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             graphViewToolStripMenuItem.Text = "Graph View";
             graphViewToolStripMenuItem.Click += graphViewToolStripMenuItem_Click;
             // 
