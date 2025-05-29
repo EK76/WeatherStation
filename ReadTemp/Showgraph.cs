@@ -421,7 +421,6 @@ namespace ReadTemp
                 this.Text = "Weather Station (Data from database)";
                 checkNewString = Regex.Replace(Choice.checkString, @";", "");
                 maxValue = "select max(outtemp) from (" + checkNewString + ")max;";
-                Clipboard.SetText(maxValue);
                 conn.Open();
                 MySqlCommand command4 = new MySqlCommand(maxValue, conn);
                 MySqlDataReader reader4 = command4.ExecuteReader();
@@ -484,7 +483,7 @@ namespace ReadTemp
             }
             else
             {
-                this.Text = "Weather Station (Data from local file)";
+                this.Text = "Weather Station (Data from local file).";
                 recordSum = 0;
                 chartInfo.Update();
                 chartInfo.Series[0].LegendText = "Temperature";
@@ -544,8 +543,6 @@ namespace ReadTemp
             comboBoxMarkerSize.Text = markerSize.ToString();
 
             markerType = (int)Settings.Default["markerType"];
-
-            MessageBox.Show(markerType.ToString());
 
             switch (markerType)
             {
@@ -968,7 +965,7 @@ namespace ReadTemp
 
         private void chartInfo_MouseClick(object sender, MouseEventArgs e)
         {
-            int undex;
+            int index;
             var showvalue = chartInfo.HitTest(e.X, e.Y);
 
             if (showvalue.ChartElementType == ChartElementType.DataPoint)

@@ -38,7 +38,7 @@ namespace ReadTemp
 
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
-            checkString = "select delayvalue, logdate from delaylog limit 15;";
+            checkString = "select delayvalue, logdate from delaylog order by logdate desc limit 20;";
             MySqlCommand command = new MySqlCommand(checkString, conn);
             MySqlDataReader reader = command.ExecuteReader();
             Label label = new Label();
@@ -58,7 +58,7 @@ namespace ReadTemp
                label2.Visible = true;
                label2.AutoSize = true;
                label2 .Font = new Font("Arial", 14);
-               label2.Text = "Delay value: " + reader.GetDecimal("delayvalue").ToString() + " minutes  " + reader.GetDateTime("logdate").ToString();
+               label2.Text = reader.GetDateTime("logdate").ToString() + "  Delay value: " + reader.GetDecimal("delayvalue").ToString() + " minutes.";
                loc += 25;
                this.Controls.Add(label2);
             }

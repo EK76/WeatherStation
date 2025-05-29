@@ -1,11 +1,10 @@
-﻿using DocumentFormat.OpenXml.Math;
-using DocumentFormat.OpenXml.Wordprocessing;
+﻿using Locations;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,16 +13,16 @@ using System.Windows.Forms;
 
 namespace ReadTemp
 {
-    public partial class FormConfigDatabase : Form
+    public partial class FormChangePassword : Form
     {
-        public FormConfigDatabase()
+        public FormChangePassword()
         {
             InitializeComponent();
         }
 
-        string[] values;
-        string readConfig, saveString, passWordString;
-        string checkDatabase;
+        string[] chooseDatabase = File.ReadAllLines("configdb.txt");
+        string[] inputPass = File.ReadAllLines("input.txt");
+        string oldPassword, newPassword, newPassword2, connString, passwordQuery;
 
         public string Encrypt(string source, string key)
         {
@@ -54,65 +53,68 @@ namespace ReadTemp
                 }
             }
         }
-
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void FormConfigDatabase_Load(object sender, EventArgs e)
+        private void buttonSave_Click(object sender, EventArgs e)
         {
 
-            readConfig = File.ReadAllText(@"configdb.txt");
-            passWordString = File.ReadAllText(@"input.txt");
-            string[] newlines = { ";" };
-
-            values = readConfig.Split(newlines, StringSplitOptions.None);
-            values[0] = values[0].Remove(0, 7);
-            textBoxServer.Text = values[0];
-            values[1] = values[1].Remove(0, 9);
-            checkDatabase = values[1];
-            values[2] = values[2].Remove(0, 4);
-            textBoxUser.Text = values[2];
-
+            connString = chooseDatabase[0];
+            oldPassword = textBoxOldPassword.Text;
+            newPassword = textBoxNewPassword.Text;
+            newPassword2 = textBoxNewPassword2.Text;
+            connString = connString + oldPassword + ";";
+           
             try
             {
-                textBoxPassword.Text = Decrypt(passWordString, "weather");
+                MySqlConnection conn = new MySqlConnection(connString);
+                conn.Open();
+                
+                if (newPassword == newPassword2)
+                {
+                    passwordQuery = "alter user 'ken'@'%' identified by '" + newPassword2 + "'";
+                    MySqlCommand command = new MySqlCommand(passwordQuery, conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    conn.Close();
+
+                    newPassword2 = Encrypt(newPassword2, "weather");
+                    File.WriteAllText(System.Environment.CurrentDirectory + "\\input.txt", newPassword2);
+                    FormShowData.connString = FormShowData.connString + newPassword;
+                    MessageBox.Show("New password set!");
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Password was incorrectly retyped!");
+                }
             }
             catch
             {
-                textBoxPassword.Text = passWordString;
-            }        
-        }
-
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            string newPassword;
-
-            saveString = "SERVER=" + textBoxServer.Text + ";DATABASE=weatherstation;UID=" + textBoxUser.Text + ";PASSWORD=";
-            newPassword = textBoxPassword.Text;
-            textBoxPassword.Text = Encrypt(textBoxPassword.Text, "weather");
-            File.WriteAllText(System.Environment.CurrentDirectory + "\\configdb.txt", saveString);
-            File.WriteAllText(System.Environment.CurrentDirectory + "\\input.txt", textBoxPassword.Text);
-            FormShowData.connString = saveString + newPassword;
-            Close();
+                MessageBox.Show("Current password was incorrectly typed or database settings were incorrect!");
+            }
         }
 
         private void checkBoxShow_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxShow.Checked == true)
             {
-                textBoxPassword.PasswordChar = '\0';
+                textBoxOldPassword.PasswordChar = '\0';
+                textBoxNewPassword.PasswordChar = '\0';
+                textBoxNewPassword2.PasswordChar = '\0';
             }
             else
             {
-                textBoxPassword.PasswordChar = '*';
+                textBoxOldPassword.PasswordChar = '*';
+                textBoxNewPassword.PasswordChar = '*';
+                textBoxNewPassword2.PasswordChar = '*';
             }
         }
 
-        private void textBoxServer_TextChanged(object sender, EventArgs e)
+        private void textBoxOldPassword_TextChanged(object sender, EventArgs e)
         {
-            if ((textBoxServer.Text == "") || (textBoxUser.Text == "") || (textBoxPassword.Text == ""))
+            if ((textBoxOldPassword.Text == "") || (textBoxNewPassword.Text == "") || (textBoxNewPassword2.Text == ""))
             {
                 buttonSave.Enabled = false;
             }
@@ -122,9 +124,9 @@ namespace ReadTemp
             }
         }
 
-        private void textBoxUser_TextChanged(object sender, EventArgs e)
+        private void textBoxNewPassword_TextChanged(object sender, EventArgs e)
         {
-            if ((textBoxServer.Text == "") || (textBoxUser.Text == "") || (textBoxPassword.Text == ""))
+            if ((textBoxOldPassword.Text == "") || (textBoxNewPassword.Text == "") || (textBoxNewPassword2.Text == ""))
             {
                 buttonSave.Enabled = false;
             }
@@ -134,9 +136,9 @@ namespace ReadTemp
             }
         }
 
-        private void textBoxPassword_TextChanged(object sender, EventArgs e)
+        private void textBoxNewPassword2_TextChanged(object sender, EventArgs e)
         {
-            if ((textBoxServer.Text == "") || (textBoxUser.Text == "") || (textBoxPassword.Text == ""))
+            if ((textBoxOldPassword.Text == "") || (textBoxNewPassword.Text == "") || (textBoxNewPassword2.Text == ""))
             {
                 buttonSave.Enabled = false;
             }
@@ -146,18 +148,9 @@ namespace ReadTemp
             }
         }
 
-        private void FormConfigDatabase_Layout(object sender, LayoutEventArgs e)
+        private void FormChangePassword_Load(object sender, EventArgs e)
         {
-            if (checkDatabase != "weatherstation")
-            {
-                labelDatabase.Text = "Faulty database, click Save to correct.";
-                buttonSave.Enabled = true;
-            }
-            else
-            {
-                labelDatabase.Text = "";
-                buttonSave.Enabled = false;
-            }
+
         }
     }
 }

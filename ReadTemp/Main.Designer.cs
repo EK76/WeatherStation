@@ -60,6 +60,7 @@
             delayValueToolStripComboBox = new ToolStripComboBox();
             modifyToolStripMenuItem = new ToolStripMenuItem();
             databaseConfigToolStripMenuItem = new ToolStripMenuItem();
+            changeDatabasePasswordToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             printPreviewDialog1 = new PrintPreviewDialog();
@@ -294,7 +295,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportToPDFToolStripMenuItem, changeTimeToolStripMenuItem, modifyToolStripMenuItem, databaseConfigToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportToPDFToolStripMenuItem, changeTimeToolStripMenuItem, modifyToolStripMenuItem, databaseConfigToolStripMenuItem, changeDatabasePasswordToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(47, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -303,7 +304,7 @@
             // 
             exportToPDFToolStripMenuItem.Enabled = false;
             exportToPDFToolStripMenuItem.Name = "exportToPDFToolStripMenuItem";
-            exportToPDFToolStripMenuItem.Size = new Size(210, 22);
+            exportToPDFToolStripMenuItem.Size = new Size(219, 22);
             exportToPDFToolStripMenuItem.Text = "Create table as PDF report";
             exportToPDFToolStripMenuItem.Click += exportToPDFToolStripMenuItem_Click;
             // 
@@ -311,7 +312,7 @@
             // 
             changeTimeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { delayValueToolStripComboBox });
             changeTimeToolStripMenuItem.Name = "changeTimeToolStripMenuItem";
-            changeTimeToolStripMenuItem.Size = new Size(210, 22);
+            changeTimeToolStripMenuItem.Size = new Size(219, 22);
             changeTimeToolStripMenuItem.Text = "Change Delay Time";
             // 
             // delayValueToolStripComboBox
@@ -324,16 +325,23 @@
             // modifyToolStripMenuItem
             // 
             modifyToolStripMenuItem.Name = "modifyToolStripMenuItem";
-            modifyToolStripMenuItem.Size = new Size(210, 22);
+            modifyToolStripMenuItem.Size = new Size(219, 22);
             modifyToolStripMenuItem.Text = "Modify Weather Table";
             modifyToolStripMenuItem.Click += modifyToolStripMenuItem_Click;
             // 
             // databaseConfigToolStripMenuItem
             // 
             databaseConfigToolStripMenuItem.Name = "databaseConfigToolStripMenuItem";
-            databaseConfigToolStripMenuItem.Size = new Size(210, 22);
+            databaseConfigToolStripMenuItem.Size = new Size(219, 22);
             databaseConfigToolStripMenuItem.Text = "Database Config";
             databaseConfigToolStripMenuItem.Click += databaseConfigToolStripMenuItem_Click;
+            // 
+            // changeDatabasePasswordToolStripMenuItem
+            // 
+            changeDatabasePasswordToolStripMenuItem.Name = "changeDatabasePasswordToolStripMenuItem";
+            changeDatabasePasswordToolStripMenuItem.Size = new Size(219, 22);
+            changeDatabasePasswordToolStripMenuItem.Text = "Change Database Password";
+            changeDatabasePasswordToolStripMenuItem.Click += changeDatabasePasswordToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
@@ -564,6 +572,7 @@
             Name = "FormShowData";
             ShowIcon = false;
             Text = "Weather Station";
+            Activated += FormShowData_Activated;
             Load += FormShowData_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -621,5 +630,6 @@
         private System.Windows.Forms.ToolStripMenuItem showDelayTimeLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearDataToolStripMenuItem;
         private System.Windows.Forms.Label labelShowDelay;
+        private ToolStripMenuItem changeDatabasePasswordToolStripMenuItem;
     }
 }
