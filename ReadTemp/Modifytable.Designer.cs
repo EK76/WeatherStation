@@ -28,46 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
-            listViewShowData = new System.Windows.Forms.ListView();
-            columnHeaderID = new System.Windows.Forms.ColumnHeader();
-            columnHeaderOutTemp = new System.Windows.Forms.ColumnHeader();
-            columnHeaderOutHum = new System.Windows.Forms.ColumnHeader();
-            columnHeaderPressure = new System.Windows.Forms.ColumnHeader();
-            columnHeaderDate = new System.Windows.Forms.ColumnHeader();
-            radioButtonAll = new System.Windows.Forms.RadioButton();
-            radioButtonIntervall = new System.Windows.Forms.RadioButton();
-            dateTimePickerStartDate = new System.Windows.Forms.DateTimePicker();
-            dateTimePickerEndDate = new System.Windows.Forms.DateTimePicker();
-            labelDate = new System.Windows.Forms.Label();
-            labelDate2 = new System.Windows.Forms.Label();
-            menuStrip1 = new System.Windows.Forms.MenuStrip();
-            fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            backupTableToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            restoreTableToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            deleteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            editSelectedRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            emptyTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            refreshTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            buttonSearch = new System.Windows.Forms.Button();
-            labelRows = new System.Windows.Forms.Label();
+            listViewShowData = new ListView();
+            columnHeaderID = new ColumnHeader();
+            columnHeaderOutTemp = new ColumnHeader();
+            columnHeaderOutHum = new ColumnHeader();
+            columnHeaderPressure = new ColumnHeader();
+            columnHeaderDate = new ColumnHeader();
+            radioButtonAll = new RadioButton();
+            radioButtonIntervall = new RadioButton();
+            dateTimePickerStartDate = new DateTimePicker();
+            dateTimePickerEndDate = new DateTimePicker();
+            labelDate = new Label();
+            labelDate2 = new Label();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            backupTableToolStripMenuItem1 = new ToolStripMenuItem();
+            restoreTableToolStripMenuItem1 = new ToolStripMenuItem();
+            closeToolStripMenuItem = new ToolStripMenuItem();
+            editToolStripMenuItem = new ToolStripMenuItem();
+            deleteRowsToolStripMenuItem = new ToolStripMenuItem();
+            editSelectedRowToolStripMenuItem = new ToolStripMenuItem();
+            emptyTableToolStripMenuItem = new ToolStripMenuItem();
+            viewToolStripMenuItem = new ToolStripMenuItem();
+            refreshTableToolStripMenuItem = new ToolStripMenuItem();
+            buttonSearch = new Button();
+            labelRows = new Label();
+            trackBarSize = new TrackBar();
+            labelSetFont = new Label();
             menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarSize).BeginInit();
             SuspendLayout();
             // 
             // listViewShowData
             // 
-            listViewShowData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeaderID, columnHeaderOutTemp, columnHeaderOutHum, columnHeaderPressure, columnHeaderDate });
-            listViewShowData.Font = new System.Drawing.Font("Calibri", 21.75F);
+            listViewShowData.Columns.AddRange(new ColumnHeader[] { columnHeaderID, columnHeaderOutTemp, columnHeaderOutHum, columnHeaderPressure, columnHeaderDate });
+            listViewShowData.Font = new Font("Calibri", 21.75F);
             listViewShowData.FullRowSelect = true;
-            listViewShowData.Location = new System.Drawing.Point(14, 112);
-            listViewShowData.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            listViewShowData.Location = new Point(14, 112);
+            listViewShowData.Margin = new Padding(4, 3, 4, 3);
             listViewShowData.Name = "listViewShowData";
-            listViewShowData.Size = new System.Drawing.Size(1521, 970);
+            listViewShowData.Size = new Size(1521, 970);
             listViewShowData.TabIndex = 0;
             listViewShowData.UseCompatibleStateImageBehavior = false;
-            listViewShowData.View = System.Windows.Forms.View.Details;
+            listViewShowData.View = View.Details;
             listViewShowData.SelectedIndexChanged += listViewShowData_SelectedIndexChanged;
             listViewShowData.Click += listViewShowData_Click;
             // 
@@ -100,12 +103,12 @@
             // 
             radioButtonAll.AutoSize = true;
             radioButtonAll.Checked = true;
-            radioButtonAll.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold);
-            radioButtonAll.ForeColor = System.Drawing.Color.Black;
-            radioButtonAll.Location = new System.Drawing.Point(29, 55);
-            radioButtonAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            radioButtonAll.Font = new Font("Calibri", 12F, FontStyle.Bold);
+            radioButtonAll.ForeColor = Color.Black;
+            radioButtonAll.Location = new Point(29, 55);
+            radioButtonAll.Margin = new Padding(4, 3, 4, 3);
             radioButtonAll.Name = "radioButtonAll";
-            radioButtonAll.Size = new System.Drawing.Size(111, 23);
+            radioButtonAll.Size = new Size(111, 23);
             radioButtonAll.TabIndex = 1;
             radioButtonAll.TabStop = true;
             radioButtonAll.Text = "Whole table";
@@ -115,12 +118,12 @@
             // radioButtonIntervall
             // 
             radioButtonIntervall.AutoSize = true;
-            radioButtonIntervall.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold);
-            radioButtonIntervall.ForeColor = System.Drawing.Color.Black;
-            radioButtonIntervall.Location = new System.Drawing.Point(205, 55);
-            radioButtonIntervall.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            radioButtonIntervall.Font = new Font("Calibri", 12F, FontStyle.Bold);
+            radioButtonIntervall.ForeColor = Color.Black;
+            radioButtonIntervall.Location = new Point(205, 55);
+            radioButtonIntervall.Margin = new Padding(4, 3, 4, 3);
             radioButtonIntervall.Name = "radioButtonIntervall";
-            radioButtonIntervall.Size = new System.Drawing.Size(137, 23);
+            radioButtonIntervall.Size = new Size(137, 23);
             radioButtonIntervall.TabIndex = 2;
             radioButtonIntervall.Text = "Choose intervall";
             radioButtonIntervall.UseVisualStyleBackColor = true;
@@ -129,99 +132,99 @@
             // dateTimePickerStartDate
             // 
             dateTimePickerStartDate.Enabled = false;
-            dateTimePickerStartDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            dateTimePickerStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            dateTimePickerStartDate.Location = new System.Drawing.Point(387, 55);
-            dateTimePickerStartDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            dateTimePickerStartDate.Font = new Font("Microsoft Sans Serif", 8.25F);
+            dateTimePickerStartDate.Format = DateTimePickerFormat.Custom;
+            dateTimePickerStartDate.Location = new Point(387, 55);
+            dateTimePickerStartDate.Margin = new Padding(4, 3, 4, 3);
             dateTimePickerStartDate.Name = "dateTimePickerStartDate";
-            dateTimePickerStartDate.Size = new System.Drawing.Size(112, 20);
+            dateTimePickerStartDate.Size = new Size(112, 20);
             dateTimePickerStartDate.TabIndex = 3;
             // 
             // dateTimePickerEndDate
             // 
             dateTimePickerEndDate.Enabled = false;
-            dateTimePickerEndDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            dateTimePickerEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            dateTimePickerEndDate.Location = new System.Drawing.Point(539, 55);
-            dateTimePickerEndDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            dateTimePickerEndDate.Font = new Font("Microsoft Sans Serif", 8.25F);
+            dateTimePickerEndDate.Format = DateTimePickerFormat.Custom;
+            dateTimePickerEndDate.Location = new Point(539, 55);
+            dateTimePickerEndDate.Margin = new Padding(4, 3, 4, 3);
             dateTimePickerEndDate.Name = "dateTimePickerEndDate";
-            dateTimePickerEndDate.Size = new System.Drawing.Size(114, 20);
+            dateTimePickerEndDate.Size = new Size(114, 20);
             dateTimePickerEndDate.TabIndex = 4;
             // 
             // labelDate
             // 
             labelDate.AutoSize = true;
-            labelDate.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold);
-            labelDate.ForeColor = System.Drawing.Color.Black;
-            labelDate.Location = new System.Drawing.Point(387, 87);
-            labelDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelDate.Font = new Font("Calibri", 12F, FontStyle.Bold);
+            labelDate.ForeColor = Color.Black;
+            labelDate.Location = new Point(387, 87);
+            labelDate.Margin = new Padding(4, 0, 4, 0);
             labelDate.Name = "labelDate";
-            labelDate.Size = new System.Drawing.Size(79, 19);
+            labelDate.Size = new Size(79, 19);
             labelDate.TabIndex = 5;
             labelDate.Text = "Start Date";
             // 
             // labelDate2
             // 
             labelDate2.AutoSize = true;
-            labelDate2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold);
-            labelDate2.ForeColor = System.Drawing.Color.Black;
-            labelDate2.Location = new System.Drawing.Point(539, 87);
-            labelDate2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelDate2.Font = new Font("Calibri", 12F, FontStyle.Bold);
+            labelDate2.ForeColor = Color.Black;
+            labelDate2.Location = new Point(539, 87);
+            labelDate2.Margin = new Padding(4, 0, 4, 0);
             labelDate2.Name = "labelDate2";
-            labelDate2.Size = new System.Drawing.Size(71, 19);
+            labelDate2.Size = new Size(71, 19);
             labelDate2.TabIndex = 6;
             labelDate2.Text = "End Date";
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem });
-            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            menuStrip1.Size = new System.Drawing.Size(1552, 24);
+            menuStrip1.Padding = new Padding(7, 2, 0, 2);
+            menuStrip1.Size = new Size(1552, 24);
             menuStrip1.TabIndex = 8;
             menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { backupTableToolStripMenuItem1, restoreTableToolStripMenuItem1, closeToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backupTableToolStripMenuItem1, restoreTableToolStripMenuItem1, closeToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
             // 
             // backupTableToolStripMenuItem1
             // 
             backupTableToolStripMenuItem1.Name = "backupTableToolStripMenuItem1";
-            backupTableToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
+            backupTableToolStripMenuItem1.Size = new Size(144, 22);
             backupTableToolStripMenuItem1.Text = "Backup Table";
             backupTableToolStripMenuItem1.Click += backupTableToolStripMenuItem1_Click;
             // 
             // restoreTableToolStripMenuItem1
             // 
             restoreTableToolStripMenuItem1.Name = "restoreTableToolStripMenuItem1";
-            restoreTableToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
+            restoreTableToolStripMenuItem1.Size = new Size(144, 22);
             restoreTableToolStripMenuItem1.Text = "Restore Table";
             restoreTableToolStripMenuItem1.Click += restoreTableToolStripMenuItem1_Click;
             // 
             // closeToolStripMenuItem
             // 
             closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            closeToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            closeToolStripMenuItem.Size = new Size(144, 22);
             closeToolStripMenuItem.Text = "Close";
             closeToolStripMenuItem.Click += closeToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
             // 
-            editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { deleteRowsToolStripMenuItem, editSelectedRowToolStripMenuItem, emptyTableToolStripMenuItem });
+            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { deleteRowsToolStripMenuItem, editSelectedRowToolStripMenuItem, emptyTableToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            editToolStripMenuItem.Size = new Size(39, 20);
             editToolStripMenuItem.Text = "Edit";
             // 
             // deleteRowsToolStripMenuItem
             // 
             deleteRowsToolStripMenuItem.Enabled = false;
             deleteRowsToolStripMenuItem.Name = "deleteRowsToolStripMenuItem";
-            deleteRowsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            deleteRowsToolStripMenuItem.Size = new Size(167, 22);
             deleteRowsToolStripMenuItem.Text = "Delete Rows";
             deleteRowsToolStripMenuItem.Click += deleteRowsToolStripMenuItem_Click;
             // 
@@ -229,38 +232,38 @@
             // 
             editSelectedRowToolStripMenuItem.Enabled = false;
             editSelectedRowToolStripMenuItem.Name = "editSelectedRowToolStripMenuItem";
-            editSelectedRowToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            editSelectedRowToolStripMenuItem.Size = new Size(167, 22);
             editSelectedRowToolStripMenuItem.Text = "Edit Selected Row";
             editSelectedRowToolStripMenuItem.Click += editSelectedRowToolStripMenuItem_Click;
             // 
             // emptyTableToolStripMenuItem
             // 
             emptyTableToolStripMenuItem.Name = "emptyTableToolStripMenuItem";
-            emptyTableToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            emptyTableToolStripMenuItem.Size = new Size(167, 22);
             emptyTableToolStripMenuItem.Text = "Empty Table";
             emptyTableToolStripMenuItem.Click += emptyTableToolStripMenuItem_Click;
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { refreshTableToolStripMenuItem });
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { refreshTableToolStripMenuItem });
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            viewToolStripMenuItem.Size = new Size(44, 20);
             viewToolStripMenuItem.Text = "View";
             // 
             // refreshTableToolStripMenuItem
             // 
             refreshTableToolStripMenuItem.Name = "refreshTableToolStripMenuItem";
-            refreshTableToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            refreshTableToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            refreshTableToolStripMenuItem.ShortcutKeys = Keys.F5;
+            refreshTableToolStripMenuItem.Size = new Size(163, 22);
             refreshTableToolStripMenuItem.Text = "Refresh Table";
             refreshTableToolStripMenuItem.Click += refreshTableToolStripMenuItem_Click;
             // 
             // buttonSearch
             // 
-            buttonSearch.Location = new System.Drawing.Point(710, 57);
-            buttonSearch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonSearch.Location = new Point(710, 57);
+            buttonSearch.Margin = new Padding(4, 3, 4, 3);
             buttonSearch.Name = "buttonSearch";
-            buttonSearch.Size = new System.Drawing.Size(88, 27);
+            buttonSearch.Size = new Size(88, 27);
             buttonSearch.TabIndex = 9;
             buttonSearch.Text = "Search";
             buttonSearch.UseVisualStyleBackColor = true;
@@ -269,19 +272,42 @@
             // labelRows
             // 
             labelRows.AutoSize = true;
-            labelRows.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            labelRows.Location = new System.Drawing.Point(18, 1092);
+            labelRows.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelRows.Location = new Point(14, 1109);
             labelRows.Name = "labelRows";
-            labelRows.Size = new System.Drawing.Size(45, 17);
+            labelRows.Size = new Size(45, 17);
             labelRows.TabIndex = 10;
             labelRows.Text = "label1";
             // 
+            // trackBarSize
+            // 
+            trackBarSize.Location = new Point(1411, 1088);
+            trackBarSize.Maximum = 28;
+            trackBarSize.Minimum = 12;
+            trackBarSize.Name = "trackBarSize";
+            trackBarSize.Size = new Size(124, 45);
+            trackBarSize.TabIndex = 11;
+            trackBarSize.Value = 15;
+            trackBarSize.Scroll += trackBarSize_Scroll;
+            // 
+            // labelSetFont
+            // 
+            labelSetFont.AutoSize = true;
+            labelSetFont.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            labelSetFont.Location = new Point(1303, 1092);
+            labelSetFont.Name = "labelSetFont";
+            labelSetFont.Size = new Size(84, 17);
+            labelSetFont.TabIndex = 31;
+            labelSetFont.Text = "Set font size";
+            // 
             // FormModifyTable
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            BackColor = System.Drawing.SystemColors.ControlLight;
-            ClientSize = new System.Drawing.Size(1552, 1122);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ControlLight;
+            ClientSize = new Size(1552, 1135);
+            Controls.Add(labelSetFont);
+            Controls.Add(trackBarSize);
             Controls.Add(labelRows);
             Controls.Add(buttonSearch);
             Controls.Add(labelDate2);
@@ -293,7 +319,7 @@
             Controls.Add(listViewShowData);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
-            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormModifyTable";
@@ -304,6 +330,7 @@
             Enter += FormModifyTable_Enter;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarSize).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -335,5 +362,7 @@
         private System.Windows.Forms.ToolStripMenuItem emptyTableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshTableToolStripMenuItem;
         private System.Windows.Forms.Label labelRows;
+        private TrackBar trackBarSize;
+        private Label labelSetFont;
     }
 }

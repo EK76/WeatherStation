@@ -41,13 +41,14 @@
             columnHeaderDate = new ColumnHeader();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
-            saveToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
+            saveToolStripMenuItem = new ToolStripMenuItem();
             printToolStripMenuItem = new ToolStripMenuItem();
             closeToolStripMenuItem = new ToolStripMenuItem();
             editToolStripMenuItem = new ToolStripMenuItem();
-            deleteSelectedRowsToolStripMenuItem = new ToolStripMenuItem();
+            deleteRowsToolStripMenuItem = new ToolStripMenuItem();
             clearDataToolStripMenuItem = new ToolStripMenuItem();
+            modifyCurrentDataToolStripMenuItem = new ToolStripMenuItem();
             viewToolStripMenuItem1 = new ToolStripMenuItem();
             graphViewToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
@@ -87,7 +88,7 @@
             labelDate.AutoSize = true;
             labelDate.Font = new Font("Calibri", 12F, FontStyle.Bold);
             labelDate.ForeColor = Color.Black;
-            labelDate.Location = new Point(14, 60);
+            labelDate.Location = new Point(12, 37);
             labelDate.Margin = new Padding(4, 0, 4, 0);
             labelDate.Name = "labelDate";
             labelDate.Size = new Size(50, 19);
@@ -101,7 +102,7 @@
             comboBoxDay.Font = new Font("Calibri", 10F, FontStyle.Bold);
             comboBoxDay.ForeColor = Color.DarkSlateBlue;
             comboBoxDay.FormattingEnabled = true;
-            comboBoxDay.Location = new Point(496, 116);
+            comboBoxDay.Location = new Point(494, 89);
             comboBoxDay.Margin = new Padding(4, 3, 4, 3);
             comboBoxDay.Name = "comboBoxDay";
             comboBoxDay.Size = new Size(215, 23);
@@ -115,8 +116,7 @@
             comboBoxMonth.Font = new Font("Calibri", 10F, FontStyle.Bold);
             comboBoxMonth.ForeColor = Color.DarkSlateBlue;
             comboBoxMonth.FormattingEnabled = true;
-            comboBoxMonth.Items.AddRange(new object[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" });
-            comboBoxMonth.Location = new Point(257, 112);
+            comboBoxMonth.Location = new Point(255, 89);
             comboBoxMonth.Margin = new Padding(4, 3, 4, 3);
             comboBoxMonth.Name = "comboBoxMonth";
             comboBoxMonth.Size = new Size(215, 23);
@@ -128,7 +128,7 @@
             labelText2.AutoSize = true;
             labelText2.Font = new Font("Calibri", 10F, FontStyle.Bold);
             labelText2.ForeColor = Color.Black;
-            labelText2.Location = new Point(496, 88);
+            labelText2.Location = new Point(494, 65);
             labelText2.Margin = new Padding(4, 0, 4, 0);
             labelText2.Name = "labelText2";
             labelText2.Size = new Size(71, 17);
@@ -141,7 +141,7 @@
             labelText4.Enabled = false;
             labelText4.Font = new Font("Calibri", 10F, FontStyle.Bold);
             labelText4.ForeColor = Color.Black;
-            labelText4.Location = new Point(257, 88);
+            labelText4.Location = new Point(255, 65);
             labelText4.Margin = new Padding(4, 0, 4, 0);
             labelText4.Name = "labelText4";
             labelText4.Size = new Size(90, 17);
@@ -153,34 +153,36 @@
             listViewShowData.Columns.AddRange(new ColumnHeader[] { columnHeaderOutTemp, columnHeaderOutHum, columnHeaderPressure, columnHeaderDate });
             listViewShowData.Font = new Font("Calibri", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             listViewShowData.FullRowSelect = true;
-            listViewShowData.Location = new Point(14, 163);
+            listViewShowData.Location = new Point(0, 122);
             listViewShowData.Margin = new Padding(4, 3, 4, 3);
             listViewShowData.Name = "listViewShowData";
-            listViewShowData.Size = new Size(1372, 838);
+            listViewShowData.Size = new Size(1392, 879);
             listViewShowData.TabIndex = 17;
             listViewShowData.UseCompatibleStateImageBehavior = false;
             listViewShowData.View = View.Details;
             listViewShowData.ColumnClick += listViewShowData_ColumnClick;
+            listViewShowData.SelectedIndexChanged += listViewShowData_SelectedIndexChanged;
+            listViewShowData.Click += listViewShowData_Click;
             // 
             // columnHeaderOutTemp
             // 
             columnHeaderOutTemp.Text = "Outdoor temperature";
-            columnHeaderOutTemp.Width = 290;
+            columnHeaderOutTemp.Width = 340;
             // 
             // columnHeaderOutHum
             // 
             columnHeaderOutHum.Text = "Outdoor humidity";
-            columnHeaderOutHum.Width = 260;
+            columnHeaderOutHum.Width = 340;
             // 
             // columnHeaderPressure
             // 
             columnHeaderPressure.Text = "Pressure";
-            columnHeaderPressure.Width = 251;
+            columnHeaderPressure.Width = 340;
             // 
             // columnHeaderDate
             // 
             columnHeaderDate.Text = "Date created";
-            columnHeaderDate.Width = 235;
+            columnHeaderDate.Width = 322;
             // 
             // menuStrip1
             // 
@@ -188,17 +190,23 @@
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(7, 2, 0, 2);
-            menuStrip1.Size = new Size(1421, 24);
+            menuStrip1.Size = new Size(1392, 24);
             menuStrip1.TabIndex = 18;
             menuStrip1.Text = "menuStrip1";
-            menuStrip1.ItemClicked += menuStrip1_ItemClicked;
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveToolStripMenuItem, openToolStripMenuItem, printToolStripMenuItem, closeToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem, printToolStripMenuItem, closeToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
+            // 
+            // openToolStripMenuItem
+            // 
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new Size(103, 22);
+            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
@@ -207,13 +215,6 @@
             saveToolStripMenuItem.Size = new Size(103, 22);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
-            // 
-            // openToolStripMenuItem
-            // 
-            openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(103, 22);
-            openToolStripMenuItem.Text = "Open";
-            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // printToolStripMenuItem
             // 
@@ -232,26 +233,34 @@
             // 
             // editToolStripMenuItem
             // 
-            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { deleteSelectedRowsToolStripMenuItem, clearDataToolStripMenuItem });
+            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { deleteRowsToolStripMenuItem, clearDataToolStripMenuItem, modifyCurrentDataToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             editToolStripMenuItem.Size = new Size(39, 20);
             editToolStripMenuItem.Text = "Edit";
             // 
-            // deleteSelectedRowsToolStripMenuItem
+            // deleteRowsToolStripMenuItem
             // 
-            deleteSelectedRowsToolStripMenuItem.Enabled = false;
-            deleteSelectedRowsToolStripMenuItem.Name = "deleteSelectedRowsToolStripMenuItem";
-            deleteSelectedRowsToolStripMenuItem.Size = new Size(181, 22);
-            deleteSelectedRowsToolStripMenuItem.Text = "Delete selected rows";
-            deleteSelectedRowsToolStripMenuItem.Click += deleteSelectedRowsToolStripMenuItem_Click;
+            deleteRowsToolStripMenuItem.Enabled = false;
+            deleteRowsToolStripMenuItem.Name = "deleteRowsToolStripMenuItem";
+            deleteRowsToolStripMenuItem.Size = new Size(182, 22);
+            deleteRowsToolStripMenuItem.Text = "Delete Rows";
+            deleteRowsToolStripMenuItem.Click += deleteRowsToolStripMenuItem_Click;
             // 
             // clearDataToolStripMenuItem
             // 
             clearDataToolStripMenuItem.Enabled = false;
             clearDataToolStripMenuItem.Name = "clearDataToolStripMenuItem";
-            clearDataToolStripMenuItem.Size = new Size(181, 22);
+            clearDataToolStripMenuItem.Size = new Size(182, 22);
             clearDataToolStripMenuItem.Text = "Clear Data";
             clearDataToolStripMenuItem.Click += clearDataToolStripMenuItem_Click_1;
+            // 
+            // modifyCurrentDataToolStripMenuItem
+            // 
+            modifyCurrentDataToolStripMenuItem.Enabled = false;
+            modifyCurrentDataToolStripMenuItem.Name = "modifyCurrentDataToolStripMenuItem";
+            modifyCurrentDataToolStripMenuItem.Size = new Size(182, 22);
+            modifyCurrentDataToolStripMenuItem.Text = "Modify Current Data";
+            modifyCurrentDataToolStripMenuItem.Click += modifyCurrentDataToolStripMenuItem_Click;
             // 
             // viewToolStripMenuItem1
             // 
@@ -374,7 +383,7 @@
             labelText.Enabled = false;
             labelText.Font = new Font("Calibri", 10F, FontStyle.Bold);
             labelText.ForeColor = Color.Black;
-            labelText.Location = new Point(14, 88);
+            labelText.Location = new Point(12, 65);
             labelText.Margin = new Padding(4, 0, 4, 0);
             labelText.Name = "labelText";
             labelText.Size = new Size(75, 17);
@@ -387,7 +396,7 @@
             comboBoxYear.Font = new Font("Calibri", 10F, FontStyle.Bold);
             comboBoxYear.ForeColor = Color.DarkSlateBlue;
             comboBoxYear.FormattingEnabled = true;
-            comboBoxYear.Location = new Point(14, 112);
+            comboBoxYear.Location = new Point(12, 89);
             comboBoxYear.Margin = new Padding(4, 3, 4, 3);
             comboBoxYear.Name = "comboBoxYear";
             comboBoxYear.Size = new Size(215, 23);
@@ -398,7 +407,7 @@
             // dateTimePickerStartDate
             // 
             dateTimePickerStartDate.Format = DateTimePickerFormat.Custom;
-            dateTimePickerStartDate.Location = new Point(760, 112);
+            dateTimePickerStartDate.Location = new Point(758, 89);
             dateTimePickerStartDate.Margin = new Padding(4, 3, 4, 3);
             dateTimePickerStartDate.Name = "dateTimePickerStartDate";
             dateTimePickerStartDate.RightToLeft = RightToLeft.No;
@@ -408,7 +417,7 @@
             // dateTimePickerEndDate
             // 
             dateTimePickerEndDate.Format = DateTimePickerFormat.Custom;
-            dateTimePickerEndDate.Location = new Point(935, 112);
+            dateTimePickerEndDate.Location = new Point(933, 89);
             dateTimePickerEndDate.Margin = new Padding(4, 3, 4, 3);
             dateTimePickerEndDate.Name = "dateTimePickerEndDate";
             dateTimePickerEndDate.Size = new Size(111, 23);
@@ -419,7 +428,7 @@
             labelStartDate.AutoSize = true;
             labelStartDate.Font = new Font("Calibri", 10F, FontStyle.Bold);
             labelStartDate.ForeColor = Color.Black;
-            labelStartDate.Location = new Point(756, 84);
+            labelStartDate.Location = new Point(754, 61);
             labelStartDate.Margin = new Padding(4, 0, 4, 0);
             labelStartDate.Name = "labelStartDate";
             labelStartDate.Size = new Size(67, 17);
@@ -429,7 +438,7 @@
             // buttonSearch
             // 
             buttonSearch.Font = new Font("Calibri", 10F, FontStyle.Bold);
-            buttonSearch.Location = new Point(1064, 110);
+            buttonSearch.Location = new Point(1062, 87);
             buttonSearch.Margin = new Padding(4, 3, 4, 3);
             buttonSearch.Name = "buttonSearch";
             buttonSearch.Size = new Size(88, 27);
@@ -443,7 +452,7 @@
             labelEndDate.AutoSize = true;
             labelEndDate.Font = new Font("Calibri", 10F, FontStyle.Bold);
             labelEndDate.ForeColor = Color.Black;
-            labelEndDate.Location = new Point(931, 84);
+            labelEndDate.Location = new Point(929, 61);
             labelEndDate.Margin = new Padding(4, 0, 4, 0);
             labelEndDate.Name = "labelEndDate";
             labelEndDate.Size = new Size(61, 17);
@@ -490,7 +499,7 @@
             // 
             checkBoxDay.AutoSize = true;
             checkBoxDay.Font = new Font("Calibri", 10F, FontStyle.Bold);
-            checkBoxDay.Location = new Point(1240, 118);
+            checkBoxDay.Location = new Point(1234, 95);
             checkBoxDay.Name = "checkBoxDay";
             checkBoxDay.Size = new Size(98, 21);
             checkBoxDay.TabIndex = 27;
@@ -545,7 +554,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLight;
-            ClientSize = new Size(1421, 1045);
+            ClientSize = new Size(1392, 1045);
             Controls.Add(labelShowDelay);
             Controls.Add(labelStatus);
             Controls.Add(labelText3);
@@ -566,6 +575,7 @@
             Controls.Add(comboBoxDay);
             Controls.Add(labelDate);
             Controls.Add(menuStrip1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
@@ -627,10 +637,11 @@
         private System.Windows.Forms.ToolStripMenuItem changeTimeToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox delayValueToolStripComboBox;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteSelectedRowsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showDelayTimeLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearDataToolStripMenuItem;
         private System.Windows.Forms.Label labelShowDelay;
         private ToolStripMenuItem changeDatabasePasswordToolStripMenuItem;
+        private ToolStripMenuItem modifyCurrentDataToolStripMenuItem;
+        private ToolStripMenuItem deleteRowsToolStripMenuItem;
     }
 }

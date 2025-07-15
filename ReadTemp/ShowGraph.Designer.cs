@@ -63,6 +63,7 @@
             labelPanelMarker = new Label();
             labelColorPanel4 = new Label();
             labelPanel = new Label();
+            labelDateUpdate = new Label();
             ((System.ComponentModel.ISupportInitialize)chartInfo).BeginInit();
             menuStrip1.SuspendLayout();
             panelSettings.SuspendLayout();
@@ -243,7 +244,7 @@
             listBoxShowValue.Font = new Font("Calibri", 16F, FontStyle.Bold);
             listBoxShowValue.FormattingEnabled = true;
             listBoxShowValue.ItemHeight = 26;
-            listBoxShowValue.Location = new Point(3029, 43);
+            listBoxShowValue.Location = new Point(2971, 43);
             listBoxShowValue.Margin = new Padding(4, 3, 4, 3);
             listBoxShowValue.Name = "listBoxShowValue";
             listBoxShowValue.Size = new Size(312, 1200);
@@ -362,6 +363,17 @@
             labelPanel.TabIndex = 0;
             labelPanel.Text = "Layout settings";
             // 
+            // labelDateUpdate
+            // 
+            labelDateUpdate.AutoSize = true;
+            labelDateUpdate.BackColor = Color.LightGray;
+            labelDateUpdate.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelDateUpdate.Location = new Point(2674, 217);
+            labelDateUpdate.Name = "labelDateUpdate";
+            labelDateUpdate.Size = new Size(60, 25);
+            labelDateUpdate.TabIndex = 11;
+            labelDateUpdate.Text = "Date: ";
+            // 
             // FormViewGraph
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -369,6 +381,7 @@
             AutoSize = true;
             BackColor = Color.CadetBlue;
             ClientSize = new Size(3354, 1255);
+            Controls.Add(labelDateUpdate);
             Controls.Add(panelSettings);
             Controls.Add(listBoxShowValue);
             Controls.Add(chartInfo);
@@ -423,5 +436,6 @@
         private System.Windows.Forms.Label labelPanelMarker3;
         private System.Windows.Forms.Button buttonSetColor;
         private System.Windows.Forms.ToolStripMenuItem defaultChartSettingsToolStripMenuItem;
+        private Label labelDateUpdate;
     }
 }

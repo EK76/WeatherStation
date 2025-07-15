@@ -36,6 +36,7 @@
             menuStrip1 = new System.Windows.Forms.MenuStrip();
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             printStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             editTolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,10 +61,10 @@
             listViewShowData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeaderOutTemp, columnHeaderOutHum, columnHeaderPressure, columnHeaderDate });
             listViewShowData.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             listViewShowData.FullRowSelect = true;
-            listViewShowData.Location = new System.Drawing.Point(21, 37);
+            listViewShowData.Location = new System.Drawing.Point(0, 39);
             listViewShowData.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             listViewShowData.Name = "listViewShowData";
-            listViewShowData.Size = new System.Drawing.Size(1372, 857);
+            listViewShowData.Size = new System.Drawing.Size(1393, 867);
             listViewShowData.TabIndex = 18;
             listViewShowData.UseCompatibleStateImageBehavior = false;
             listViewShowData.View = System.Windows.Forms.View.Details;
@@ -73,22 +74,22 @@
             // columnHeaderOutTemp
             // 
             columnHeaderOutTemp.Text = "Outdoor temperature";
-            columnHeaderOutTemp.Width = 290;
+            columnHeaderOutTemp.Width = 330;
             // 
             // columnHeaderOutHum
             // 
             columnHeaderOutHum.Text = "Outdoor humidity";
-            columnHeaderOutHum.Width = 260;
+            columnHeaderOutHum.Width = 330;
             // 
             // columnHeaderPressure
             // 
             columnHeaderPressure.Text = "Pressure";
-            columnHeaderPressure.Width = 251;
+            columnHeaderPressure.Width = 330;
             // 
             // columnHeaderDate
             // 
             columnHeaderDate.Text = "Date created";
-            columnHeaderDate.Width = 235;
+            columnHeaderDate.Width = 360;
             // 
             // menuStrip1
             // 
@@ -102,7 +103,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { openToolStripMenuItem, printStripMenuItem, exitToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem, printStripMenuItem, exitToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             fileToolStripMenuItem.Text = "File";
@@ -113,6 +114,14 @@
             openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
+            // 
+            // saveToolStripMenuItem
+            // 
+            saveToolStripMenuItem.Enabled = false;
+            saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            saveToolStripMenuItem.Text = "Save";
+            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // printStripMenuItem
             // 
@@ -140,7 +149,7 @@
             // 
             deleteRowsToolStripMenuItem.Enabled = false;
             deleteRowsToolStripMenuItem.Name = "deleteRowsToolStripMenuItem";
-            deleteRowsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            deleteRowsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             deleteRowsToolStripMenuItem.Text = "Delete Rows";
             deleteRowsToolStripMenuItem.Click += deleteRowsToolStripMenuItem_Click;
             // 
@@ -148,7 +157,7 @@
             // 
             clearDataToolStripMenuItem.Enabled = false;
             clearDataToolStripMenuItem.Name = "clearDataToolStripMenuItem";
-            clearDataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            clearDataToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             clearDataToolStripMenuItem.Text = "Clear Data";
             clearDataToolStripMenuItem.Click += clearDataToolStripMenuItem_Click;
             // 
@@ -163,7 +172,7 @@
             // 
             graphViewToolStripMenuItem.Enabled = false;
             graphViewToolStripMenuItem.Name = "graphViewToolStripMenuItem";
-            graphViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            graphViewToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             graphViewToolStripMenuItem.Text = "Graph View";
             graphViewToolStripMenuItem.Click += graphViewToolStripMenuItem_Click;
             // 
@@ -299,6 +308,7 @@
         private System.Windows.Forms.ToolStripMenuItem aboutWeatherInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
     }
 }
 

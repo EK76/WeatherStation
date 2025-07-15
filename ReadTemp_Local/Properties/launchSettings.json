@@ -2,7 +2,7 @@
   "profiles": {
     "ReadTemp_Local": {
       "commandName": "Project",
-      "workingDirectory": "O:\\Programming\\Visual Studio\\ReadTemp2\\ReadTemp_Local\\bin\\Release\\net8.0-windows"
+      "workingDirectory": "C:\\Applications\\WeatherInfoLocal"
     }
   }
 }

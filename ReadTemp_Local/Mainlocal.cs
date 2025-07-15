@@ -28,7 +28,7 @@ namespace ReadTemp_Local
 
         public static int checkForward, counterItems = 0, countItems = -1;
         public static bool localData = false;
-        string line = "", firstItem, lastItem;
+        string line = "", firstItem, lastItem,saveFile;
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -89,6 +89,7 @@ namespace ReadTemp_Local
                         Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
                         Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
                         Choice.fileName2 = openContent.FileName.ToString();
+                        //saveFile 0
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                     }
                     else
@@ -139,6 +140,7 @@ namespace ReadTemp_Local
             labelRows.Text = "Numbers of rows: " + listViewShowData.Items.Count;
 
             deleteRowsToolStripMenuItem.Enabled = false;
+            saveToolStripMenuItem.Enabled = true;
 
             if (listViewShowData.Items.Count > 1)
             {
@@ -230,6 +232,31 @@ namespace ReadTemp_Local
         private void listViewShowData_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+
+                if (Choice.fileName2 != "")
+                {
+                    using (StreamWriter sw = new StreamWriter(Choice.fileName2))
+                    {
+                        foreach (ListViewItem item in listViewShowData.Items)
+                        {
+                            sw.WriteLine("{0}{1}{2}{3}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";", item.SubItems[2].Text + ";", item.SubItems[3].Text + ";");
+                        }
+                    }
+                }
+                MessageBox.Show("File " + Choice.fileName2 + " is susccessfully saved!");
+                saveToolStripMenuItem.Enabled = false;
+            }
+            catch (Exception i)
+            {
+                MessageBox.Show(i.Message);
+            }
         }
     }
 }

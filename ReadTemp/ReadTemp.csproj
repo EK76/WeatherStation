@@ -155,7 +155,7 @@
     <PackageReference Include="DocumentFormat.OpenXml.Features" Version="3.3.0" />
     <PackageReference Include="DocumentFormat.OpenXml.Framework" Version="3.3.0" />
     <PackageReference Include="DocumentFormat.OpenXmlSDK" Version="2.0.0" />
-    <PackageReference Include="EPPlus" Version="8.0.5" />
+    <PackageReference Include="EPPlus" Version="8.0.6" />
     <PackageReference Include="ExcelLibrary" Version="1.2011.7.31" />
     <PackageReference Include="Google.Protobuf" Version="3.31.1" />
     <PackageReference Include="iTextSharp" Version="5.5.13.4" />
@@ -166,11 +166,11 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Office.Excel" Version="14.0.4760.1000" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
-    <PackageReference Include="MiniExcel" Version="1.41.2" />
+    <PackageReference Include="MiniExcel" Version="1.41.3" />
     <PackageReference Include="MySql.Data" Version="9.3.0" />
     <PackageReference Include="MySqlBackup.NET" Version="2.3.9" />
     <PackageReference Include="Open-XML-SDK" Version="2.9.1" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.5" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.6" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="Uno.UI" Version="5.6.99" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />

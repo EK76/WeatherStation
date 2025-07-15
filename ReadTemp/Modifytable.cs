@@ -20,6 +20,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Color = System.Drawing.Color;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Font = System.Drawing.Font;
 
 namespace ReadTemp
 {
@@ -34,9 +36,9 @@ namespace ReadTemp
         string[] inputPass = File.ReadAllLines(@"input.txt");
         public static string checkString;
         public static int rowIndex;
-        string connString, newStartDate, newEndDate, checkString2, backupFolder, fileName,sqlQuery, passwordString;
+        string connString, newStartDate, newEndDate, checkString2, backupFolder, fileName, sqlQuery, passwordString;
         DateTime startDate, endDate;
-        int colorIndex, tableView, countRow = 0;
+        int colorIndex, tableView, countRow, indexRow;
         public static bool refreshTable;
 
         void wholeTable()
@@ -44,43 +46,80 @@ namespace ReadTemp
             colorIndex = 0;
             countRow = 0;
             tableView = 1;
+            listViewShowData.Items.Clear();
             connString = chooseDatabase[0];
             passwordString = Choice.decrypt(inputPass[0], "weather");
             connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
-            conn.Open();
-            checkString = "select id, outtemp, outhum, pressure, datecreated from weatherdata";
-            Clipboard.SetText(checkString);
-            MySqlCommand command = new MySqlCommand(checkString, conn);
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+
+            if (FormShowData.currentTable == true)
             {
-                colorIndex++;
-                countRow++;
-                listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetInt32("id").ToString(), reader.GetMySqlDecimal("outtemp").ToString() + " °C", reader.GetMySqlDecimal("outhum").ToString() + " %", reader.GetMySqlDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
-              }
-            conn.Close();
-            labelRows.Text = "Number of rows: " + countRow;
-            if (listViewShowData.Items.Count == 0) 
-            { 
-                emptyTableToolStripMenuItem.Enabled = false;
-                backupTableToolStripMenuItem1.Enabled = false;
+                buttonSearch.Visible = false;
+                radioButtonAll.Visible = false;
+                radioButtonIntervall.Visible = false;
+                labelDate.Visible = false;
+                labelDate2.Visible = false;
+                dateTimePickerStartDate.Visible = false;
+                dateTimePickerEndDate.Visible = false;
+                emptyTableToolStripMenuItem.Visible = false;
+                restoreTableToolStripMenuItem1.Visible = false;
+                backupTableToolStripMenuItem1.Visible = false;
+                conn.Open();
+                MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    colorIndex++;
+                    countRow++;
+                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetInt32("id").ToString(), reader.GetMySqlDecimal("outtemp").ToString() + " °C", reader.GetMySqlDecimal("outhum").ToString() + " %", reader.GetMySqlDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
+                }
+                conn.Close();
+                labelRows.Text = "Number of rows: " + countRow;
             }
-            else 
-            { 
-                emptyTableToolStripMenuItem.Enabled = true;
-                backupTableToolStripMenuItem1.Enabled = true;
+            else
+            {
+                buttonSearch.Visible = true;
+                radioButtonAll.Visible = true;
+                radioButtonIntervall.Visible = true;
+                labelDate.Visible = true;
+                labelDate2.Visible = true;
+                dateTimePickerStartDate.Visible = true;
+                dateTimePickerEndDate.Visible = true;
+                emptyTableToolStripMenuItem.Visible = true;
+                restoreTableToolStripMenuItem1.Visible = true;
+                backupTableToolStripMenuItem1.Visible = true;
+                conn.Open();
+                MySqlCommand command = new MySqlCommand("select id, outtemp, outhum, pressure, datecreated from weatherdata", conn);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    colorIndex++;
+                    countRow++;
+                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetInt32("id").ToString(), reader.GetMySqlDecimal("outtemp").ToString() + " °C", reader.GetMySqlDecimal("outhum").ToString() + " %", reader.GetMySqlDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
+                }
+                conn.Close();
+                labelRows.Text = "Number of rows: " + countRow;
+                if (listViewShowData.Items.Count == 0)
+                {
+                    emptyTableToolStripMenuItem.Enabled = false;
+                    backupTableToolStripMenuItem1.Enabled = false;
+                }
+                else
+                {
+                    emptyTableToolStripMenuItem.Enabled = true;
+                    backupTableToolStripMenuItem1.Enabled = true;
+                }
             }
         }
+
         private void FormModifyTable_Load(object sender, EventArgs e)
         {
-           wholeTable();
-           refreshTable = false;
+            wholeTable();
+            refreshTable = false;
         }
 
         private void radioButtonAll_Click(object sender, EventArgs e)
         {
-            listViewShowData.Items.Clear();
             dateTimePickerStartDate.Enabled = false;
             dateTimePickerEndDate.Enabled = false;
             buttonSearch.Enabled = false;
@@ -131,8 +170,8 @@ namespace ReadTemp
                 conn.Close();
                 listViewShowData.Items.Clear();
                 Clipboard.SetText(sqlQuery);
-                emptyTableToolStripMenuItem.Enabled=false;
-                backupTableToolStripMenuItem1.Enabled=false;
+                emptyTableToolStripMenuItem.Enabled = false;
+                backupTableToolStripMenuItem1.Enabled = false;
             }
         }
 
@@ -239,14 +278,14 @@ namespace ReadTemp
             }
             else
             {
-                emptyTableToolStripMenuItem.Enabled =  true;
+                emptyTableToolStripMenuItem.Enabled = true;
                 backupTableToolStripMenuItem1.Enabled = true;
             }
-        }     
+        }
 
         private void backupTableToolStripMenuItem1_Click(object sender, EventArgs e)
         {
- 
+
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "sql files|*.sql";
             saveFileDialog.Title = "Backup Table";
@@ -262,32 +301,32 @@ namespace ReadTemp
                 connString = connString + passwordString + ";";
                 if (tableView == 1)
                 {
-                  using (MySqlConnection conn = new MySqlConnection(connString))
-                  {
-                    using (MySqlCommand cmd = new MySqlCommand())
+                    using (MySqlConnection conn = new MySqlConnection(connString))
                     {
-                        using (MySqlBackup mb = new MySqlBackup(cmd))
+                        using (MySqlCommand cmd = new MySqlCommand())
                         {
-                            cmd.Connection = conn;
-                            conn.Open();
-                            mb.ExportInfo.ExportTriggers = false;
-                            mb.ExportInfo.TablesToBeExportedList = new List<string>
+                            using (MySqlBackup mb = new MySqlBackup(cmd))
+                            {
+                                cmd.Connection = conn;
+                                conn.Open();
+                                mb.ExportInfo.ExportTriggers = false;
+                                mb.ExportInfo.TablesToBeExportedList = new List<string>
                             {
                                 "weatherdata"
                             };
-                            if (result == DialogResult.OK)
-                            {
-                                mb.ExportToFile(backupFolder + "_" + DateTime.Now.ToString("dd_MM_yyyy HH:d") + ".sql");
-                                MessageBox.Show("Backup done!");
+                                if (result == DialogResult.OK)
+                                {
+                                    mb.ExportToFile(backupFolder + "_" + DateTime.Now.ToString("dd_MM_yyyy HH:d") + ".sql");
+                                    MessageBox.Show("Backup done!");
+                                }
                             }
                         }
                     }
                 }
-              }
-              else
-              {
+                else
+                {
 
-              }
+                }
             }
         }
 
@@ -302,13 +341,32 @@ namespace ReadTemp
             connString = chooseDatabase[0];
             connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
-           if (MessageBox.Show("Are you sure to delete selected values?", "Weather Station",
-            MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            indexRow = 0;
+            if (MessageBox.Show("Are you sure to delete selected values?", "Weather Station",
+             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-               
+                foreach (ListViewItem deleteValue in listViewShowData.Items)
+                {
+                    if (deleteValue.Selected)
+                    {
+                        conn.Open();
+                        sqlQuery = "delete from weatherdata where id = " + listViewShowData.Items[indexRow].SubItems[0].Text + ";";
+                        MessageBox.Show(sqlQuery);
+                        MessageBox.Show(indexRow.ToString());
+                        Clipboard.SetText(sqlQuery);
+                        MySqlCommand command = new MySqlCommand(sqlQuery, conn);
+                        MySqlDataReader reader = command.ExecuteReader();
+                        conn.Close();
+                        listViewShowData.Items.Remove(deleteValue);
+                        indexRow--;
+                        
+                    }
+                    indexRow++;
+                }
+
                 MessageBox.Show("Values are deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 deleteRowsToolStripMenuItem.Enabled = false;
-           }
+            }
             labelRows.Text = "Number of rows: " + countRow;
             if (listViewShowData.Items.Count == 0)
             {
@@ -332,7 +390,7 @@ namespace ReadTemp
             endDate = endDate.AddDays(1);
 
             newStartDate = startDate.ToString("yyyy-MM-dd");
-            newEndDate = endDate.ToString("yyyy-MM-dd");         
+            newEndDate = endDate.ToString("yyyy-MM-dd");
 
             if (dateTimePickerEndDate.Value >= dateTimePickerStartDate.Value)
             {
@@ -361,6 +419,11 @@ namespace ReadTemp
                 MessageBox.Show("End date must be larger than Start date!");
                 deleteRowsToolStripMenuItem.Enabled = false;
             }
+        }
+
+        private void trackBarSize_Scroll(object sender, EventArgs e)
+        {
+            listViewShowData.Font = new Font(listViewShowData.Font.FontFamily, trackBarSize.Value);
         }
     }
 }
