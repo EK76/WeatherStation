@@ -58,14 +58,14 @@ namespace ReadTemp
         string currentItem, passwordString;
         int index = 0, index2, oldValue = 0;
         Boolean oneTime = false;
-        List<String> listDate = new List<String>();
-        List<String> listDate2 = new List<String>();
+      //  List<String> listDate = new List<String>();
+      //  List<String> listDate2 = new List<String>();
         List<decimal> listSum = new List<decimal>();
-        List<decimal> listSumNew = new List<decimal>();
+      //  List<decimal> listSumNew = new List<decimal>();
         string addNewValue;
 
 
-        void colorChoose(string value)
+   /*     void colorChoose(string value)
         {
             string color = colorDialog1.Color.ToArgb().ToString("x");
             color = color.Substring(2, 6);
@@ -76,7 +76,7 @@ namespace ReadTemp
             MySqlCommand command = new MySqlCommand(checkString, conn);
             MySqlDataReader reader = command.ExecuteReader();
             conn.Close();
-        }
+        }*/
 
         void markerShow(int checkValue)
         {
@@ -107,7 +107,6 @@ namespace ReadTemp
                 case 1:
                    currentItem = listBoxShowValue.SelectedItem.ToString();
                    index = listBoxShowValue.FindString(currentItem);
-                   index = index - 4;
                    if (index >= 0)
                    {
                       chartInfo.Update();
@@ -131,8 +130,6 @@ namespace ReadTemp
             index = 0;
             listSum.Clear();
 
-         //   dateChoose = 1;
-
             labelDateUpdate.Text = "Date:\nTemperature:";
             chartInfo.Series[0].XValueType = ChartValueType.DateTime;
             chartInfo.ChartAreas[0].AxisX.IntervalType = (DateTimeIntervalType)DateRangeType.DayOfMonth;
@@ -155,7 +152,6 @@ namespace ReadTemp
                 case 0:
                     try
                     {
-                        listBoxShowValue.Items.Add("------------------------------------------------");
                         chartInfo.Update();
                         chartInfo.Series[0].LegendText = "Temperature";
                         chartInfo.ChartAreas[0].AxisY.Title = "Celsius";
@@ -183,9 +179,9 @@ namespace ReadTemp
                             index++;
                         }
 
-                        listBoxShowValue.Items.Insert(0, "Average value: " + Math.Round(listSum.Average(), 1) + " °C");
-                        listBoxShowValue.Items.Insert(0, "Min value: " + listSum.Min() + " °C");
-                        listBoxShowValue.Items.Insert(0, "Max value: " + listSum.Max() + " °C");
+                        labelAverage.Text = "Average value: " + Math.Round(listSum.Average(), 1) + " °C";
+                        labelMin.Text = "Min value: " + listSum.Min() + " °C";
+                        labelMax.Text = "Max value: " + listSum.Max() + " °C";
                     }
                     catch (Exception message)
                     {
@@ -196,7 +192,6 @@ namespace ReadTemp
                 case 1:
                     try
                     {
-                        listBoxShowValue.Items.Add("------------------------------------------------");
                         chartInfo.Update();
                         chartInfo.Series[0].LegendText = "Humidity";
                         chartInfo.ChartAreas[0].AxisY.Title = "Humidity %";
@@ -226,9 +221,10 @@ namespace ReadTemp
                             index++;
                         }
 
-                        listBoxShowValue.Items.Insert(0, "Average value: " + Math.Round(listSum.Average(), 1) + " %");
-                        listBoxShowValue.Items.Insert(0, "Min value: " + listSum.Min() + " %");
-                        listBoxShowValue.Items.Insert(0, "Max value: " + listSum.Max() + " %");
+
+                        labelAverage.Text = "Average value: " + Math.Round(listSum.Average(), 1) + " %";
+                        labelMin.Text = "Min value: " + listSum.Min() + " %";
+                        labelMax.Text = "Max value: " + listSum.Max() + " %";
                     }
                     catch (Exception message)
                     {
@@ -239,7 +235,6 @@ namespace ReadTemp
                 case 2:
                     try
                     {
-                        listBoxShowValue.Items.Add("------------------------------------------------");
                         chartInfo.Update();
                         chartInfo.Series[0].LegendText = "Pressure";
                         chartInfo.ChartAreas[0].AxisY.Title = "Pressure hPA";
@@ -268,9 +263,9 @@ namespace ReadTemp
                             index++;
                         }
 
-                        listBoxShowValue.Items.Insert(0, "Average value: " + Math.Round(listSum.Average(), 1) + " hPA");
-                        listBoxShowValue.Items.Insert(0, "Min value: " + listSum.Min() + " hPA");
-                        listBoxShowValue.Items.Insert(0, "Max value: " + listSum.Max() + " hPA");
+                        labelAverage.Text = "Average value: " + Math.Round(listSum.Average(), 1) + " hPA";
+                        labelMin.Text = "Min value: " + listSum.Min() + " hPA";
+                        labelMax.Text = "Max value: " + listSum.Max() + " hPA";
                     }
                     catch (Exception message)
                     {
@@ -282,27 +277,27 @@ namespace ReadTemp
 
         private void chartInfo_GetToolTipText(object sender, ToolTipEventArgs e)
         {
-          switch (e.HitTestResult.ChartElementType)
+            int point;
+            if (e.HitTestResult.ChartElementType == ChartElementType.DataPoint)
             {
+                var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
+                point = e.HitTestResult.PointIndex;
 
-                case ChartElementType.DataPoint:
-                    var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
-                    if (dateChoose == 0)
-                    {
-                        e.Text = string.Format("Date: {0}\n" + yAxisText + ": {1} " + yAxisValue, FormShowData.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                        labelDateUpdate.Text = string.Format("Date: {0}\n " + yAxisText + ":{1} " + yAxisValue, FormShowData.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                    }
-                    else
-                    {
-                        e.Text = string.Format("Date: {0}\n" + yAxisText + ": {1} " + yAxisValue, FormShowData.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                        labelDateUpdate.Text = string.Format("Date: {0}\n" + yAxisText + ":{1} " + yAxisValue, listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                    }
-                    break;
-
-                default:
-                    labelDateUpdate.Text = "Date:\nTemperature:";
-                    break;
+                e.Text = string.Format("Date: {0}\n" + yAxisText + ": {1} " + yAxisValue, FormShowData.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                labelDateUpdate.Text = string.Format("Date: {0}\n" + yAxisText + ":{1} " + yAxisValue, FormShowData.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                chartInfo.Series[0].Points[point].MarkerSize = markerSize + 8;
             }
+            else
+            {
+                point = e.HitTestResult.PointIndex;
+                if (point > -1)
+                {
+                    MessageBox.Show(point.ToString());
+                    markerSize = (int)Settings.Default["markerSize"];
+                    labelDateUpdate.Text = "Date:\nTemperature:";
+                    chartInfo.Series[0].Points[point].MarkerSize = markerSize;
+                }
+            }               
         }
 
         private void chart3ToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -386,21 +381,21 @@ namespace ReadTemp
             listBoxShowValueOrginal = new Rectangle(listBoxShowValue.Location.X, listBoxShowValue.Location.Y, listBoxShowValue.Width, listBoxShowValue.Height);
             labelDateOrginal = new Rectangle(labelDateUpdate.Location.X, labelDateUpdate.Location.Y, labelDateUpdate.Width, labelDateUpdate.Height);
 
-            showBeginDate = Choice.firstItem;
-            showEndDate = Choice.lastItem;
+            showBeginDate = FormShowData.listDate.First();
+            showEndDate = FormShowData.listDate.Last();
             choosenValue = "outtemp";
             chooseItem = 1;
             recordSum = 0;
             index = 0;
 
             labelDateUpdate.Text = "Date:\nTemperature:";
+            chartInfo.Update();
             chartInfo.Series[0].XValueType = ChartValueType.DateTime;
             chartInfo.ChartAreas[0].AxisX.IntervalType = (DateTimeIntervalType)DateRangeType.DayOfMonth;
             chartInfo.ChartAreas[0].AxisX.LabelStyle.Format = "mm-hh-dd";
-
+   
             try
             {
-                listBoxShowValue.Items.Add("------------------------------------------------");
                 chartInfo.Update();
                 chartInfo.Series[0].LegendText = "Temperature";
                 chartInfo.ChartAreas[0].AxisY.Title = "Celsius";
@@ -431,24 +426,27 @@ namespace ReadTemp
                     index++;
                 }
 
-                listBoxShowValue.Items.Insert(0, "Average value: " + Math.Round(listSum.Average(), 1) + " °C");
-                listBoxShowValue.Items.Insert(0, "Min value: " + listSum.Min() + " °C");
-                listBoxShowValue.Items.Insert(0, "Max value: " + listSum.Max() + " °C");
+                addPoint = 0;
+                foreach (var addValue in FormShowData.listDate)
+                {
+                    chartInfo.Series[0].Points[addPoint].AxisLabel = FormShowData.listDate[addPoint];
+                    addPoint++;
+                }
+
+                labelAverage.Text= "Average value: " + Math.Round(listSum.Average(), 1) + " °C";
+                labelMin.Text = "Min value: " + listSum.Min() + " °C";
+                labelMax.Text = "Max value: " + listSum.Max() + " °C";
             }
             catch(Exception message)
             {
                 MessageBox.Show(message.ToString());
             }
 
+
             chartInfo.ChartAreas[0].AxisY.Minimum = -40;
             chartInfo.ChartAreas[0].AxisY.Maximum = 40;
 
-            addPoint = -1;
-            foreach (var addValue in FormShowData.listDate)
-            {
-                addPoint++;
-                chartInfo.Series[0].Points[addPoint].AxisLabel = FormShowData.listDate[addPoint];
-            }
+
 
             Title showOne = chartInfo.Titles.Add("Begin date " + showBeginDate + "\n\n End date " + showEndDate);
             showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10f, FontStyle.Bold);
@@ -772,8 +770,7 @@ namespace ReadTemp
               if (showvalue.ChartElementType == ChartElementType.DataPoint)
               {
                 selectValue = showvalue.PointIndex;
-                selectValue = selectValue + 4;
-                  listBoxShowValue.SetSelected(selectValue, true);
+                listBoxShowValue.SetSelected(selectValue, true);
               }
           
             //markerShow(2);

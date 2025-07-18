@@ -64,9 +64,14 @@
             labelColorPanel4 = new Label();
             labelPanel = new Label();
             labelDateUpdate = new Label();
+            panel1 = new Panel();
+            labelMax = new Label();
+            labelMin = new Label();
+            labelAverage = new Label();
             ((System.ComponentModel.ISupportInitialize)chartInfo).BeginInit();
             menuStrip1.SuspendLayout();
             panelSettings.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // chartInfo
@@ -244,10 +249,10 @@
             listBoxShowValue.Font = new Font("Calibri", 16F, FontStyle.Bold);
             listBoxShowValue.FormattingEnabled = true;
             listBoxShowValue.ItemHeight = 26;
-            listBoxShowValue.Location = new Point(2971, 43);
+            listBoxShowValue.Location = new Point(3029, 225);
             listBoxShowValue.Margin = new Padding(4, 3, 4, 3);
             listBoxShowValue.Name = "listBoxShowValue";
-            listBoxShowValue.Size = new Size(312, 1200);
+            listBoxShowValue.Size = new Size(312, 1018);
             listBoxShowValue.TabIndex = 9;
             listBoxShowValue.Click += listBoxShowValue_Click;
             listBoxShowValue.SelectedIndexChanged += listBoxShowValue_SelectedIndexChanged;
@@ -374,6 +379,45 @@
             labelDateUpdate.TabIndex = 11;
             labelDateUpdate.Text = "Date: ";
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(labelAverage);
+            panel1.Controls.Add(labelMin);
+            panel1.Controls.Add(labelMax);
+            panel1.Font = new Font("Calibri", 16F, FontStyle.Bold);
+            panel1.Location = new Point(3029, 38);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(312, 168);
+            panel1.TabIndex = 12;
+            // 
+            // labelMax
+            // 
+            labelMax.AutoSize = true;
+            labelMax.Location = new Point(14, 22);
+            labelMax.Name = "labelMax";
+            labelMax.Size = new Size(67, 27);
+            labelMax.TabIndex = 0;
+            labelMax.Text = "label1";
+            // 
+            // labelMin
+            // 
+            labelMin.AutoSize = true;
+            labelMin.Location = new Point(14, 77);
+            labelMin.Name = "labelMin";
+            labelMin.Size = new Size(67, 27);
+            labelMin.TabIndex = 1;
+            labelMin.Text = "label2";
+            // 
+            // labelAverage
+            // 
+            labelAverage.AllowDrop = true;
+            labelAverage.AutoSize = true;
+            labelAverage.Location = new Point(14, 122);
+            labelAverage.Name = "labelAverage";
+            labelAverage.Size = new Size(67, 27);
+            labelAverage.TabIndex = 2;
+            labelAverage.Text = "label3";
+            // 
             // FormViewGraph
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -381,6 +425,7 @@
             AutoSize = true;
             BackColor = Color.CadetBlue;
             ClientSize = new Size(3354, 1255);
+            Controls.Add(panel1);
             Controls.Add(labelDateUpdate);
             Controls.Add(panelSettings);
             Controls.Add(listBoxShowValue);
@@ -399,6 +444,8 @@
             menuStrip1.PerformLayout();
             panelSettings.ResumeLayout(false);
             panelSettings.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -437,5 +484,9 @@
         private System.Windows.Forms.Button buttonSetColor;
         private System.Windows.Forms.ToolStripMenuItem defaultChartSettingsToolStripMenuItem;
         private Label labelDateUpdate;
+        private Panel panel1;
+        private Label labelAverage;
+        private Label labelMin;
+        private Label labelMax;
     }
 }
