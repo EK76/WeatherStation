@@ -28,7 +28,11 @@ namespace ReadTemp_Local
 
         public static int checkForward, counterItems = 0, countItems = -1;
         public static bool localData = false;
-        string line = "", firstItem, lastItem,saveFile;
+        string line = "", firstItem, lastItem, saveFile;
+        public static List<string> listTemp = new List<string>();
+        public static List<string> listHum = new List<string>();
+        public static List<string> listPressure = new List<string>();
+        public static List<string> listDate = new List<string>();
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -37,20 +41,22 @@ namespace ReadTemp_Local
 
         private void graphViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Choice.localData = true;
+            listTemp.Clear();
+            listHum.Clear();
+            listPressure.Clear();
+            listDate.Clear();
+
+            foreach (ListViewItem item in listViewShowData.Items)
+            {
+                listTemp.Add(item.SubItems[0].Text);
+                listHum.Add(item.SubItems[1].Text);
+                listPressure.Add(item.SubItems[2].Text);
+                listDate.Add(item.SubItems[3].Text);
+            }
             FormViewGraph showGraph = new FormViewGraph();
             showGraph.Show();
         }
-
-        private void FormShowData2_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
         private void trackBarSize_Scroll(object sender, EventArgs e)
         {
             listViewShowData.Font = new Font(listViewShowData.Font.FontFamily, trackBarSize.Value);
@@ -58,7 +64,6 @@ namespace ReadTemp_Local
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Choice.localData = true;
             countItems = -1;
             counterItems = 0;
 
@@ -234,9 +239,8 @@ namespace ReadTemp_Local
 
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void textFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             try
             {
 

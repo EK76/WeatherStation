@@ -351,9 +351,6 @@ namespace ReadTemp
                     {
                         conn.Open();
                         sqlQuery = "delete from weatherdata where id = " + listViewShowData.Items[indexRow].SubItems[0].Text + ";";
-                        MessageBox.Show(sqlQuery);
-                        MessageBox.Show(indexRow.ToString());
-                        Clipboard.SetText(sqlQuery);
                         MySqlCommand command = new MySqlCommand(sqlQuery, conn);
                         MySqlDataReader reader = command.ExecuteReader();
                         conn.Close();

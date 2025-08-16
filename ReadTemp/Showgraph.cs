@@ -1,36 +1,39 @@
-﻿using MySql.Data.MySqlClient;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Presentation;
+using DocumentFormat.OpenXml.Vml.Spreadsheet;
+using Locations;
+using Microsoft.Office.Interop.Excel;
+using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
+using MySqlX.XDevAPI.Common;
+using Org.BouncyCastle.Asn1.Cmp;
+using Org.BouncyCastle.Utilities.Collections;
+using ReadTemp.Properties;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.Windows.Forms.DataVisualization.Charting;
-using Windows.UI.Composition;
-using DocumentFormat.OpenXml.Presentation;
-using Control = System.Windows.Forms.Control;
 using System.Linq;
-using System.Data;
-using DocumentFormat.OpenXml.Drawing.Diagrams;
-using DocumentFormat.OpenXml.Drawing.Charts;
 using System.Reflection;
-using Windows.UI.StartScreen;
-using Title = System.Windows.Forms.DataVisualization.Charting.Title;
-using Size = System.Drawing.Size;
-using Point = System.Drawing.Point;
-using System.DirectoryServices.ActiveDirectory;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using Color = System.Drawing.Color;
-using MySqlX.XDevAPI.Common;
-using DocumentFormat.OpenXml.Vml.Spreadsheet;
-using Windows.UI.Xaml;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
-using Org.BouncyCastle.Asn1.Cmp;
 using System.Security.Cryptography;
 using System.Text;
-using Mysqlx.Crud;
-using ReadTemp.Properties;
-using Locations;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using Windows.UI.Composition;
+using Windows.UI.StartScreen;
+using Windows.UI.Xaml;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
+using Color = System.Drawing.Color;
+using Control = System.Windows.Forms.Control;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using Size = System.Drawing.Size;
+using Title = System.Windows.Forms.DataVisualization.Charting.Title;
 
 namespace ReadTemp
 {
@@ -47,7 +50,6 @@ namespace ReadTemp
         {
             InitializeComponent();
         }
-
 
         string[] chooseDatabase;
         string[] inputPass;

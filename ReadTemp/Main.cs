@@ -37,7 +37,7 @@ namespace ReadTemp
             this.listViewShowData.ListViewItemSorter = lvwColumnSorter;
         }
         private ListViewColumnSorter lvwColumnSorter;
-        string timeString, compareDay, checkDay, convertMonth, setValue, folderPdf, setDay, setDelay, passwordString;
+        string timeString, compareDay, checkDay, convertMonth, setValue, folderPdf, setDay, setDelay, passwordString, showString;
         public static string forwardStartDate, newStartDate, newEndDate, currentDate, firstItem, lastItem, fileName2, connString;
         DateTime onlyTime, checkDay2, convertDate, startDate, endDate;
         int checkWeek, compareWeek = 0, checkMonth, compareMonth = 0, checkYear, compareYear = 0, setNewValue, setDelay2, delayStatus, checkNumbers, setMonth;
@@ -48,11 +48,11 @@ namespace ReadTemp
         private static string passWordString;
         public static List<string> listTemp = new List<string>();
         public static List<string> listHum = new List<string>();
-        public static List<string> listPressure= new List<string>();
+        public static List<string> listPressure = new List<string>();
         public static List<string> listDate = new List<string>();
-        string[] settingsStorage;
-        // List<int> setMonth = new List<int>();
-
+        public static string setLabelText; // Belongs to MessageBox.
+        public static string setButtonText; // Belongs to Show Tables.
+        public static bool multiSelect; // Belongs to Show Tables.
         private void delayToolStripMenuItem_MouseHover(object sender, EventArgs e)
         {
             allowDelay = true;
@@ -137,7 +137,7 @@ namespace ReadTemp
                     else
                     {
                         modifyCurrentDataToolStripMenuItem.Enabled = true;
-                        exportToPDFToolStripMenuItem.Enabled = true;                 
+                        exportToPDFToolStripMenuItem.Enabled = true;
                         clearDataToolStripMenuItem.Enabled = true;
                         deleteRowsToolStripMenuItem.Enabled = false;
                         saveToolStripMenuItem.Enabled = true;
@@ -152,7 +152,7 @@ namespace ReadTemp
                             graphViewToolStripMenuItem.Enabled = false;
                         }
 
-                        else 
+                        else
                         {
                             graphViewToolStripMenuItem.Enabled = true;
                         }
@@ -241,6 +241,7 @@ namespace ReadTemp
 
         private void graphViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Choice.localData = false;
             listTemp.Clear();
             listHum.Clear();
             listPressure.Clear();
@@ -264,34 +265,7 @@ namespace ReadTemp
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string filename = "";
-            SaveFileDialog saveContent = new SaveFileDialog();
 
-            saveContent.Title = "Save Data";
-            saveContent.Filter = "Weather File (.whf) | *.whf";
-
-            try
-            {
-                if (saveContent.ShowDialog() == DialogResult.OK)
-                {
-                    filename = saveContent.FileName.ToString();
-                    if (filename != "")
-                    {
-                        using (StreamWriter sw = new StreamWriter(filename))
-                        {
-                            foreach (ListViewItem item in listViewShowData.Items)
-                            {
-                                sw.WriteLine("{0}{1}{2}{3}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";", item.SubItems[2].Text + ";", item.SubItems[3].Text + ";");
-                            }
-                        }
-                        MessageBox.Show("File " + filename + " is susccessfully saved!");
-                    }
-                }
-            }
-            catch (Exception i)
-            {
-                MessageBox.Show(i.Message);
-            }
         }
 
         private void exportToPDFToolStripMenuItem_Click(object sender, EventArgs e)
@@ -471,7 +445,7 @@ namespace ReadTemp
                     labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                     labelStatus.Text = "Data from server database.";
                 }
-            
+
             }
             catch (Exception ex)
             {
@@ -658,54 +632,7 @@ namespace ReadTemp
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Choice.localData = true;
-            string line = "";
-            countItems = -1;
-            counterItems = 0;
-            OpenFileDialog openContent = new OpenFileDialog();
 
-            openContent.Title = "Open Data";
-            openContent.Filter = "Weather File (.whf) | *.whf";
-
-            try
-            {
-
-                if (openContent.ShowDialog() == DialogResult.OK)
-                {
-                    listViewShowData.Items.Clear();
-                    StreamReader fileName = new StreamReader(openContent.FileName.ToString());
-                    if (openContent.SafeFileName.Contains(".whf"))
-                    {
-                        while ((line = fileName.ReadLine()) != null)
-                        {
-                            counterItems++;
-                            countItems++;
-                            var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(),
-                            line.ToString().Split(';')[2].ToString(), line.ToString().Split(';')[3].ToString() });
-                            listViewShowData.Items.Add(itemAdd);
-                        }
-                        fileName.Close();
-                        MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!");
-                        labelStatus.Text = "Data from local wht file (" + openContent.FileName.ToString() + ").";
-                        clearDataToolStripMenuItem.Enabled = true;
-                        exportToPDFToolStripMenuItem.Enabled = true;
-                        graphViewToolStripMenuItem.Enabled = true;
-
-                        Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
-                        Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
-                        Choice.fileName2 = openContent.FileName.ToString();
-                        labelRows.Text = "Numbers of rows: " + counterItems.ToString();
-                    }
-                    else
-                    {
-                        MessageBox.Show(("This application supports only whf files"));
-                    }
-                }
-            }
-            catch (Exception i)
-            {
-                MessageBox.Show("Error message:" + i.Message);
-            }
 
         }
 
@@ -868,6 +795,271 @@ namespace ReadTemp
                 graphViewToolStripMenuItem.Enabled = false;
             }
             MessageBox.Show("Test");
+        }
+
+        private void textFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string filename = "";
+            SaveFileDialog saveContent = new SaveFileDialog();
+
+            saveContent.Title = "Save Data";
+            saveContent.Filter = "Weather File (.whf) | *.whf";
+
+            try
+            {
+                if (saveContent.ShowDialog() == DialogResult.OK)
+                {
+                    filename = saveContent.FileName.ToString();
+                    if (filename != "")
+                    {
+                        using (StreamWriter sw = new StreamWriter(filename))
+                        {
+                            foreach (ListViewItem item in listViewShowData.Items)
+                            {
+                                sw.WriteLine("{0}{1}{2}{3}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";", item.SubItems[2].Text + ";", item.SubItems[3].Text + ";");
+                            }
+                        }
+                        MessageBox.Show("File " + filename + " is susccessfully saved!");
+                    }
+                }
+            }
+            catch (Exception i)
+            {
+                MessageBox.Show(i.Message);
+            }
+        }
+
+        private void databaseTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            FormMessageBox showMessage = new FormMessageBox();
+            showMessage.ShowDialog();
+            setLabelText = "Write a name for the table.";
+
+            if (FormMessageBox.addChoice == true)
+            {
+                try
+                {
+                    MySqlConnection conn = new MySqlConnection(FormShowData.connString);
+                    conn.Open();
+                    MySqlCommand createTable = new MySqlCommand(@"
+                  create table " + FormMessageBox.textValue + @"  
+                     (id int not null auto_increment,
+                     outtemp decimal(3,1), 
+                     outhum decimal(4,1),
+                     pressure decimal(6,2),
+                     datecreated datetime,
+                     primary key (id));", conn);
+                    createTable.ExecuteNonQuery();
+                    conn.Close();
+
+
+
+                    MessageBox.Show("Table " + FormMessageBox.textValue + " was created");
+                    conn.Close();
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex)
+                {
+                    switch (ex.Number)
+                    {
+                        case 1050:
+                            MessageBox.Show("Table " + FormMessageBox.textValue + " exist already!");
+                            break;
+                        case 1045:
+                            MessageBox.Show("Invalid username/password, please try again");
+                            break;
+                    }
+                }
+                try
+                {
+
+                    MySqlConnection conn = new MySqlConnection(FormShowData.connString);
+
+
+                    foreach (ListViewItem item in listViewShowData.Items)
+                    {
+                        conn.Open();
+                        var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
+                        DateTime convertDate;
+                        foreach (var rc in removeChars)
+                        {
+                            item.SubItems[0].Text = item.SubItems[0].Text.Replace(rc, string.Empty);
+                            item.SubItems[0].Text = item.SubItems[0].Text.Replace(",", ".");
+                            item.SubItems[1].Text = item.SubItems[1].Text.Replace(rc, string.Empty);
+                            item.SubItems[1].Text = item.SubItems[1].Text.Replace(",", ".");
+                            item.SubItems[2].Text = item.SubItems[2].Text.Replace(rc, string.Empty);
+                            item.SubItems[2].Text = item.SubItems[2].Text.Replace(",", ".");
+                            convertDate = DateTime.Parse(item.SubItems[3].Text.ToString());
+                            item.SubItems[3].Text = convertDate.ToString("yyyy-MM-dd hh:mm:ss");
+                        }
+                        string addmessuarement = "insert into " + FormMessageBox.textValue + "(outtemp,outhum,pressure,datecreated) values('" + item.SubItems[0].Text + "','" + item.SubItems[1].Text + "','" + item.SubItems[2].Text + "','" + item.SubItems[3].Text + "');";
+                        MySqlCommand command = new MySqlCommand(addmessuarement, conn);
+                        MySqlDataReader reader = command.ExecuteReader();
+                        conn.Close();
+                    }
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Creation of table was aborted!");
+            }
+        }
+
+        private void changeTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textFileToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Choice.localData = true;
+            string line = "";
+            countItems = -1;
+            counterItems = 0;
+            OpenFileDialog openContent = new OpenFileDialog();
+
+            openContent.Title = "Open Data";
+            openContent.Filter = "Weather File (.whf) | *.whf";
+
+            try
+            {
+
+                if (openContent.ShowDialog() == DialogResult.OK)
+                {
+                    listViewShowData.Items.Clear();
+                    StreamReader fileName = new StreamReader(openContent.FileName.ToString());
+                    if (openContent.SafeFileName.Contains(".whf"))
+                    {
+                        while ((line = fileName.ReadLine()) != null)
+                        {
+                            counterItems++;
+                            countItems++;
+                            var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(),
+                            line.ToString().Split(';')[2].ToString(), line.ToString().Split(';')[3].ToString() });
+                            listViewShowData.Items.Add(itemAdd);
+                        }
+                        fileName.Close();
+                        MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!");
+                        labelStatus.Text = "Data from local wht file (" + openContent.FileName.ToString() + ").";
+                        clearDataToolStripMenuItem.Enabled = true;
+                        exportToPDFToolStripMenuItem.Enabled = true;
+                        graphViewToolStripMenuItem.Enabled = true;
+
+                        Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
+                        Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
+                        Choice.fileName2 = openContent.FileName.ToString();
+                        labelRows.Text = "Numbers of rows: " + counterItems.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show(("This application supports only whf files"));
+                    }
+                }
+            }
+            catch (Exception i)
+            {
+                MessageBox.Show("Error message:" + i.Message);
+            }
+        }
+
+        private void datebaseTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setButtonText = "Open Table";
+            multiSelect = false;
+            FormShowTables showTables = new FormShowTables();
+            showTables.ShowDialog();
+            if (FormShowTables.doChange == true)
+            {
+                counterItems = 0;
+                countItems = -1;
+                try
+                {
+                    if (checkBoxDay.Checked == true)
+                    {
+                        checkBoxDay.Checked = false;
+                        dateTimePickerEndDate.Enabled = true;
+                        dateTimePickerStartDate.Enabled = true;
+                        buttonSearch.Enabled = true;
+                        comboBoxYear.Enabled = true;
+                        comboBoxMonth.Enabled = true;
+                        comboBoxDay.Enabled = true;
+                    }
+                    listViewShowData.Items.Clear();
+                    MySqlConnection conn = new MySqlConnection(connString);
+                    conn.Open();
+                    showString = "select * from " + FormShowTables.tableName + ";";
+
+                    MySqlCommand command = new MySqlCommand(showString, conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        counterItems++;
+                        countItems++;
+                        listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
+                    }
+                    if (counterItems == 0)
+                    {
+                        MessageBox.Show("The search gave no result!", "Weather Station.");
+                        checkBoxDay.Checked = false;
+                    }
+                    else
+                    {
+                        modifyCurrentDataToolStripMenuItem.Enabled = true;
+                        exportToPDFToolStripMenuItem.Enabled = true;
+                        clearDataToolStripMenuItem.Enabled = true;
+                        saveToolStripMenuItem.Enabled = true;
+                        printToolStripMenuItem.Enabled = true;
+                        deleteRowsToolStripMenuItem.Enabled = false;
+                        labelRows.Text = "Numbers of rows: " + counterItems.ToString();
+                        labelStatus.Text = "Data from server database. Table " + FormShowTables.tableName + " is selected.";
+                        Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
+                        Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
+
+                        if (counterItems == 1)
+                        {
+                            graphViewToolStripMenuItem.Enabled = false;
+                        }
+
+                        else
+                        {
+                            graphViewToolStripMenuItem.Enabled = true;
+                        }
+                        labelRows.Text = "Numbers of rows: " + counterItems.ToString();
+                        labelStatus.Text = "Data from server database. Table " + FormShowTables.tableName + " is selected.";
+                    }
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+        }
+
+        private void deleteTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setButtonText = "Delete Table";
+            multiSelect = false;
+            FormShowTables showTables = new FormShowTables();
+            showTables.ShowDialog();
+
+            if (FormShowTables.doChange == true)
+            {
+                MySqlConnection conn = new MySqlConnection(connString);
+                if (MessageBox.Show("Are you sure to delete selected " + FormShowTables.tableName + " table?", "Weather Station",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    conn.Open();
+                    showString = "drop table " + FormShowTables.tableName + ";";
+                    MySqlCommand command = new MySqlCommand(showString, conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    conn.Close();
+                }
+                MessageBox.Show("Table  are deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

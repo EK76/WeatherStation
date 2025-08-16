@@ -37,6 +37,8 @@
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            databaseTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            textFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             printStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             editTolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,7 +101,6 @@
             menuStrip1.Size = new System.Drawing.Size(1393, 24);
             menuStrip1.TabIndex = 19;
             menuStrip1.Text = "menuStrip1";
-            menuStrip1.ItemClicked += menuStrip1_ItemClicked;
             // 
             // fileToolStripMenuItem
             // 
@@ -117,11 +118,25 @@
             // 
             // saveToolStripMenuItem
             // 
+            saveToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { databaseTableToolStripMenuItem, textFileToolStripMenuItem });
             saveToolStripMenuItem.Enabled = false;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
+            // 
+            // databaseTableToolStripMenuItem
+            // 
+            databaseTableToolStripMenuItem.Name = "databaseTableToolStripMenuItem";
+            databaseTableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            databaseTableToolStripMenuItem.Text = "Database Table";
+            // 
+            // textFileToolStripMenuItem
+            // 
+            textFileToolStripMenuItem.Name = "textFileToolStripMenuItem";
+            textFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            textFileToolStripMenuItem.Text = "Text File";
+            textFileToolStripMenuItem.Click += textFileToolStripMenuItem_Click;
             // 
             // printStripMenuItem
             // 
@@ -275,7 +290,6 @@
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "FormShowData2";
             Text = "Weather Station";
-            Load += FormShowData2_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackBarSize).EndInit();
@@ -309,6 +323,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem databaseTableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem textFileToolStripMenuItem;
     }
 }
 
