@@ -66,10 +66,11 @@
             listViewShowTables.UseCompatibleStateImageBehavior = false;
             listViewShowTables.View = View.Details;
             listViewShowTables.AfterLabelEdit += listViewShowTables_AfterLabelEdit;
+            listViewShowTables.BeforeLabelEdit += listViewShowTables_BeforeLabelEdit;
             listViewShowTables.ItemSelectionChanged += listViewShowTables_ItemSelectionChanged;
             listViewShowTables.SelectedIndexChanged += listViewShowTables_SelectedIndexChanged;
             listViewShowTables.Click += listViewShowTables_Click;
-            listViewShowTables.Leave += listViewShowTables_Leave;
+            listViewShowTables.MouseUp += listViewShowTables_MouseUp;
             // 
             // columnHeader1
             // 

@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Locations;
@@ -461,7 +462,32 @@ namespace ReadTemp
 
         private void FormShowData_Load(object sender, EventArgs e)
         {
+            
+            if (FormChoiceSystem.choiceSystem == false)
+            {
+                deleteTableToolStripMenuItem.Visible = false;
+                modifyCurrentDataToolStripMenuItem.Visible=false;
+                changeTimeToolStripMenuItem.Visible=false;
+                modifyToolStripMenuItem.Visible = false;
+                databaseConfigToolStripMenuItem.Visible = false;
+                changeDatabasePasswordToolStripMenuItem.Visible = false;
+                comboBoxYear.Visible = false;
+                comboBoxMonth.Visible = false;
+                comboBoxDay.Visible = false;
+                dateTimePickerStartDate.Visible = false;
+                dateTimePickerEndDate.Visible = false;
+                buttonSearch.Visible = false;
+                checkBoxDay.Visible = false;
+                labelShowDelay.Visible = false;
+                labelText.Visible = false;
+                labelText2.Visible = false;
+                labelText4.Visible = false;
+                labelStartDate.Visible = false;
+                labelEndDate.Visible = false;
 
+                datebaseTableToolStripMenuItem.Enabled=false;
+                databaseTableTool2StripMenuItem.Enabled=false;
+            }
             if (!File.Exists("input.txt"))
             {
                 File.AppendAllText("input.txt", "password");
@@ -832,81 +858,7 @@ namespace ReadTemp
         private void databaseTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            FormMessageBox showMessage = new FormMessageBox();
-            showMessage.ShowDialog();
-            setLabelText = "Write a name for the table.";
 
-            if (FormMessageBox.addChoice == true)
-            {
-                try
-                {
-                    MySqlConnection conn = new MySqlConnection(FormShowData.connString);
-                    conn.Open();
-                    MySqlCommand createTable = new MySqlCommand(@"
-                  create table " + FormMessageBox.textValue + @"  
-                     (id int not null auto_increment,
-                     outtemp decimal(3,1), 
-                     outhum decimal(4,1),
-                     pressure decimal(6,2),
-                     datecreated datetime,
-                     primary key (id));", conn);
-                    createTable.ExecuteNonQuery();
-                    conn.Close();
-
-
-
-                    MessageBox.Show("Table " + FormMessageBox.textValue + " was created");
-                    conn.Close();
-                }
-                catch (MySql.Data.MySqlClient.MySqlException ex)
-                {
-                    switch (ex.Number)
-                    {
-                        case 1050:
-                            MessageBox.Show("Table " + FormMessageBox.textValue + " exist already!");
-                            break;
-                        case 1045:
-                            MessageBox.Show("Invalid username/password, please try again");
-                            break;
-                    }
-                }
-                try
-                {
-
-                    MySqlConnection conn = new MySqlConnection(FormShowData.connString);
-
-
-                    foreach (ListViewItem item in listViewShowData.Items)
-                    {
-                        conn.Open();
-                        var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
-                        DateTime convertDate;
-                        foreach (var rc in removeChars)
-                        {
-                            item.SubItems[0].Text = item.SubItems[0].Text.Replace(rc, string.Empty);
-                            item.SubItems[0].Text = item.SubItems[0].Text.Replace(",", ".");
-                            item.SubItems[1].Text = item.SubItems[1].Text.Replace(rc, string.Empty);
-                            item.SubItems[1].Text = item.SubItems[1].Text.Replace(",", ".");
-                            item.SubItems[2].Text = item.SubItems[2].Text.Replace(rc, string.Empty);
-                            item.SubItems[2].Text = item.SubItems[2].Text.Replace(",", ".");
-                            convertDate = DateTime.Parse(item.SubItems[3].Text.ToString());
-                            item.SubItems[3].Text = convertDate.ToString("yyyy-MM-dd hh:mm:ss");
-                        }
-                        string addmessuarement = "insert into " + FormMessageBox.textValue + "(outtemp,outhum,pressure,datecreated) values('" + item.SubItems[0].Text + "','" + item.SubItems[1].Text + "','" + item.SubItems[2].Text + "','" + item.SubItems[3].Text + "');";
-                        MySqlCommand command = new MySqlCommand(addmessuarement, conn);
-                        MySqlDataReader reader = command.ExecuteReader();
-                        conn.Close();
-                    }
-                }
-                catch (MySql.Data.MySqlClient.MySqlException ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
-            }
-            else
-            {
-                MessageBox.Show("Creation of table was aborted!");
-            }
         }
 
         private void changeTimeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1059,6 +1011,85 @@ namespace ReadTemp
                     conn.Close();
                 }
                 MessageBox.Show("Table  are deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void databaseTableTool2StripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormMessageBox showMessage = new FormMessageBox();
+            showMessage.ShowDialog();
+            setLabelText = "Write a name for the table.";
+
+            if (FormMessageBox.addChoice == true)
+            {
+                try
+                {
+                    MySqlConnection conn = new MySqlConnection(FormShowData.connString);
+                    conn.Open();
+                    MySqlCommand createTable = new MySqlCommand(@"
+                  create table " + FormMessageBox.textValue + @"  
+                     (id int not null auto_increment,
+                     outtemp decimal(3,1), 
+                     outhum decimal(4,1),
+                     pressure decimal(6,2),
+                     datecreated datetime,
+                     primary key (id));", conn);
+                    createTable.ExecuteNonQuery();
+                    conn.Close();
+
+
+
+                    MessageBox.Show("Table " + FormMessageBox.textValue + " was created");
+                    conn.Close();
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex)
+                {
+                    switch (ex.Number)
+                    {
+                        case 1050:
+                            MessageBox.Show("Table " + FormMessageBox.textValue + " exist already!");
+                            break;
+                        case 1045:
+                            MessageBox.Show("Invalid username/password, please try again");
+                            break;
+                    }
+                }
+                try
+                {
+
+                    MySqlConnection conn = new MySqlConnection(FormShowData.connString);
+
+
+                    foreach (ListViewItem item in listViewShowData.Items)
+                    {
+                        conn.Open();
+                        var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
+                        DateTime convertDate;
+                        foreach (var rc in removeChars)
+                        {
+                            item.SubItems[0].Text = item.SubItems[0].Text.Replace(rc, string.Empty);
+                            item.SubItems[0].Text = item.SubItems[0].Text.Replace(",", ".");
+                            item.SubItems[1].Text = item.SubItems[1].Text.Replace(rc, string.Empty);
+                            item.SubItems[1].Text = item.SubItems[1].Text.Replace(",", ".");
+                            item.SubItems[2].Text = item.SubItems[2].Text.Replace(rc, string.Empty);
+                            item.SubItems[2].Text = item.SubItems[2].Text.Replace(",", ".");
+                            convertDate = DateTime.Parse(item.SubItems[3].Text.ToString());
+                            item.SubItems[3].Text = convertDate.ToString("yyyy-MM-dd hh:mm:ss");
+                        }
+                        string addmessuarement = "insert into " + FormMessageBox.textValue + "(outtemp,outhum,pressure,datecreated) values('" + item.SubItems[0].Text + "','" + item.SubItems[1].Text + "','" + item.SubItems[2].Text + "','" + item.SubItems[3].Text + "');";
+                        MySqlCommand command = new MySqlCommand(addmessuarement, conn);
+                        MySqlDataReader reader = command.ExecuteReader();
+                        conn.Close();
+                    }
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Creation of table was aborted!");
             }
         }
     }

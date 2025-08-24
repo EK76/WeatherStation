@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "ReadTemp_Local": {
-      "commandName": "Project",
-      "workingDirectory": "C:\\Applications\\WeatherInfoLocal"
-    }
-  }
-}

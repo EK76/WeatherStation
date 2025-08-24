@@ -61,6 +61,7 @@
             textBoxName.Size = new Size(287, 23);
             textBoxName.TabIndex = 2;
             textBoxName.TextChanged += textBoxName_TextChanged;
+            textBoxName.KeyPress += textBoxName_KeyPress;
             // 
             // labelText
             // 

@@ -84,11 +84,6 @@ namespace ReadTemp
 
         private void listViewShowTables_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void listViewShowTables_SelectedIndexChanged(object sender, EventArgs e)
-        {
             if (listViewShowTables.SelectedIndices.Count <= 0)
             {
                 return;
@@ -98,17 +93,18 @@ namespace ReadTemp
             {
                 tableName = listViewShowTables.Items[selectedIndex].Text;
             }
+
+            //  MessageBox.Show(tableName);
         }
 
-        private void listViewShowTables_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        private void listViewShowTables_SelectedIndexChanged(object sender, EventArgs e)
         {
-            newTableName = listViewShowTables.Items[selectedIndex].Text;
             try
             {
                 MySqlConnection conn = new MySqlConnection(FormShowData.connString);
                 conn.Open();
 
-             //   newTableName = listViewShowTables.
+                //   newTableName = listViewShowTables.
 
                 renameTable = "rename table " + tableName + " to " + newTableName + ";";
                 MessageBox.Show(renameTable);
@@ -131,6 +127,11 @@ namespace ReadTemp
             }
         }
 
+        private void listViewShowTables_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+          
+        }
+
         private void listViewShowTables_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
 
@@ -138,9 +139,15 @@ namespace ReadTemp
 
         }
 
-        private void listViewShowTables_Leave(object sender, EventArgs e)
+        private void listViewShowTables_MouseUp(object sender, MouseEventArgs e)
         {
 
+        }
+
+        private void listViewShowTables_BeforeLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            newTableName = listViewShowTables.FocusedItem.Text;
+            MessageBox.Show(newTableName);
         }
     }
 }

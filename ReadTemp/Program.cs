@@ -16,7 +16,7 @@ namespace ReadTemp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormShowData());
+            Application.Run(new FormChoiceSystem());
         }
     }
 }

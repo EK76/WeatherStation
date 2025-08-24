@@ -45,7 +45,7 @@
             datebaseTableToolStripMenuItem = new ToolStripMenuItem();
             textFileToolStripMenuItem1 = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
-            databaseTableToolStripMenuItem = new ToolStripMenuItem();
+            databaseTableTool2StripMenuItem = new ToolStripMenuItem();
             textFileToolStripMenuItem = new ToolStripMenuItem();
             printToolStripMenuItem = new ToolStripMenuItem();
             closeToolStripMenuItem = new ToolStripMenuItem();
@@ -53,6 +53,7 @@
             deleteRowsToolStripMenuItem = new ToolStripMenuItem();
             clearDataToolStripMenuItem = new ToolStripMenuItem();
             modifyCurrentDataToolStripMenuItem = new ToolStripMenuItem();
+            deleteTableToolStripMenuItem = new ToolStripMenuItem();
             viewToolStripMenuItem1 = new ToolStripMenuItem();
             graphViewToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
@@ -83,7 +84,6 @@
             labelText3 = new Label();
             labelStatus = new Label();
             labelShowDelay = new Label();
-            deleteTableToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBarSize).BeginInit();
             SuspendLayout();
@@ -229,23 +229,23 @@
             // 
             // saveToolStripMenuItem
             // 
-            saveToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { databaseTableToolStripMenuItem, textFileToolStripMenuItem });
+            saveToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { databaseTableTool2StripMenuItem, textFileToolStripMenuItem });
             saveToolStripMenuItem.Enabled = false;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.Size = new Size(180, 22);
             saveToolStripMenuItem.Text = "Save";
             // 
-            // databaseTableToolStripMenuItem
+            // databaseTableTool2StripMenuItem
             // 
-            databaseTableToolStripMenuItem.Name = "databaseTableToolStripMenuItem";
-            databaseTableToolStripMenuItem.Size = new Size(153, 22);
-            databaseTableToolStripMenuItem.Text = "Database Table";
-            databaseTableToolStripMenuItem.Click += databaseTableToolStripMenuItem_Click;
+            databaseTableTool2StripMenuItem.Name = "databaseTableTool2StripMenuItem";
+            databaseTableTool2StripMenuItem.Size = new Size(180, 22);
+            databaseTableTool2StripMenuItem.Text = "Database Table";
+            databaseTableTool2StripMenuItem.Click += databaseTableTool2StripMenuItem_Click;
             // 
             // textFileToolStripMenuItem
             // 
             textFileToolStripMenuItem.Name = "textFileToolStripMenuItem";
-            textFileToolStripMenuItem.Size = new Size(153, 22);
+            textFileToolStripMenuItem.Size = new Size(180, 22);
             textFileToolStripMenuItem.Text = "Text File";
             textFileToolStripMenuItem.Click += textFileToolStripMenuItem_Click;
             // 
@@ -294,6 +294,13 @@
             modifyCurrentDataToolStripMenuItem.Size = new Size(182, 22);
             modifyCurrentDataToolStripMenuItem.Text = "Modify Current Data";
             modifyCurrentDataToolStripMenuItem.Click += modifyCurrentDataToolStripMenuItem_Click;
+            // 
+            // deleteTableToolStripMenuItem
+            // 
+            deleteTableToolStripMenuItem.Name = "deleteTableToolStripMenuItem";
+            deleteTableToolStripMenuItem.Size = new Size(182, 22);
+            deleteTableToolStripMenuItem.Text = "Delete Table";
+            deleteTableToolStripMenuItem.Click += deleteTableToolStripMenuItem_Click;
             // 
             // viewToolStripMenuItem1
             // 
@@ -583,13 +590,6 @@
             labelShowDelay.Tag = "z";
             labelShowDelay.Text = "Delay text";
             // 
-            // deleteTableToolStripMenuItem
-            // 
-            deleteTableToolStripMenuItem.Name = "deleteTableToolStripMenuItem";
-            deleteTableToolStripMenuItem.Size = new Size(182, 22);
-            deleteTableToolStripMenuItem.Text = "Delete Table";
-            deleteTableToolStripMenuItem.Click += deleteTableToolStripMenuItem_Click;
-            // 
             // FormShowData
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -684,7 +684,7 @@
         private ToolStripMenuItem changeDatabasePasswordToolStripMenuItem;
         private ToolStripMenuItem modifyCurrentDataToolStripMenuItem;
         private ToolStripMenuItem deleteRowsToolStripMenuItem;
-        private ToolStripMenuItem databaseTableToolStripMenuItem;
+        private ToolStripMenuItem databaseTableTool2StripMenuItem;
         private ToolStripMenuItem textFileToolStripMenuItem;
         private ToolStripMenuItem datebaseTableToolStripMenuItem;
         private ToolStripMenuItem textFileToolStripMenuItem1;

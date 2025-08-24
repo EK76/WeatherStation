@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using ExcelLibrary.BinaryFileFormat;
 using Locations;
 using MySql.Data.MySqlClient;
@@ -48,19 +49,24 @@ namespace ReadTemp
 
         private void textBoxName_TextChanged(object sender, EventArgs e)
         {
-            string pattern = @"^\\d";
 
-            if (Regex.IsMatch(textBoxName.Text, pattern))
+            if (Regex.IsMatch(textBoxName.Text, @"^\d"))
             {
                 buttonOk.Enabled = false;
-                MessageBox.Show("false");
+                MessageBox.Show("The table name can't begin with number!");
+                textBoxName.SelectAll();
             }
             else
             {
                 buttonOk.Enabled = true;
-                MessageBox.Show("true");
             }
 
+        }
+
+        private void textBoxName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar)
+             && !char.IsSeparator(e.KeyChar) && !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
     }
 }

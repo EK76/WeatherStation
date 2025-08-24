@@ -37,6 +37,7 @@
     <SignManifests>true</SignManifests>
     <PackageOutputPath>C:\Applications\</PackageOutputPath>
     <ImplicitUsings>enable</ImplicitUsings>
+    <StartupObject></StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutputPath>bin\x64\Debug\</OutputPath>
