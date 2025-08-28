@@ -5,12 +5,6 @@ I started this Visual Studio C# project in spring 2024.
 Purpose for this project is to measure temperature, humidity and pressure
 with help of two sensors (DHT11 and BMP180) and Raspberry PI 5.
 
-In May 2025 I added a second project that working alongside the previous project and purpose is that these two project use these files together. 
-Because they use same form that show statistics in graphic form.
-- Showgraph.cs
-- ShowGraph.Designer.cs
-- ShowGraph.resx
-
 ![image](https://github.com/user-attachments/assets/bf30352a-59cb-4e20-9109-404ea8a64ff6) DHT22 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![image](https://github.com/user-attachments/assets/322ec1e0-5bf2-49c0-96a0-3c0c5373fa87) &nbsp;&nbsp;&nbsp;&nbsp; BMP180
 
 DHT22 is temperature and humitidy sensor.<br>
