@@ -34,12 +34,13 @@ namespace ReadTemp
 
         string[] chooseDatabase = File.ReadAllLines(@"configdb.txt");
         string[] inputPass = File.ReadAllLines(@"input.txt");
-        public static string checkString;
+        public static string checkString, showCurrentTable;
         public static int rowIndex;
-        string connString, newStartDate, newEndDate, checkString2, backupFolder, fileName, sqlQuery, passwordString;
+        string connString, newStartDate, newEndDate, checkString2, backupFolder, fileName, sqlQuery, passwordString, showTable;
         DateTime startDate, endDate;
         int colorIndex, tableView, countRow, indexRow;
-        public static bool refreshTable;
+        public static bool refreshTable, tableAll;
+
 
         void wholeTable()
         {
@@ -54,6 +55,7 @@ namespace ReadTemp
 
             if (FormShowData.currentTable == true)
             {
+                tableAll = false;
                 buttonSearch.Visible = false;
                 radioButtonAll.Visible = false;
                 radioButtonIntervall.Visible = false;
@@ -65,7 +67,7 @@ namespace ReadTemp
                 restoreTableToolStripMenuItem1.Visible = false;
                 backupTableToolStripMenuItem1.Visible = false;
                 conn.Open();
-                MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
+                MySqlCommand command = new MySqlCommand(FormShowData.showString, conn);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -75,9 +77,15 @@ namespace ReadTemp
                 }
                 conn.Close();
                 labelRows.Text = "Number of rows: " + countRow;
+                showTable = FormShowData.showString;
+                showTable = showTable.Substring(14);
+                showTable = showTable.Remove(showTable.Length - 1);
+                showCurrentTable = showTable;
+                labelTable.Text = "Table " + showTable + " is selected.";
             }
             else
             {
+                tableAll = true;
                 buttonSearch.Visible = true;
                 radioButtonAll.Visible = true;
                 radioButtonIntervall.Visible = true;
@@ -99,6 +107,7 @@ namespace ReadTemp
                 }
                 conn.Close();
                 labelRows.Text = "Number of rows: " + countRow;
+                labelTable.Text = "Table weatherdata is selected.";
                 if (listViewShowData.Items.Count == 0)
                 {
                     emptyTableToolStripMenuItem.Enabled = false;
@@ -114,6 +123,7 @@ namespace ReadTemp
 
         private void FormModifyTable_Load(object sender, EventArgs e)
         {
+            listViewShowData.Items.Clear();
             wholeTable();
             refreshTable = false;
         }
@@ -177,13 +187,14 @@ namespace ReadTemp
 
         private void FormModifyTable_Enter(object sender, EventArgs e)
         {
-            wholeTable();
+            // wholeTable();
         }
 
         private void FormModifyTable_Activated(object sender, EventArgs e)
         {
             if (refreshTable == true)
             {
+                listViewShowData.Items.Clear();
                 colorIndex = 0;
                 tableView = 1;
                 connString = chooseDatabase[0];
@@ -191,8 +202,15 @@ namespace ReadTemp
                 connString = connString + passwordString + ";";
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
-                checkString = "select id, outtemp, outhum, pressure, datecreated from weatherdata";
-                Clipboard.SetText(checkString);
+                if (FormShowData.currentTable == false)
+                {
+                    checkString = "select id, outtemp, outhum, pressure, datecreated from weatherdata";
+                }
+                else
+                {
+                    checkString = FormShowData.showString;
+                }
+                    Clipboard.SetText(checkString);
                 MySqlCommand command = new MySqlCommand(checkString, conn);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -345,23 +363,44 @@ namespace ReadTemp
             if (MessageBox.Show("Are you sure to delete selected values?", "Weather Station",
              MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                foreach (ListViewItem deleteValue in listViewShowData.Items)
+                if (FormShowData.currentTable == false)
                 {
-                    if (deleteValue.Selected)
+                    foreach (ListViewItem deleteValue in listViewShowData.Items)
                     {
-                        conn.Open();
-                        sqlQuery = "delete from weatherdata where id = " + listViewShowData.Items[indexRow].SubItems[0].Text + ";";
-                        MySqlCommand command = new MySqlCommand(sqlQuery, conn);
-                        MySqlDataReader reader = command.ExecuteReader();
-                        conn.Close();
-                        listViewShowData.Items.Remove(deleteValue);
-                        indexRow--;
-                        
+                        if (deleteValue.Selected)
+                        {
+                            conn.Open();
+                            sqlQuery = "delete from weatherdata where id = " + listViewShowData.Items[indexRow].SubItems[0].Text + ";";
+                            MySqlCommand command = new MySqlCommand(sqlQuery, conn);
+                            MySqlDataReader reader = command.ExecuteReader();
+                            conn.Close();
+                            listViewShowData.Items.Remove(deleteValue);
+                            indexRow--;
+
+                        }
+                        indexRow++;
                     }
-                    indexRow++;
+                }
+                else 
+                {
+                    foreach (ListViewItem deleteValue in listViewShowData.Items)
+                    {
+                        if (deleteValue.Selected)
+                        {
+                            conn.Open();
+                            sqlQuery = "delete from " + showTable +" where id = " + listViewShowData.Items[indexRow].SubItems[0].Text + ";";
+                            MessageBox.Show(sqlQuery);
+                            MySqlCommand command = new MySqlCommand(sqlQuery, conn);
+                            MySqlDataReader reader = command.ExecuteReader();
+                            conn.Close();
+                            listViewShowData.Items.Remove(deleteValue);
+                            indexRow--;
+                        }
+                        indexRow++;
+                    }
                 }
 
-                MessageBox.Show("Values are deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Values are deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 deleteRowsToolStripMenuItem.Enabled = false;
             }
             labelRows.Text = "Number of rows: " + countRow;

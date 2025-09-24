@@ -37,7 +37,7 @@
             // 
             // buttonSetText
             // 
-            buttonSetText.Location = new Point(151, 372);
+            buttonSetText.Location = new Point(130, 372);
             buttonSetText.Name = "buttonSetText";
             buttonSetText.Size = new Size(106, 23);
             buttonSetText.TabIndex = 0;
@@ -47,7 +47,7 @@
             // 
             // buttonClose
             // 
-            buttonClose.Location = new Point(279, 372);
+            buttonClose.Location = new Point(270, 372);
             buttonClose.Name = "buttonClose";
             buttonClose.Size = new Size(100, 23);
             buttonClose.TabIndex = 1;
@@ -61,16 +61,13 @@
             listViewShowTables.LabelEdit = true;
             listViewShowTables.Location = new Point(12, 12);
             listViewShowTables.Name = "listViewShowTables";
-            listViewShowTables.Size = new Size(367, 311);
+            listViewShowTables.Size = new Size(358, 344);
             listViewShowTables.TabIndex = 2;
             listViewShowTables.UseCompatibleStateImageBehavior = false;
             listViewShowTables.View = View.Details;
-            listViewShowTables.AfterLabelEdit += listViewShowTables_AfterLabelEdit;
-            listViewShowTables.BeforeLabelEdit += listViewShowTables_BeforeLabelEdit;
-            listViewShowTables.ItemSelectionChanged += listViewShowTables_ItemSelectionChanged;
             listViewShowTables.SelectedIndexChanged += listViewShowTables_SelectedIndexChanged;
             listViewShowTables.Click += listViewShowTables_Click;
-            listViewShowTables.MouseUp += listViewShowTables_MouseUp;
+            listViewShowTables.DoubleClick += listViewShowTables_DoubleClick;
             // 
             // columnHeader1
             // 
@@ -86,7 +83,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(391, 407);
+            ClientSize = new Size(388, 407);
             Controls.Add(listViewShowTables);
             Controls.Add(buttonClose);
             Controls.Add(buttonSetText);
@@ -96,6 +93,7 @@
             Name = "FormShowTables";
             ShowIcon = false;
             Text = "WeatherStation";
+            Activated += FormShowTables_Activated;
             Load += FormShowTables_Load;
             ResumeLayout(false);
         }
@@ -104,8 +102,8 @@
 
         private Button buttonSetText;
         private Button buttonClose;
-        private ListView listViewShowTables;
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
+        public ListView listViewShowTables;
     }
 }

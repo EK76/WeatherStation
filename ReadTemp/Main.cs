@@ -38,8 +38,8 @@ namespace ReadTemp
             this.listViewShowData.ListViewItemSorter = lvwColumnSorter;
         }
         private ListViewColumnSorter lvwColumnSorter;
-        string timeString, compareDay, checkDay, convertMonth, setValue, folderPdf, setDay, setDelay, passwordString, showString;
-        public static string forwardStartDate, newStartDate, newEndDate, currentDate, firstItem, lastItem, fileName2, connString;
+        string timeString, compareDay, checkDay, convertMonth, setValue, folderPdf, setDay, setDelay, passwordString;
+        public static string forwardStartDate, newStartDate, newEndDate, currentDate, firstItem, lastItem, fileName2, connString, showString;
         DateTime onlyTime, checkDay2, convertDate, startDate, endDate;
         int checkWeek, compareWeek = 0, checkMonth, compareMonth = 0, checkYear, compareYear = 0, setNewValue, setDelay2, delayStatus, checkNumbers, setMonth;
         public static int checkForward, counterItems = 0, countItems = -1, localChoice = 1;
@@ -159,6 +159,7 @@ namespace ReadTemp
                         }
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                         labelStatus.Text = "Data from server database.";
+                        modifyCurrentDataToolStripMenuItem.Enabled = true;
                     }
                     conn.Close();
                 }
@@ -445,6 +446,7 @@ namespace ReadTemp
                     }
                     labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                     labelStatus.Text = "Data from server database.";
+                    modifyCurrentDataToolStripMenuItem.Enabled = true;
                 }
 
             }
@@ -625,6 +627,7 @@ namespace ReadTemp
                         }
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                         labelStatus.Text = "Data from server database.";
+                        modifyCurrentDataToolStripMenuItem.Enabled = true;
 
                     }
                     conn.Close();
@@ -761,6 +764,8 @@ namespace ReadTemp
             {
                 clearDataToolStripMenuItem.Enabled = false;
                 listViewShowData.Items.Clear();
+                labelRows.Text = "";
+                labelStatus.Text = "";
             }
         }
 
@@ -819,8 +824,7 @@ namespace ReadTemp
             else
             {
                 graphViewToolStripMenuItem.Enabled = false;
-            }
-            MessageBox.Show("Test");
+            } 
         }
 
         private void textFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -905,6 +909,7 @@ namespace ReadTemp
                         Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
                         Choice.fileName2 = openContent.FileName.ToString();
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
+                        modifyCurrentDataToolStripMenuItem.Enabled = false;
                     }
                     else
                     {
@@ -982,6 +987,7 @@ namespace ReadTemp
                         }
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                         labelStatus.Text = "Data from server database. Table " + FormShowTables.tableName + " is selected.";
+                        modifyCurrentDataToolStripMenuItem.Enabled = true;
                     }
                 }
                 catch (MySql.Data.MySqlClient.MySqlException ex)
@@ -1006,11 +1012,12 @@ namespace ReadTemp
                 {
                     conn.Open();
                     showString = "drop table " + FormShowTables.tableName + ";";
+                    Clipboard.SetText(showString);
                     MySqlCommand command = new MySqlCommand(showString, conn);
                     MySqlDataReader reader = command.ExecuteReader();
                     conn.Close();
+                    MessageBox.Show("Table" + FormShowTables.tableName + " is deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                MessageBox.Show("Table  are deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

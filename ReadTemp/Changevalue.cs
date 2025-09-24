@@ -24,7 +24,7 @@ namespace ReadTemp
 
         string[] chooseDatabase = File.ReadAllLines(@"configdb.txt");
         string[] inputPass = File.ReadAllLines(@"input.txt");
-        string connString, sqlQuery, textTemp, textHum, textPressure, passwordString;
+        string connString, sqlQuery, textTemp, textHum, textPressure, passwordString, newString;
         bool checkSave = false, checkClose = true;
         int checkValue;
 
@@ -37,8 +37,16 @@ namespace ReadTemp
                 connString = connString + passwordString + ";";
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
-                sqlQuery = "update weatherdata set outtemp = '" + textBoxTemp.Text + "', outhum = '" + textBoxHum.Text + "', pressure = '" + textBoxPressure.Text + "' where id = '" + FormModifyTable.rowIndex + "'";
-
+                if (FormModifyTable.tableAll == true)
+                {
+                    FormShowData.currentTable = false;
+                    sqlQuery = "update weatherdata set outtemp = '" + textBoxTemp.Text + "', outhum = '" + textBoxHum.Text + "', pressure = '" + textBoxPressure.Text + "' where id = '" + FormModifyTable.rowIndex + "'";
+                }
+                else
+                {
+                    FormShowData.currentTable = true;
+                    sqlQuery = "update " + FormModifyTable.showCurrentTable + " set outtemp = '" + textBoxTemp.Text + "', outhum = '" + textBoxHum.Text + "', pressure = '" + textBoxPressure.Text + "' where id = '" + FormModifyTable.rowIndex + "'";
+                }
                 MySqlCommand command = new MySqlCommand(sqlQuery, conn);
                 MySqlDataReader reader = command.ExecuteReader();
                 conn.Close();
@@ -161,7 +169,18 @@ namespace ReadTemp
             connString = connString + passwordString + ";";
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
-            sqlQuery = "select * from weatherdata where id = '" + FormModifyTable.rowIndex + "'";
+            if (FormModifyTable.tableAll == true)
+            {
+                sqlQuery = "select * from weatherdata where id = '" + FormModifyTable.rowIndex + "'";
+            }
+            else
+            {
+                newString = FormShowData.showString;
+                newString = newString.Remove(newString.Length - 1);
+                sqlQuery =  newString + " where id = '" + FormModifyTable.rowIndex + "'";
+                Clipboard.SetText(newString);
+                MessageBox.Show(sqlQuery);
+            }
             MySqlCommand command = new MySqlCommand(sqlQuery, conn);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())

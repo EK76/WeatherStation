@@ -55,6 +55,7 @@
             labelRows = new Label();
             trackBarSize = new TrackBar();
             labelSetFont = new Label();
+            labelTable = new Label();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBarSize).BeginInit();
             SuspendLayout();
@@ -64,7 +65,7 @@
             listViewShowData.Columns.AddRange(new ColumnHeader[] { columnHeaderID, columnHeaderOutTemp, columnHeaderOutHum, columnHeaderPressure, columnHeaderDate });
             listViewShowData.Font = new Font("Calibri", 21.75F);
             listViewShowData.FullRowSelect = true;
-            listViewShowData.Location = new Point(14, 112);
+            listViewShowData.Location = new Point(13, 109);
             listViewShowData.Margin = new Padding(4, 3, 4, 3);
             listViewShowData.Name = "listViewShowData";
             listViewShowData.Size = new Size(1521, 970);
@@ -273,7 +274,7 @@
             // 
             labelRows.AutoSize = true;
             labelRows.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelRows.Location = new Point(14, 1109);
+            labelRows.Location = new Point(13, 1109);
             labelRows.Name = "labelRows";
             labelRows.Size = new Size(45, 17);
             labelRows.TabIndex = 10;
@@ -300,12 +301,23 @@
             labelSetFont.TabIndex = 31;
             labelSetFont.Text = "Set font size";
             // 
+            // labelTable
+            // 
+            labelTable.AutoSize = true;
+            labelTable.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            labelTable.Location = new Point(430, 1111);
+            labelTable.Name = "labelTable";
+            labelTable.Size = new Size(45, 17);
+            labelTable.TabIndex = 32;
+            labelTable.Text = "label1";
+            // 
             // FormModifyTable
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLight;
             ClientSize = new Size(1552, 1135);
+            Controls.Add(labelTable);
             Controls.Add(labelSetFont);
             Controls.Add(trackBarSize);
             Controls.Add(labelRows);
@@ -364,5 +376,6 @@
         private System.Windows.Forms.Label labelRows;
         private TrackBar trackBarSize;
         private Label labelSetFont;
+        private Label labelTable;
     }
 }
