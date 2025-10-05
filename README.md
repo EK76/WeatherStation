@@ -173,8 +173,8 @@ I have also installed MySql.Data plugin from Oracle Corporation trough Visual St
 MySql.Data makes it easier to read from and make changes to MySQL database when using Visual Studio.
   
 > [!NOTE]
->  _**You can also edit your MySQL credentials with the WeatherStation application.**<br><br>
->  _**If configdb.txt file is missing, then WeatherStaion application will redirect you to a page where you can create the file with your MySQL credentials info.**_
+>  **You can also edit your MySQL credentials with the WeatherStation application.**<br><br>
+>  **If configdb.txt file is missing, then WeatherStaion application will redirect you to a page where you can create the file with your MySQL credentials info.**_
 
 
 #### How to clone this repository with git.
