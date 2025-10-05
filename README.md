@@ -135,6 +135,8 @@ finally:
 In order to use this application, you must create following database and tables 
 according to the directive below.
 
+As mention MySQL have been chosen as database language for this project.
+
 ```
 create database weatherstation;
 use weatherstation;
@@ -166,6 +168,10 @@ create table delaylog(
 ### After creation of database and tables are done.
 - Edit configdb.txt file with the correct info about your MySQL credentials with text editor of your choosing.
 - Compaile or publish the project with Visual Studio 2022 to test it.
+
+I have also installed MySql.Data plugin from Oracle Corporation trough Visual Studio NuGet Package Manager when I developed this project. 
+MySql.Data makes it easier to read from and make changes to MySQL database when using Visual Studio.
+  
 > [!NOTE]
 >  _**You can also edit your MySQL credentials with the WeatherStation application.**<br><br>
 >  _**If configdb.txt file is missing, then WeatherStaion application will redirect you to a page where you can create the file with your MySQL credentials info.**_
