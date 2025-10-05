@@ -18,7 +18,7 @@ Trough GPIO26 Raspberry PI 5 reads the temperature and humitidy
 from sensor.
 
 - Sensor BMP180 is connected to Rasepberry PI 5's pin 3 (GPIO 2,SDA)
-and pin 5 (GPIO 3, SCL). Trough theese pins Raspberry PI 5 reads the 
+and pin 5 (GPIO 3, SCL). Trough these pins Raspberry PI 5 reads the 
 pressure fom sensor.
 
 - GPIO 2 SDA (Serial Data Line) , whose pin is used to transmit data between 
@@ -130,7 +130,6 @@ finally:
         print("MySQL connection is closed")
 
 ```
-
 </details>
 
 In order to use this application, you must create following database and tables 
@@ -156,15 +155,6 @@ create table weatherdata (
     primary key(id)
 );
 
-create table weathererrorlog (
-    id int not null auto_increment,
-    outtemp decimal(3,1),
-    outhum decimal(4,1),
-    pressure decimal(6,2),
-    date_created datetime (current_timestamp);,
-    primary key(id)
-);
-
 create table delaylog(
   id int not null auto_increment,
   logdate datetime default CURRENT_TIMESTAMP,
@@ -172,23 +162,13 @@ create table delaylog(
   primary key(id)
 );
 
-create table settings(
-  id int not null auto_increment,
-  chartcolor varchar(100),
-  delay int,
-  linecolor varchar(100),
-  formcolor varchar(100),
-  markersize int
-  markertype int,
-  primary key(id)
-); 
 ```
 ### After creation of database and tables are done.
 - Edit configdb.txt file with the correct info about your MySQL credentials with text editor of your choosing.
 - Compaile or publish the project with Visual Studio 2022 to test it.
 > [!NOTE]
->  _**You can also edit your MySQL credentials with the WeatherStation application.**_<br><br>
->  _**If configdb.txt file is missing, then WeatherStaion application will redirect you to a page where you can create the file with your <br>MySQL credentials info.**_
+>  _**You can also edit your MySQL credentials with the WeatherStation application.**<br><br>
+>  _**If configdb.txt file is missing, then WeatherStaion application will redirect you to a page where you can create the file with your MySQL credentials info.**_
 
 
 #### How to clone this repository with git.
