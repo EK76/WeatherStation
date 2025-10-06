@@ -93,7 +93,7 @@ namespace ReadTemp
 
         private void listViewShowTables_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            buttonSetText.Enabled =listViewShowTables.SelectedItems.Count > 0;
         }
 
         private void listViewShowTables_DoubleClick(object sender, EventArgs e)

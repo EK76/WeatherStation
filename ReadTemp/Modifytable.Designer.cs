@@ -225,7 +225,7 @@
             // 
             deleteRowsToolStripMenuItem.Enabled = false;
             deleteRowsToolStripMenuItem.Name = "deleteRowsToolStripMenuItem";
-            deleteRowsToolStripMenuItem.Size = new Size(167, 22);
+            deleteRowsToolStripMenuItem.Size = new Size(180, 22);
             deleteRowsToolStripMenuItem.Text = "Delete Rows";
             deleteRowsToolStripMenuItem.Click += deleteRowsToolStripMenuItem_Click;
             // 
@@ -233,14 +233,14 @@
             // 
             editSelectedRowToolStripMenuItem.Enabled = false;
             editSelectedRowToolStripMenuItem.Name = "editSelectedRowToolStripMenuItem";
-            editSelectedRowToolStripMenuItem.Size = new Size(167, 22);
+            editSelectedRowToolStripMenuItem.Size = new Size(180, 22);
             editSelectedRowToolStripMenuItem.Text = "Edit Selected Row";
             editSelectedRowToolStripMenuItem.Click += editSelectedRowToolStripMenuItem_Click;
             // 
             // emptyTableToolStripMenuItem
             // 
             emptyTableToolStripMenuItem.Name = "emptyTableToolStripMenuItem";
-            emptyTableToolStripMenuItem.Size = new Size(167, 22);
+            emptyTableToolStripMenuItem.Size = new Size(180, 22);
             emptyTableToolStripMenuItem.Text = "Empty Table";
             emptyTableToolStripMenuItem.Click += emptyTableToolStripMenuItem_Click;
             // 
@@ -255,7 +255,7 @@
             // 
             refreshTableToolStripMenuItem.Name = "refreshTableToolStripMenuItem";
             refreshTableToolStripMenuItem.ShortcutKeys = Keys.F5;
-            refreshTableToolStripMenuItem.Size = new Size(163, 22);
+            refreshTableToolStripMenuItem.Size = new Size(180, 22);
             refreshTableToolStripMenuItem.Text = "Refresh Table";
             refreshTableToolStripMenuItem.Click += refreshTableToolStripMenuItem_Click;
             // 

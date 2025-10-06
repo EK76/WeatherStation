@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Vml.Spreadsheet;
 using Google.Protobuf.Collections;
 using Locations;
@@ -10,23 +11,17 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Point = System.Drawing.Point;
+using Size = System.Drawing.Size;
 
 namespace ReadTemp
 {
     public partial class FormViewAll : Form
     {
-        private Rectangle chartTempOrginal;
-        private Rectangle chartHumOrginal;
-        private Rectangle chartPressureOrginal;
-        private Rectangle buttonCloseOrginal;
-        private Rectangle labelTempOrginal;
-        private Rectangle labelHumOrginal;
-        private Rectangle labelPressureOrginal;
-        private Rectangle defautSize;
         public FormViewAll()
         {
             InitializeComponent();
@@ -48,51 +43,35 @@ namespace ReadTemp
 
         private void FormViewAll_Load(object sender, EventArgs e)
         {
-            defautSize = new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height);
-            chartTempOrginal = new Rectangle(chartTemp.Location.X, chartTemp.Location.Y, chartTemp.Width, chartTemp.Height);
-            chartHumOrginal = new Rectangle(chartHum.Location.X, chartHum.Location.Y, chartHum.Width, chartHum.Height);
-            chartPressureOrginal = new Rectangle(chartPressure.Location.X, chartPressure.Location.Y, chartPressure.Width, chartPressure.Height);
-            buttonCloseOrginal = new Rectangle(buttonClose.Location.X, buttonClose.Location.Y, buttonClose.Width, buttonClose.Height);
-            labelTempOrginal = new Rectangle(labelTemp.Location.X, labelTemp.Location.Y, labelTemp.Width, labelTemp.Height);
-            labelHumOrginal = new Rectangle(labelHum.Location.X, labelHum.Location.Y, labelHum.Width, labelHum.Height);
-            labelPressureOrginal = new Rectangle(labelPressure.Location.X, labelPressure.Location.Y, labelPressure.Width, labelPressure.Height);
         
             labelBeginDate.Text = FormShowData.listDate.First();
             labelEndDate.Text = FormShowData.listDate.Last();
-
+            try 
+            { 
             chartTemp.Update();
             chartTemp.Series[0].LegendText = "Temperature";
             chartTemp.ChartAreas[0].AxisY.Title = "Celsius";
             chartTemp.ChartAreas[0].AxisY.Minimum = -40;
             chartTemp.ChartAreas[0].AxisY.Maximum = 40;
-
-            chartTemp.Series[0].XValueType = ChartValueType.DateTime;
-            chartTemp.ChartAreas[0].AxisX.IntervalType = (DateTimeIntervalType)DateRangeType.DayOfMonth;
-            chartTemp.ChartAreas[0].AxisX.LabelStyle.Format = "mm-hh-dd";
-
-            addPoint = 0;
-            foreach (var addValue in FormShowData.listDate)
-            {
-                chartTemp.Series[0].Points[addPoint].AxisLabel = FormShowData.listDate[addPoint];
-                addPoint++;
-            }
-
+            chartTemp.ChartAreas[0].AxisY.Interval = 10;
+            chartTemp.ChartAreas[0].AxisY.MinorGrid.Interval = chartTemp.ChartAreas[0].AxisY.Interval / 2;
             addPoint = -1;
-            try { 
-               foreach (var addValue in FormShowData.listTemp)
-               {
-                  addPoint++;
-                  addNewValue = addValue;
-                  var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
-                  foreach (var rc in removeChars)
-                  {
-                     addNewValue = addNewValue.Replace(rc, string.Empty);
-                  }
-                  convertValue = decimal.Parse(addNewValue);
-                  chartTemp.Series[0].Points.AddXY(addPoint, convertValue);
-                  listSum.Add(convertValue);
-               }
 
+                foreach (var addValue in FormShowData.listTemp)
+                {
+
+                    addPoint++;
+
+                    addNewValue = addValue;
+                    var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
+                    foreach (var rc in removeChars)
+                    {
+                        addNewValue = addNewValue.Replace(rc, string.Empty);
+                    }
+                    convertValue = decimal.Parse(addNewValue);
+
+                    chartTemp.Series[0].Points.AddXY(addPoint, convertValue);
+                }
             }
             catch (Exception message)
             {
@@ -101,38 +80,32 @@ namespace ReadTemp
 
             try
             {
-               chartHum.Update();
-               chartHum.Series[0].LegendText = "Humidity";
-               chartHum.ChartAreas[0].AxisY.Title = "Humidity %";
-               chartHum.ChartAreas[0].AxisY.Minimum = 0;
-               chartHum.ChartAreas[0].AxisY.Maximum = 100;
-
-                chartHum.Series[0].XValueType = ChartValueType.DateTime;
-                chartHum.ChartAreas[0].AxisX.IntervalType = (DateTimeIntervalType)DateRangeType.DayOfMonth;
-                chartHum.ChartAreas[0].AxisX.LabelStyle.Format = "mm-hh-dd";
-
-                addPoint = 0;
-            /*    foreach (var addValue in FormShowData.listDate)
-                {
-                    chartHum.Series[0].Points[addPoint].AxisLabel = FormShowData.listDate[addPoint];
-                    addPoint++;
-                }*/
-
+                chartHum.Update();
+                chartHum.Series[0].LegendText = "Humidity";
+                chartHum.ChartAreas[0].AxisY.Title = "Humidity %";
+                chartHum.ChartAreas[0].AxisY.Minimum = 0;
+                chartHum.ChartAreas[0].AxisY.Maximum = 100;
+                chartHum.ChartAreas[0].AxisY.Interval = 10;
+                chartHum.ChartAreas[0].AxisY.MinorGrid.Interval = chartHum.ChartAreas[0].AxisY.Interval / 2;
                 addPoint = -1;
 
-               foreach (var addValue in FormShowData.listHum)
-               {
-                  addPoint++;
-                  addNewValue = addValue;
-                  var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
-                  foreach (var rc in removeChars)
-                  {
-                    addNewValue = addNewValue.Replace(rc, string.Empty);
-                  }
-                  convertValue = decimal.Parse(addNewValue);
-                  chartHum.Series[0].Points.AddXY(addPoint, convertValue);
-                  listSum2.Add(convertValue);
-               }
+                foreach (var addValue in FormShowData.listHum)
+                {
+
+                    addPoint++;
+                    addNewValue = addValue;
+                    var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
+                    foreach (var rc in removeChars)
+                    {
+                        addNewValue = addNewValue.Replace(rc, string.Empty);
+                    }
+                    convertValue = decimal.Parse(addNewValue);
+
+
+                    chartHum.Series[0].Points.AddXY(addPoint, convertValue);
+                    listSum.Add(convertValue);
+                }
+
             }
             catch (Exception message)
             {
@@ -140,72 +113,42 @@ namespace ReadTemp
             }
     
             try 
-            { 
-               chartPressure.Update();
-               chartPressure.Series[0].LegendText = "Pressure";
-               chartPressure.ChartAreas[0].AxisY.Title = "Pressure hPA";
-               chartPressure.ChartAreas[0].AxisY.Minimum = 800;
-               chartPressure.ChartAreas[0].AxisY.Maximum = 1200;
+            {
+                chartPressure.Update();
+                chartPressure.Series[0].LegendText = "Pressure";
+                chartPressure.ChartAreas[0].AxisY.Title = "Pressure hPA";
+                chartPressure.ChartAreas[0].AxisY.Minimum = 800;
+                chartPressure.ChartAreas[0].AxisY.Maximum = 1200;
+                chartPressure.ChartAreas[0].AxisY.Interval = 100;
+                chartPressure.ChartAreas[0].AxisY.MinorGrid.Interval = chartPressure.ChartAreas[0].AxisY.Interval / 2;
+                addPoint = -1;
 
-               chartPressure.Series[0].XValueType = ChartValueType.DateTime;
-               chartPressure.ChartAreas[0].AxisX.IntervalType = (DateTimeIntervalType)DateRangeType.DayOfMonth;
-               chartPressure.ChartAreas[0].AxisX.LabelStyle.Format = "mm-hh-dd";
+                foreach (var addValue in FormShowData.listPressure)
+                {
+                    addPoint++;
+                    addNewValue = addValue;
+                    var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
+                    foreach (var rc in removeChars)
+                    {
+                        addNewValue = addNewValue.Replace(rc, string.Empty);
+                    }
+                    convertValue = decimal.Parse(addNewValue);
 
-               addPoint = 0;
-              /* foreach (var addValue in FormShowData.listDate)
-               {
-                  chartPressure.Series[0].Points[addPoint].AxisLabel = FormShowData.listDate[addPoint];
-                  addPoint++;
-               }*/
+                    chartPressure.Series[0].Points.AddXY(addPoint, convertValue);
+                    listSum.Add(convertValue);
 
-               addPoint = -1;
-               foreach (var addValue in FormShowData.listPressure)
-               {
-                  addPoint++;
-                  addNewValue = addValue;
-                  var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
-                  foreach (var rc in removeChars)
-                  {
-                     addNewValue = addNewValue.Replace(rc, string.Empty);
-                  }
-                  convertValue = decimal.Parse(addNewValue);
-                  chartPressure.Series[0].Points.AddXY(addPoint, convertValue);
-                  listSum3.Add(convertValue);
-               }
-
+                }
             }
             catch (Exception message)
             {
                MessageBox.Show(message.ToString());
-            }
-            labelTemp.Text = "Maximum temperature: " + listSum.Max() + "°C Minimum temperature: " + listSum.Min() + " °C Average temperature: " + Math.Round(listSum.Average(), 1) + " °C";
-            labelHum.Text = "Maximum humitidy: " + listSum2.Max() + " % Minimum humitidy: " + listSum2.Min() + " % Average humitidy: " + Math.Round(listSum2.Average(), 1) + "%";
-            labelPressure.Text = "Maximum pressure: " + listSum3.Max() + " hPa Minimum pressure: " + listSum3.Min() + " hPA Average pressure: " + Math.Round(listSum3.Average(), 1) + "hPa";      
+            } 
         }
-        private void checkResize(Rectangle rect, Control control)
-        {
-            float xRatio = (float)(this.Width) / (float)(defautSize.Width);
-            float yRatio = (float)(this.Height) / (float)(defautSize.Height);
 
-            int xNew = (int)(rect.Location.X * xRatio);
-            int yNew = (int)(rect.Location.Y * yRatio);
-
-            int widthNew = (int)(rect.Width * xRatio);
-            int heightNew = (int)(rect.Height * yRatio);
-
-            control.Location = new Point(xNew, yNew);
-            control.Size = new Size(widthNew, heightNew);
-        }
 
         private void FormViewAll_Resize(object sender, EventArgs e)
         {
-            checkResize(chartTempOrginal, chartTemp);
-            checkResize(chartHumOrginal, chartHum);
-            checkResize(chartPressureOrginal, chartPressure);
-            checkResize(buttonCloseOrginal, buttonClose);
-            checkResize(labelTempOrginal, labelTemp);
-            checkResize(labelHumOrginal, labelHum);
-            checkResize(labelPressureOrginal, labelPressure);
+
         }
     }
 }

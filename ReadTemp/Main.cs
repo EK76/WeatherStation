@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Locations;
+using Microsoft.Office.Interop.Excel;
 using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
 using MySqlX.XDevAPI.Common;
@@ -45,7 +46,7 @@ namespace ReadTemp
         public static int checkForward, counterItems = 0, countItems = -1, localChoice = 1;
         long getYear;
         bool allowDelay = false, createDatabase = true, checkExist = false;
-        public static bool localData = false, currentTable = false;
+        public static bool localData = false, currentTable = false, modifiedTable = false;
         private static string passWordString;
         public static List<string> listTemp = new List<string>();
         public static List<string> listHum = new List<string>();
@@ -109,71 +110,59 @@ namespace ReadTemp
 
             newStartDate = startDate.ToString("yyyy-MM-dd");
             newEndDate = endDate.ToString("yyyy-MM-dd");
+            listViewShowData.Items.Clear();
             try
             {
-                if (endDate >= startDate)
+                comboBoxMonth.Text = "";
+                checkForward = 1;
+                MySqlConnection conn = new MySqlConnection(connString);
+                conn.Open();
+                Choice.checkString = "select id, outtemp, outhum, pressure, datecreated from weatherdata where datecreated between '" + newStartDate + "' and '" + newEndDate + "';";
+                Clipboard.SetText(Choice.checkString);
+                MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
                 {
-                    comboBoxMonth.Text = "";
-                    checkForward = 1;
-                    MySqlConnection conn = new MySqlConnection(connString);
-                    conn.Open();
-                    Choice.checkString = "select id, outtemp, outhum, pressure, datecreated from weatherdata where datecreated between '" + newStartDate + "' and '" + newEndDate + "';";
-                    MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
+                    counterItems++;
+                    if (counterItems == 1)
                     {
-                        counterItems++;
-                        if (counterItems == 1)
-                        {
-                            listViewShowData.Items.Clear();
-                        }
-                        countItems++;
-                        listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
+                        listViewShowData.Items.Clear();
                     }
+                    countItems++;
+                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
 
-                    if (counterItems == 0)
-                    {
-                        MessageBox.Show("The search was not result!");
-                    }
-                    else
-                    {
-                        modifyCurrentDataToolStripMenuItem.Enabled = true;
-                        exportToPDFToolStripMenuItem.Enabled = true;
-                        clearDataToolStripMenuItem.Enabled = true;
-                        deleteRowsToolStripMenuItem.Enabled = false;
-                        saveToolStripMenuItem.Enabled = true;
-                        printToolStripMenuItem.Enabled = true;
-                        labelRows.Text = "Numbers of rows: " + counterItems.ToString();
-                        labelStatus.Text = "Data from server database.";
-                        Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
-                        Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
-
-                        if (counterItems == 1)
-                        {
-                            graphViewToolStripMenuItem.Enabled = false;
-                        }
-
-                        else
-                        {
-                            graphViewToolStripMenuItem.Enabled = true;
-                        }
-                        labelRows.Text = "Numbers of rows: " + counterItems.ToString();
-                        labelStatus.Text = "Data from server database.";
-                        modifyCurrentDataToolStripMenuItem.Enabled = true;
-                    }
-                    conn.Close();
                 }
-                else
-                {
-                    MessageBox.Show("End date must be larger than Start date!");
-                }
+                conn.Close();
             }
-            catch
+            catch (Exception i)
             {
-                MessageBox.Show("Database configuration fail! Check database settings!");
+                //  MessageBox.Show("Database configuration fail! Check database settings!");
+                MessageBox.Show(i.Message);
+            }
+
+            if (counterItems == 0)
+            {
+                MessageBox.Show("The search was not result!");
+            }
+            else
+            {
+                modifyCurrentDataToolStripMenuItem.Enabled = false;
+                clearDataToolStripMenuItem.Enabled = true;
+                deleteRowsToolStripMenuItem.Enabled = false;
+                saveToolStripMenuItem.Enabled = true;
+                labelRows.Text = "Numbers of rows: " + counterItems.ToString();
+                labelStatus.Text = "Data from server database.";
+                Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
+                Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
+
+                labelRows.Text = "Numbers of rows: " + counterItems.ToString();
+                labelStatus.Text = "Data from server database.";
+                modifyCurrentDataToolStripMenuItem.Enabled = true;
+                saveToolStripMenuItem.Enabled = true;
+
+                graphViewToolStripMenuItem.Enabled = listViewShowData.Items.Count > 1;
             }
         }
-
         private void comboBoxYear_SelectedIndexChanged(object sender, EventArgs e)
         {
             comboBoxMonth.Enabled = true;
@@ -262,7 +251,7 @@ namespace ReadTemp
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listViewPrinter1.PrintPreview();
+
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -270,59 +259,6 @@ namespace ReadTemp
 
         }
 
-        private void exportToPDFToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            PdfPTable pdfTable = new PdfPTable(listViewShowData.Columns.Count);
-            pdfTable.DefaultCell.Padding = 5;
-            pdfTable.WidthPercentage = 100;
-            pdfTable.HorizontalAlignment = Element.ALIGN_LEFT;
-            pdfTable.DefaultCell.BorderWidth = 1;
-            SaveFileDialog savePDF = new SaveFileDialog();
-            savePDF.Filter = "PDF ´files (*.pdf)|*.pdf";
-            savePDF.FileName = "Data_" + DateTime.Now.ToString("dd.MM.yyyy") + ".pdf";
-
-            if (savePDF.ShowDialog() == DialogResult.Cancel)
-            {
-                MessageBox.Show("Export was aborted!");
-            }
-            else
-            {
-                foreach (ColumnHeader column in listViewShowData.Columns)
-                {
-                    PdfPCell cell = new PdfPCell(new Phrase(column.Text));
-                    pdfTable.AddCell(cell);
-
-                }
-
-                foreach (ListViewItem itemRow in listViewShowData.Items)
-                {
-                    for (int i = 0; i < itemRow.SubItems.Count; i++)
-                    {
-                        pdfTable.AddCell(itemRow.SubItems[i].Text);
-                    }
-                }
-                try
-                {
-                    using (FileStream stream = new FileStream(savePDF.FileName, FileMode.Create))
-                    {
-                        Document pdfDoc = new Document(PageSize.A4, 8f, 16f, 16f, 8f);
-
-                        PdfWriter.GetInstance(pdfDoc, stream);
-                        pdfDoc.Open();
-                        pdfDoc.Add(pdfTable);
-                        pdfDoc.Close();
-                        stream.Close();
-                    }
-                    MessageBox.Show("Data exported to PDF file" + savePDF.FileName + " was successful!");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Problem to export data to PDF file! " + ex.Message.ToString());
-                }
-            }
-
-        }
 
         private void comboBoxMonth_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -428,25 +364,19 @@ namespace ReadTemp
                 }
                 else
                 {
-                    modifyCurrentDataToolStripMenuItem.Enabled = true;
-                    exportToPDFToolStripMenuItem.Enabled = true;
+                    modifyCurrentDataToolStripMenuItem.Enabled = false;
                     clearDataToolStripMenuItem.Enabled = true;
                     deleteRowsToolStripMenuItem.Enabled = false;
                     saveToolStripMenuItem.Enabled = true;
-                    printToolStripMenuItem.Enabled = true;
+                    dateTimePickerEndDate.Enabled = false;
                     Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
                     Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
-                    if (counterItems == 1)
-                    {
-                        graphViewToolStripMenuItem.Enabled = false;
-                    }
-                    else
-                    {
-                        graphViewToolStripMenuItem.Enabled = true;
-                    }
+
                     labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                     labelStatus.Text = "Data from server database.";
-                    modifyCurrentDataToolStripMenuItem.Enabled = true;
+                    saveToolStripMenuItem.Enabled = true;
+
+                    graphViewToolStripMenuItem.Enabled = listViewShowData.Items.Count > 1;
                 }
 
             }
@@ -464,15 +394,14 @@ namespace ReadTemp
 
         private void FormShowData_Load(object sender, EventArgs e)
         {
-            
+
             if (FormChoiceSystem.choiceSystem == false)
             {
                 deleteTableToolStripMenuItem.Visible = false;
-                modifyCurrentDataToolStripMenuItem.Visible=false;
-                changeTimeToolStripMenuItem.Visible=false;
+                modifyCurrentDataToolStripMenuItem.Visible = false;
+                changeTimeToolStripMenuItem.Visible = false;
                 modifyToolStripMenuItem.Visible = false;
                 databaseConfigToolStripMenuItem.Visible = false;
-                changeDatabasePasswordToolStripMenuItem.Visible = false;
                 comboBoxYear.Visible = false;
                 comboBoxMonth.Visible = false;
                 comboBoxDay.Visible = false;
@@ -487,54 +416,63 @@ namespace ReadTemp
                 labelStartDate.Visible = false;
                 labelEndDate.Visible = false;
 
-                datebaseTableToolStripMenuItem.Enabled=false;
-                databaseTableTool2StripMenuItem.Enabled=false;
-            }
-            if (!File.Exists("input.txt"))
-            {
-                File.AppendAllText("input.txt", "password");
-            }
-
-            if (!File.Exists("configdb.txt"))
-            {
-                File.AppendAllText("configdb.txt", "SERVER=Server;DATABASE=weatherstation;UID=User;PASSWORD=");
-                FormConfigDatabase configDatabase = new FormConfigDatabase();
-                configDatabase.ShowDialog();
-            }
-
-            string[] chooseDatabase = File.ReadAllLines("configdb.txt");
-            string[] inputPass = File.ReadAllLines("input.txt");
-            int checkDatabase = 0;
-
-            try
-            {
-                connString = chooseDatabase[0];
-                passwordString = Choice.decrypt(inputPass[0], "weather");
-
-                connString = connString + passwordString + ";";
+                datebaseTableToolStripMenuItem.Enabled = false;
+                databaseTableTool2StripMenuItem.Enabled = false;
+                showDelayTimeLogToolStripMenuItem.Visible = false;
+                datebaseTableToolStripMenuItem.Visible = false;
+                databaseTableTool2StripMenuItem.Visible = false;
+                listViewShowData.Location = new System.Drawing.Point(0, 65);
+                listViewShowData.Height = 932;
                 labelDate.Text = "To days date: " + DateTime.Now.ToString("dd.MM.yyyy");
-                startDate = DateTime.Now;
-                endDate = DateTime.Now;
-                endDate = endDate.AddDays(1);
-                newStartDate = startDate.ToString("yyyy-MM-dd");
-                newEndDate = endDate.ToString("yyyy-MM-dd");
-                trackBarSize.Value = 18;
-
-                MySqlConnection conn = new MySqlConnection(connString);
-                conn.Open();
-                Choice.checkString = "select delay from settings where id =1";
-                MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    delayValueToolStripComboBox.Text = reader.GetInt64("delay").ToString();
-                }
-                conn.Close();
-                labelShowDelay.Text = "Delay value is set to " + delayValueToolStripComboBox.Text + " minutes.";
             }
-            catch
+            else
             {
-                MessageBox.Show("Database configuration fail! Check database settings!");
+                if (!File.Exists("input.txt"))
+                {
+                    File.AppendAllText("input.txt", "password");
+                }
+
+                if (!File.Exists("configdb.txt"))
+                {
+                    File.AppendAllText("configdb.txt", "SERVER=Server;DATABASE=weatherstation;UID=User;PASSWORD=");
+                    FormConfigDatabase configDatabase = new FormConfigDatabase();
+                    configDatabase.ShowDialog();
+                }
+
+                string[] chooseDatabase = File.ReadAllLines("configdb.txt");
+                string[] inputPass = File.ReadAllLines("input.txt");
+                int checkDatabase = 0;
+
+                try
+                {
+                    connString = chooseDatabase[0];
+                    passwordString = Choice.decrypt(inputPass[0], "weather");
+
+                    connString = connString + passwordString + ";";
+                    labelDate.Text = "To days date: " + DateTime.Now.ToString("dd.MM.yyyy");
+                    startDate = DateTime.Now;
+                    endDate = DateTime.Now;
+                    endDate = endDate.AddDays(1);
+                    newStartDate = startDate.ToString("yyyy-MM-dd");
+                    newEndDate = endDate.ToString("yyyy-MM-dd");
+                    trackBarSize.Value = 18;
+
+                    MySqlConnection conn = new MySqlConnection(connString);
+                    conn.Open();
+                    Choice.checkString = "select delay from settings where id =1";
+                    MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        delayValueToolStripComboBox.Text = reader.GetInt64("delay").ToString();
+                    }
+                    conn.Close();
+                    labelShowDelay.Text = "Delay value is set to " + delayValueToolStripComboBox.Text + " minutes.";
+                }
+                catch
+                {
+                    MessageBox.Show("Database configuration fail! Check database settings!");
+                }
             }
         }
         private void technicalInfoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -605,36 +543,25 @@ namespace ReadTemp
                     }
                     else
                     {
-                        modifyCurrentDataToolStripMenuItem.Enabled = true;
-                        exportToPDFToolStripMenuItem.Enabled = true;
+                        modifyCurrentDataToolStripMenuItem.Enabled = false;
                         clearDataToolStripMenuItem.Enabled = true;
                         saveToolStripMenuItem.Enabled = true;
-                        printToolStripMenuItem.Enabled = true;
                         deleteRowsToolStripMenuItem.Enabled = false;
+                        dateTimePickerEndDate.Enabled = false;
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                         labelStatus.Text = "Data from server database.";
                         Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
                         Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
 
-                        if (counterItems == 1)
-                        {
-                            graphViewToolStripMenuItem.Enabled = false;
-                        }
-
-                        else
-                        {
-                            graphViewToolStripMenuItem.Enabled = true;
-                        }
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                         labelStatus.Text = "Data from server database.";
-                        modifyCurrentDataToolStripMenuItem.Enabled = true;
+                        graphViewToolStripMenuItem.Enabled = listViewShowData.Items.Count > 1;
 
                     }
                     conn.Close();
                 }
                 else
                 {
-                    dateTimePickerEndDate.Enabled = true;
                     dateTimePickerStartDate.Enabled = true;
                     buttonSearch.Enabled = true;
                     comboBoxYear.Enabled = true;
@@ -763,6 +690,8 @@ namespace ReadTemp
             if (MessageBox.Show("Clear data?", "Weather Station.", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 clearDataToolStripMenuItem.Enabled = false;
+                saveToolStripMenuItem.Enabled = false;
+                modifyCurrentDataToolStripMenuItem.Enabled = false;
                 listViewShowData.Items.Clear();
                 labelRows.Text = "";
                 labelStatus.Text = "";
@@ -782,6 +711,7 @@ namespace ReadTemp
 
         private void FormShowData_Activated(object sender, EventArgs e)
         {
+            int countRow = 0;
             if (checkExist == true)
             {
 
@@ -792,6 +722,24 @@ namespace ReadTemp
                 connString = connString + passwordString + ";";
             }
             checkExist = true;
+
+            if (modifiedTable == true)
+            {
+                modifiedTable = false;
+                listViewShowData.Items.Clear();
+                MySqlConnection conn = new MySqlConnection(connString);
+                conn.Open();
+                MySqlCommand command = new MySqlCommand(FormShowData.showString, conn);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    countRow++;
+                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetMySqlDecimal("outtemp").ToString() + " °C", reader.GetMySqlDecimal("outhum").ToString() + " %", reader.GetMySqlDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
+                }
+                conn.Close();
+                labelRows.Text = "Number of rows: " + countRow;
+            }
         }
 
         private void modifyCurrentDataToolStripMenuItem_Click(object sender, EventArgs e)
@@ -810,21 +758,19 @@ namespace ReadTemp
                     if (deleteValue.Selected)
                     {
                         this.listViewShowData.Items.Remove(deleteValue);
+                        counterItems--;
 
                     }
                 }
             }
+            labelRows.Text = "Numbers of rows: " + counterItems.ToString();
+            saveToolStripMenuItem.Enabled = true;
+            graphViewToolStripMenuItem.Enabled = listViewShowData.Items.Count > 1;
+            saveToolStripMenuItem.Enabled = listViewShowData.Items.Count > 0;
         }
         private void listViewShowData_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listViewShowData.Items.Count > 1)
-            {
-                graphViewToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
-                graphViewToolStripMenuItem.Enabled = false;
-            } 
+            deleteRowsToolStripMenuItem.Enabled = listViewShowData.SelectedItems.Count > 0;
         }
 
         private void textFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -902,8 +848,8 @@ namespace ReadTemp
                         MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!");
                         labelStatus.Text = "Data from local wht file (" + openContent.FileName.ToString() + ").";
                         clearDataToolStripMenuItem.Enabled = true;
-                        exportToPDFToolStripMenuItem.Enabled = true;
                         graphViewToolStripMenuItem.Enabled = true;
+                        dateTimePickerEndDate.Enabled = false;
 
                         Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
                         Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
@@ -921,6 +867,7 @@ namespace ReadTemp
             {
                 MessageBox.Show("Error message:" + i.Message);
             }
+            graphViewToolStripMenuItem.Enabled = listViewShowData.Items.Count > 1;
         }
 
         private void datebaseTableToolStripMenuItem_Click(object sender, EventArgs e)
@@ -938,7 +885,6 @@ namespace ReadTemp
                     if (checkBoxDay.Checked == true)
                     {
                         checkBoxDay.Checked = false;
-                        dateTimePickerEndDate.Enabled = true;
                         dateTimePickerStartDate.Enabled = true;
                         buttonSearch.Enabled = true;
                         comboBoxYear.Enabled = true;
@@ -956,7 +902,7 @@ namespace ReadTemp
                     {
                         counterItems++;
                         countItems++;
-                        listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
+                        listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                     }
                     if (counterItems == 0)
                     {
@@ -966,33 +912,34 @@ namespace ReadTemp
                     else
                     {
                         modifyCurrentDataToolStripMenuItem.Enabled = true;
-                        exportToPDFToolStripMenuItem.Enabled = true;
                         clearDataToolStripMenuItem.Enabled = true;
                         saveToolStripMenuItem.Enabled = true;
-                        printToolStripMenuItem.Enabled = true;
                         deleteRowsToolStripMenuItem.Enabled = false;
+                        dateTimePickerEndDate.Enabled = false;
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                         labelStatus.Text = "Data from server database. Table " + FormShowTables.tableName + " is selected.";
                         Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
                         Choice.lastItem = listViewShowData.Items[countItems].SubItems[3].Text;
 
-                        if (counterItems == 1)
-                        {
-                            graphViewToolStripMenuItem.Enabled = false;
-                        }
-
-                        else
-                        {
-                            graphViewToolStripMenuItem.Enabled = true;
-                        }
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                         labelStatus.Text = "Data from server database. Table " + FormShowTables.tableName + " is selected.";
-                        modifyCurrentDataToolStripMenuItem.Enabled = true;
+                        graphViewToolStripMenuItem.Enabled = listViewShowData.Items.Count > 1;
                     }
                 }
                 catch (MySql.Data.MySqlClient.MySqlException ex)
                 {
-                    MessageBox.Show(ex.ToString());
+                    switch (ex.Number) 
+                    { 
+                       case 0:
+                       MessageBox.Show("Database configuration fail! Check database settings!");
+                       break;
+                       case 1045:
+                       MessageBox.Show("Invalid username/password, please try again");
+                       break;
+                       case 1050:
+                       MessageBox.Show("Table " + FormMessageBox.textValue + " exist already!");
+                       break;
+                    }
                 }
             }
         }
@@ -1006,26 +953,45 @@ namespace ReadTemp
 
             if (FormShowTables.doChange == true)
             {
-                MySqlConnection conn = new MySqlConnection(connString);
-                if (MessageBox.Show("Are you sure to delete selected " + FormShowTables.tableName + " table?", "Weather Station",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                try
                 {
-                    conn.Open();
-                    showString = "drop table " + FormShowTables.tableName + ";";
-                    Clipboard.SetText(showString);
-                    MySqlCommand command = new MySqlCommand(showString, conn);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    conn.Close();
-                    MessageBox.Show("Table" + FormShowTables.tableName + " is deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MySqlConnection conn = new MySqlConnection(connString);
+                    if (MessageBox.Show("Are you sure to delete selected " + FormShowTables.tableName + " table?", "Weather Station",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        conn.Open();
+                        showString = "drop table " + FormShowTables.tableName + ";";
+                        Clipboard.SetText(showString);
+                        MySqlCommand command = new MySqlCommand(showString, conn);
+                        MySqlDataReader reader = command.ExecuteReader();
+                        conn.Close();
+                        MessageBox.Show("Table" + FormShowTables.tableName + " is deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex)
+                {
+                    switch (ex.Number)
+                    {
+                        case 0:
+                            MessageBox.Show("Database configuration fail! Check database settings!");
+                            break;
+                        case 1045:
+                            MessageBox.Show("Invalid username/password, please try again");
+                            break;
+                        case 1050:
+                            MessageBox.Show("Table " + FormMessageBox.textValue + " exist already!");
+                            break;
+
+                    }
                 }
             }
         }
 
         private void databaseTableTool2StripMenuItem_Click(object sender, EventArgs e)
         {
+            setLabelText = "Write a name for the table.";
             FormMessageBox showMessage = new FormMessageBox();
             showMessage.ShowDialog();
-            setLabelText = "Write a name for the table.";
 
             if (FormMessageBox.addChoice == true)
             {
@@ -1034,7 +1000,7 @@ namespace ReadTemp
                     MySqlConnection conn = new MySqlConnection(FormShowData.connString);
                     conn.Open();
                     MySqlCommand createTable = new MySqlCommand(@"
-                  create table " + FormMessageBox.textValue + @"  
+                     create table " + FormMessageBox.textValue + @"  
                      (id int not null auto_increment,
                      outtemp decimal(3,1), 
                      outhum decimal(4,1),
@@ -1043,9 +1009,6 @@ namespace ReadTemp
                      primary key (id));", conn);
                     createTable.ExecuteNonQuery();
                     conn.Close();
-
-
-
                     MessageBox.Show("Table " + FormMessageBox.textValue + " was created");
                     conn.Close();
                 }
@@ -1053,20 +1016,21 @@ namespace ReadTemp
                 {
                     switch (ex.Number)
                     {
-                        case 1050:
-                            MessageBox.Show("Table " + FormMessageBox.textValue + " exist already!");
+                        case 0:
+                            MessageBox.Show("Database configuration fail! Check database settings!");
                             break;
                         case 1045:
                             MessageBox.Show("Invalid username/password, please try again");
                             break;
+                        case 1050:
+                            MessageBox.Show("Table " + FormMessageBox.textValue + " exist already!");
+                            break;
+
                     }
                 }
                 try
                 {
-
                     MySqlConnection conn = new MySqlConnection(FormShowData.connString);
-
-
                     foreach (ListViewItem item in listViewShowData.Items)
                     {
                         conn.Open();
@@ -1098,6 +1062,17 @@ namespace ReadTemp
             {
                 MessageBox.Show("Creation of table was aborted!");
             }
+        }
+
+        private void dateTimePickerStartDate_ValueChanged(object sender, EventArgs e)
+        {
+            dateTimePickerEndDate.MinDate = dateTimePickerStartDate.Value;
+            dateTimePickerEndDate.Enabled = true;
+        }
+
+        private void datebaseTableToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

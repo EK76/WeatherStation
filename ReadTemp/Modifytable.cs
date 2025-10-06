@@ -230,6 +230,7 @@ namespace ReadTemp
         private void refreshTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listViewShowData.Items.Clear();
+            radioButtonAll.Checked = true;
             wholeTable();
         }
 
@@ -273,32 +274,14 @@ namespace ReadTemp
             dateTimePickerEndDate.Enabled = true;
             buttonSearch.Enabled = true;
             deleteRowsToolStripMenuItem.Enabled = false;
+            editSelectedRowToolStripMenuItem.Enabled = false;
             listViewShowData.Items.Clear();
         }
 
         private void listViewShowData_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            if (listViewShowData.SelectedItems.Count >= 1)
-            {
-                deleteRowsToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
-                deleteRowsToolStripMenuItem.Enabled = false;
-                editSelectedRowToolStripMenuItem.Enabled = false;
-            }
-
-            if (listViewShowData.Items.Count == 0)
-            {
-                emptyTableToolStripMenuItem.Enabled = false;
-                backupTableToolStripMenuItem1.Enabled = false;
-            }
-            else
-            {
-                emptyTableToolStripMenuItem.Enabled = true;
-                backupTableToolStripMenuItem1.Enabled = true;
-            }
+            deleteRowsToolStripMenuItem.Enabled = listViewShowData.SelectedItems.Count > 0;
+            editSelectedRowToolStripMenuItem.Enabled = listViewShowData.SelectedItems.Count > 0;
         }
 
         private void backupTableToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -376,6 +359,7 @@ namespace ReadTemp
                             conn.Close();
                             listViewShowData.Items.Remove(deleteValue);
                             indexRow--;
+                            FormShowData.modifiedTable = true;
 
                         }
                         indexRow++;
@@ -389,12 +373,12 @@ namespace ReadTemp
                         {
                             conn.Open();
                             sqlQuery = "delete from " + showTable +" where id = " + listViewShowData.Items[indexRow].SubItems[0].Text + ";";
-                            MessageBox.Show(sqlQuery);
                             MySqlCommand command = new MySqlCommand(sqlQuery, conn);
                             MySqlDataReader reader = command.ExecuteReader();
                             conn.Close();
                             listViewShowData.Items.Remove(deleteValue);
                             indexRow--;
+                            FormShowData.modifiedTable = true;
                         }
                         indexRow++;
                     }

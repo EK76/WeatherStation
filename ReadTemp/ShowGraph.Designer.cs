@@ -31,7 +31,6 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            chartInfo = new System.Windows.Forms.DataVisualization.Charting.Chart();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             saveChartToolStripMenuItem = new ToolStripMenuItem();
@@ -48,12 +47,12 @@
             chartSummaryToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripSeparator();
             settingsToolStripMenuItem = new ToolStripMenuItem();
-            toolsToolStripMenuItem = new ToolStripMenuItem();
-            createRapportToolStripMenuItem = new ToolStripMenuItem();
             folderBrowserDialog1 = new FolderBrowserDialog();
             colorDialog1 = new ColorDialog();
             listBoxShowValue = new ListBox();
             panelSettings = new Panel();
+            comboBoxLineSize = new ComboBox();
+            labelLineSixe = new Label();
             buttonSetColor = new Button();
             comboBoxChartColor = new ComboBox();
             labelPanelMarker3 = new Label();
@@ -64,59 +63,22 @@
             labelColorPanel4 = new Label();
             labelPanel = new Label();
             labelDateUpdate = new Label();
-            panel1 = new Panel();
-            labelMax = new Label();
-            labelMin = new Label();
+            panelDisplay = new Panel();
             labelAverage = new Label();
-            ((System.ComponentModel.ISupportInitialize)chartInfo).BeginInit();
+            labelMin = new Label();
+            labelMax = new Label();
+            labelDateFirst = new Label();
+            labelDateLast = new Label();
+            chartInfo = new System.Windows.Forms.DataVisualization.Charting.Chart();
             menuStrip1.SuspendLayout();
             panelSettings.SuspendLayout();
-            panel1.SuspendLayout();
+            panelDisplay.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)chartInfo).BeginInit();
             SuspendLayout();
-            // 
-            // chartInfo
-            // 
-            chartInfo.BackColor = Color.LightGray;
-            chartInfo.BackgroundImageLayout = ImageLayout.Zoom;
-            chartInfo.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Top;
-            chartInfo.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
-            chartInfo.BorderSkin.PageColor = Color.Transparent;
-            chartInfo.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
-            chartArea1.AxisX.LabelStyle.ForeColor = Color.Transparent;
-            chartArea1.AxisX.Title = "Date";
-            chartArea1.AxisX.TitleFont = new Font("Microsoft Sans Serif", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            chartArea1.AxisY.Maximum = 40D;
-            chartArea1.AxisY.Minimum = -40D;
-            chartArea1.AxisY.Title = "Celsius";
-            chartArea1.AxisY.TitleFont = new Font("Microsoft Sans Serif", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            chartArea1.Name = "ChartArea1";
-            chartInfo.ChartAreas.Add(chartArea1);
-            legend1.BackColor = Color.Transparent;
-            legend1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            legend1.IsTextAutoFit = false;
-            legend1.Name = "Legend1";
-            legend1.TitleAlignment = StringAlignment.Far;
-            legend1.TitleFont = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            chartInfo.Legends.Add(legend1);
-            chartInfo.Location = new Point(0, 38);
-            chartInfo.Margin = new Padding(4, 3, 4, 3);
-            chartInfo.Name = "chartInfo";
-            chartInfo.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Font = new Font("Calibri", 12F, FontStyle.Bold);
-            series1.Legend = "Legend1";
-            series1.Name = "Outdoor Temperature";
-            chartInfo.Series.Add(series1);
-            chartInfo.Size = new Size(3021, 1205);
-            chartInfo.TabIndex = 2;
-            chartInfo.Text = "Chart 3 (Outdoor Temperature).";
-            chartInfo.GetToolTipText += chartInfo_GetToolTipText;
-            chartInfo.MouseClick += chartInfo_MouseClick;
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem, toolsToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(7, 2, 0, 2);
@@ -231,19 +193,6 @@
             settingsToolStripMenuItem.Text = "Settings";
             settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
             // 
-            // toolsToolStripMenuItem
-            // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createRapportToolStripMenuItem });
-            toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(47, 20);
-            toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // createRapportToolStripMenuItem
-            // 
-            createRapportToolStripMenuItem.Name = "createRapportToolStripMenuItem";
-            createRapportToolStripMenuItem.Size = new Size(153, 22);
-            createRapportToolStripMenuItem.Text = "Create Rapport";
-            // 
             // listBoxShowValue
             // 
             listBoxShowValue.Font = new Font("Calibri", 16F, FontStyle.Bold);
@@ -261,6 +210,8 @@
             // 
             panelSettings.BackColor = Color.LightGray;
             panelSettings.BorderStyle = BorderStyle.Fixed3D;
+            panelSettings.Controls.Add(comboBoxLineSize);
+            panelSettings.Controls.Add(labelLineSixe);
             panelSettings.Controls.Add(buttonSetColor);
             panelSettings.Controls.Add(comboBoxChartColor);
             panelSettings.Controls.Add(labelPanelMarker3);
@@ -276,6 +227,26 @@
             panelSettings.TabIndex = 10;
             panelSettings.Visible = false;
             panelSettings.Paint += panelSettings_Paint;
+            // 
+            // comboBoxLineSize
+            // 
+            comboBoxLineSize.FormattingEnabled = true;
+            comboBoxLineSize.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "8" });
+            comboBoxLineSize.Location = new Point(81, 158);
+            comboBoxLineSize.Name = "comboBoxLineSize";
+            comboBoxLineSize.Size = new Size(32, 23);
+            comboBoxLineSize.TabIndex = 13;
+            comboBoxLineSize.SelectedIndexChanged += comboBoxLineSize_SelectedIndexChanged;
+            // 
+            // labelLineSixe
+            // 
+            labelLineSixe.AutoSize = true;
+            labelLineSixe.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            labelLineSixe.Location = new Point(8, 158);
+            labelLineSixe.Name = "labelLineSixe";
+            labelLineSixe.Size = new Size(54, 15);
+            labelLineSixe.TabIndex = 12;
+            labelLineSixe.Text = "Line size";
             // 
             // buttonSetColor
             // 
@@ -302,7 +273,7 @@
             // 
             labelPanelMarker3.AutoSize = true;
             labelPanelMarker3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelPanelMarker3.Location = new Point(11, 174);
+            labelPanelMarker3.Location = new Point(11, 205);
             labelPanelMarker3.Name = "labelPanelMarker3";
             labelPanelMarker3.Size = new Size(48, 15);
             labelPanelMarker3.TabIndex = 9;
@@ -312,7 +283,7 @@
             // 
             comboBoxMarkerSize.FormattingEnabled = true;
             comboBoxMarkerSize.Items.AddRange(new object[] { "8", "9", "10", "11", "12", "13", "14", "15", "16" });
-            comboBoxMarkerSize.Location = new Point(51, 244);
+            comboBoxMarkerSize.Location = new Point(51, 275);
             comboBoxMarkerSize.Name = "comboBoxMarkerSize";
             comboBoxMarkerSize.Size = new Size(51, 23);
             comboBoxMarkerSize.TabIndex = 8;
@@ -322,7 +293,7 @@
             // 
             comboBoxMarkerType.FormattingEnabled = true;
             comboBoxMarkerType.Items.AddRange(new object[] { "None", "Circle", "Square", "Triangle", "Cross", "Star" });
-            comboBoxMarkerType.Location = new Point(50, 204);
+            comboBoxMarkerType.Location = new Point(50, 235);
             comboBoxMarkerType.Name = "comboBoxMarkerType";
             comboBoxMarkerType.Size = new Size(97, 23);
             comboBoxMarkerType.TabIndex = 7;
@@ -332,7 +303,7 @@
             // 
             labelPanelMarker2.AutoSize = true;
             labelPanelMarker2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelPanelMarker2.Location = new Point(11, 247);
+            labelPanelMarker2.Location = new Point(11, 278);
             labelPanelMarker2.Name = "labelPanelMarker2";
             labelPanelMarker2.Size = new Size(30, 15);
             labelPanelMarker2.TabIndex = 6;
@@ -342,7 +313,7 @@
             // 
             labelPanelMarker.AutoSize = true;
             labelPanelMarker.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelPanelMarker.Location = new Point(11, 207);
+            labelPanelMarker.Location = new Point(11, 238);
             labelPanelMarker.Name = "labelPanelMarker";
             labelPanelMarker.Size = new Size(33, 15);
             labelPanelMarker.TabIndex = 5;
@@ -375,38 +346,19 @@
             labelDateUpdate.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelDateUpdate.Location = new Point(2674, 217);
             labelDateUpdate.Name = "labelDateUpdate";
-            labelDateUpdate.Size = new Size(60, 25);
+            labelDateUpdate.Size = new Size(0, 25);
             labelDateUpdate.TabIndex = 11;
-            labelDateUpdate.Text = "Date: ";
             // 
-            // panel1
+            // panelDisplay
             // 
-            panel1.Controls.Add(labelAverage);
-            panel1.Controls.Add(labelMin);
-            panel1.Controls.Add(labelMax);
-            panel1.Font = new Font("Calibri", 16F, FontStyle.Bold);
-            panel1.Location = new Point(3029, 38);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(312, 168);
-            panel1.TabIndex = 12;
-            // 
-            // labelMax
-            // 
-            labelMax.AutoSize = true;
-            labelMax.Location = new Point(14, 22);
-            labelMax.Name = "labelMax";
-            labelMax.Size = new Size(67, 27);
-            labelMax.TabIndex = 0;
-            labelMax.Text = "label1";
-            // 
-            // labelMin
-            // 
-            labelMin.AutoSize = true;
-            labelMin.Location = new Point(14, 77);
-            labelMin.Name = "labelMin";
-            labelMin.Size = new Size(67, 27);
-            labelMin.TabIndex = 1;
-            labelMin.Text = "label2";
+            panelDisplay.Controls.Add(labelAverage);
+            panelDisplay.Controls.Add(labelMin);
+            panelDisplay.Controls.Add(labelMax);
+            panelDisplay.Font = new Font("Calibri", 16F, FontStyle.Bold);
+            panelDisplay.Location = new Point(3029, 38);
+            panelDisplay.Name = "panelDisplay";
+            panelDisplay.Size = new Size(312, 168);
+            panelDisplay.TabIndex = 12;
             // 
             // labelAverage
             // 
@@ -418,6 +370,88 @@
             labelAverage.TabIndex = 2;
             labelAverage.Text = "label3";
             // 
+            // labelMin
+            // 
+            labelMin.AutoSize = true;
+            labelMin.Location = new Point(14, 70);
+            labelMin.Name = "labelMin";
+            labelMin.Size = new Size(67, 27);
+            labelMin.TabIndex = 1;
+            labelMin.Text = "label2";
+            // 
+            // labelMax
+            // 
+            labelMax.AutoSize = true;
+            labelMax.Location = new Point(14, 22);
+            labelMax.Name = "labelMax";
+            labelMax.Size = new Size(67, 27);
+            labelMax.TabIndex = 0;
+            labelMax.Text = "label1";
+            // 
+            // labelDateFirst
+            // 
+            labelDateFirst.AutoSize = true;
+            labelDateFirst.BackColor = Color.LightGray;
+            labelDateFirst.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelDateFirst.Location = new Point(232, 1133);
+            labelDateFirst.Name = "labelDateFirst";
+            labelDateFirst.Size = new Size(45, 17);
+            labelDateFirst.TabIndex = 15;
+            labelDateFirst.Text = "label3";
+            // 
+            // labelDateLast
+            // 
+            labelDateLast.AutoSize = true;
+            labelDateLast.BackColor = Color.LightGray;
+            labelDateLast.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelDateLast.Location = new Point(2559, 1133);
+            labelDateLast.Name = "labelDateLast";
+            labelDateLast.Size = new Size(45, 17);
+            labelDateLast.TabIndex = 16;
+            labelDateLast.Text = "label4";
+            // 
+            // chartInfo
+            // 
+            chartInfo.BackColor = Color.LightGray;
+            chartInfo.BackgroundImageLayout = ImageLayout.Zoom;
+            chartInfo.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Top;
+            chartInfo.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
+            chartInfo.BorderSkin.PageColor = Color.Transparent;
+            chartInfo.BorderSkin.SkinStyle = System.Windows.Forms.DataVisualization.Charting.BorderSkinStyle.Emboss;
+            chartArea1.AxisX.LabelStyle.ForeColor = Color.Transparent;
+            chartArea1.AxisX.Title = "Date";
+            chartArea1.AxisX.TitleFont = new Font("Microsoft Sans Serif", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            chartArea1.AxisY.Interval = 10D;
+            chartArea1.AxisY.Maximum = 40D;
+            chartArea1.AxisY.Minimum = -40D;
+            chartArea1.AxisY.MinorGrid.Enabled = true;
+            chartArea1.AxisY.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+            chartArea1.AxisY.Title = "Celsius";
+            chartArea1.AxisY.TitleFont = new Font("Microsoft Sans Serif", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            chartArea1.Name = "ChartArea1";
+            chartInfo.ChartAreas.Add(chartArea1);
+            legend1.BackColor = Color.Transparent;
+            legend1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            legend1.IsTextAutoFit = false;
+            legend1.Name = "Legend1";
+            legend1.TitleAlignment = StringAlignment.Far;
+            legend1.TitleFont = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chartInfo.Legends.Add(legend1);
+            chartInfo.Location = new Point(1, 27);
+            chartInfo.Margin = new Padding(4, 3, 4, 3);
+            chartInfo.Name = "chartInfo";
+            chartInfo.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Font = new Font("Calibri", 12F, FontStyle.Bold);
+            series1.Legend = "Legend1";
+            series1.Name = "Outdoor Temperature";
+            chartInfo.Series.Add(series1);
+            chartInfo.Size = new Size(3021, 1225);
+            chartInfo.TabIndex = 2;
+            chartInfo.Text = "Chart 3 (Outdoor Temperature).";
+            chartInfo.GetToolTipText += chartInfo_GetToolTipText;
+            // 
             // FormViewGraph
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -425,7 +459,9 @@
             AutoSize = true;
             BackColor = Color.CadetBlue;
             ClientSize = new Size(3354, 1255);
-            Controls.Add(panel1);
+            Controls.Add(labelDateFirst);
+            Controls.Add(labelDateLast);
+            Controls.Add(panelDisplay);
             Controls.Add(labelDateUpdate);
             Controls.Add(panelSettings);
             Controls.Add(listBoxShowValue);
@@ -439,19 +475,18 @@
             Text = "Weather Station";
             Load += FormViewGraph_Load;
             Resize += FormViewGraph_Resize;
-            ((System.ComponentModel.ISupportInitialize)chartInfo).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             panelSettings.ResumeLayout(false);
             panelSettings.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            panelDisplay.ResumeLayout(false);
+            panelDisplay.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)chartInfo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private System.Windows.Forms.DataVisualization.Charting.Chart chartInfo;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
@@ -468,8 +503,6 @@
         private System.Windows.Forms.ListBox listBoxShowValue;
         private System.Windows.Forms.ToolStripMenuItem diagramViewToolStripMenuItem1;
         private System.Windows.Forms.ToolStripComboBox diagramToolStripComboBox;
-        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem createRapportToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.Panel panelSettings;
@@ -484,9 +517,14 @@
         private System.Windows.Forms.Button buttonSetColor;
         private System.Windows.Forms.ToolStripMenuItem defaultChartSettingsToolStripMenuItem;
         private Label labelDateUpdate;
-        private Panel panel1;
+        private Panel panelDisplay;
         private Label labelAverage;
         private Label labelMin;
         private Label labelMax;
+        private Label labelDateFirst;
+        private Label labelDateLast;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartInfo;
+        private Label labelLineSixe;
+        private ComboBox comboBoxLineSize;
     }
 }

@@ -47,7 +47,6 @@
             saveToolStripMenuItem = new ToolStripMenuItem();
             databaseTableTool2StripMenuItem = new ToolStripMenuItem();
             textFileToolStripMenuItem = new ToolStripMenuItem();
-            printToolStripMenuItem = new ToolStripMenuItem();
             closeToolStripMenuItem = new ToolStripMenuItem();
             editToolStripMenuItem = new ToolStripMenuItem();
             deleteRowsToolStripMenuItem = new ToolStripMenuItem();
@@ -61,12 +60,10 @@
             softwareInfoToolStripMenuItem = new ToolStripMenuItem();
             showDelayTimeLogToolStripMenuItem = new ToolStripMenuItem();
             toolsToolStripMenuItem = new ToolStripMenuItem();
-            exportToPDFToolStripMenuItem = new ToolStripMenuItem();
             changeTimeToolStripMenuItem = new ToolStripMenuItem();
             delayValueToolStripComboBox = new ToolStripComboBox();
             modifyToolStripMenuItem = new ToolStripMenuItem();
             databaseConfigToolStripMenuItem = new ToolStripMenuItem();
-            changeDatabasePasswordToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             printPreviewDialog1 = new PrintPreviewDialog();
@@ -77,7 +74,6 @@
             labelStartDate = new Label();
             buttonSearch = new Button();
             labelEndDate = new Label();
-            listViewPrinter1 = new BrightIdeasSoftware.ListViewPrinter();
             labelRows = new Label();
             checkBoxDay = new CheckBox();
             trackBarSize = new TrackBar();
@@ -158,7 +154,7 @@
             listViewShowData.Columns.AddRange(new ColumnHeader[] { columnHeaderOutTemp, columnHeaderOutHum, columnHeaderPressure, columnHeaderDate });
             listViewShowData.Font = new Font("Calibri", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             listViewShowData.FullRowSelect = true;
-            listViewShowData.Location = new Point(0, 122);
+            listViewShowData.Location = new Point(0, 118);
             listViewShowData.Margin = new Padding(4, 3, 4, 3);
             listViewShowData.Name = "listViewShowData";
             listViewShowData.Size = new Size(1392, 879);
@@ -201,7 +197,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem, printToolStripMenuItem, closeToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem, closeToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
@@ -216,14 +212,14 @@
             // datebaseTableToolStripMenuItem
             // 
             datebaseTableToolStripMenuItem.Name = "datebaseTableToolStripMenuItem";
-            datebaseTableToolStripMenuItem.Size = new Size(153, 22);
+            datebaseTableToolStripMenuItem.Size = new Size(180, 22);
             datebaseTableToolStripMenuItem.Text = "Datebase Table";
             datebaseTableToolStripMenuItem.Click += datebaseTableToolStripMenuItem_Click;
             // 
             // textFileToolStripMenuItem1
             // 
             textFileToolStripMenuItem1.Name = "textFileToolStripMenuItem1";
-            textFileToolStripMenuItem1.Size = new Size(153, 22);
+            textFileToolStripMenuItem1.Size = new Size(180, 22);
             textFileToolStripMenuItem1.Text = "Text File";
             textFileToolStripMenuItem1.Click += textFileToolStripMenuItem1_Click;
             // 
@@ -238,24 +234,16 @@
             // databaseTableTool2StripMenuItem
             // 
             databaseTableTool2StripMenuItem.Name = "databaseTableTool2StripMenuItem";
-            databaseTableTool2StripMenuItem.Size = new Size(180, 22);
+            databaseTableTool2StripMenuItem.Size = new Size(153, 22);
             databaseTableTool2StripMenuItem.Text = "Database Table";
             databaseTableTool2StripMenuItem.Click += databaseTableTool2StripMenuItem_Click;
             // 
             // textFileToolStripMenuItem
             // 
             textFileToolStripMenuItem.Name = "textFileToolStripMenuItem";
-            textFileToolStripMenuItem.Size = new Size(180, 22);
+            textFileToolStripMenuItem.Size = new Size(153, 22);
             textFileToolStripMenuItem.Text = "Text File";
             textFileToolStripMenuItem.Click += textFileToolStripMenuItem_Click;
-            // 
-            // printToolStripMenuItem
-            // 
-            printToolStripMenuItem.Enabled = false;
-            printToolStripMenuItem.Name = "printToolStripMenuItem";
-            printToolStripMenuItem.Size = new Size(180, 22);
-            printToolStripMenuItem.Text = "Print";
-            printToolStripMenuItem.Click += printToolStripMenuItem_Click;
             // 
             // closeToolStripMenuItem
             // 
@@ -275,7 +263,7 @@
             // 
             deleteRowsToolStripMenuItem.Enabled = false;
             deleteRowsToolStripMenuItem.Name = "deleteRowsToolStripMenuItem";
-            deleteRowsToolStripMenuItem.Size = new Size(182, 22);
+            deleteRowsToolStripMenuItem.Size = new Size(190, 22);
             deleteRowsToolStripMenuItem.Text = "Delete Rows";
             deleteRowsToolStripMenuItem.Click += deleteRowsToolStripMenuItem_Click;
             // 
@@ -283,7 +271,7 @@
             // 
             clearDataToolStripMenuItem.Enabled = false;
             clearDataToolStripMenuItem.Name = "clearDataToolStripMenuItem";
-            clearDataToolStripMenuItem.Size = new Size(182, 22);
+            clearDataToolStripMenuItem.Size = new Size(190, 22);
             clearDataToolStripMenuItem.Text = "Clear Data";
             clearDataToolStripMenuItem.Click += clearDataToolStripMenuItem_Click_1;
             // 
@@ -291,14 +279,14 @@
             // 
             modifyCurrentDataToolStripMenuItem.Enabled = false;
             modifyCurrentDataToolStripMenuItem.Name = "modifyCurrentDataToolStripMenuItem";
-            modifyCurrentDataToolStripMenuItem.Size = new Size(182, 22);
-            modifyCurrentDataToolStripMenuItem.Text = "Modify Current Data";
+            modifyCurrentDataToolStripMenuItem.Size = new Size(190, 22);
+            modifyCurrentDataToolStripMenuItem.Text = "Modify Selected Table";
             modifyCurrentDataToolStripMenuItem.Click += modifyCurrentDataToolStripMenuItem_Click;
             // 
             // deleteTableToolStripMenuItem
             // 
             deleteTableToolStripMenuItem.Name = "deleteTableToolStripMenuItem";
-            deleteTableToolStripMenuItem.Size = new Size(182, 22);
+            deleteTableToolStripMenuItem.Size = new Size(190, 22);
             deleteTableToolStripMenuItem.Text = "Delete Table";
             deleteTableToolStripMenuItem.Click += deleteTableToolStripMenuItem_Click;
             // 
@@ -345,24 +333,16 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportToPDFToolStripMenuItem, changeTimeToolStripMenuItem, modifyToolStripMenuItem, databaseConfigToolStripMenuItem, changeDatabasePasswordToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { changeTimeToolStripMenuItem, modifyToolStripMenuItem, databaseConfigToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(47, 20);
             toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // exportToPDFToolStripMenuItem
-            // 
-            exportToPDFToolStripMenuItem.Enabled = false;
-            exportToPDFToolStripMenuItem.Name = "exportToPDFToolStripMenuItem";
-            exportToPDFToolStripMenuItem.Size = new Size(219, 22);
-            exportToPDFToolStripMenuItem.Text = "Create table as PDF report";
-            exportToPDFToolStripMenuItem.Click += exportToPDFToolStripMenuItem_Click;
             // 
             // changeTimeToolStripMenuItem
             // 
             changeTimeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { delayValueToolStripComboBox });
             changeTimeToolStripMenuItem.Name = "changeTimeToolStripMenuItem";
-            changeTimeToolStripMenuItem.Size = new Size(219, 22);
+            changeTimeToolStripMenuItem.Size = new Size(190, 22);
             changeTimeToolStripMenuItem.Text = "Change Delay Time";
             changeTimeToolStripMenuItem.Click += changeTimeToolStripMenuItem_Click;
             // 
@@ -376,23 +356,16 @@
             // modifyToolStripMenuItem
             // 
             modifyToolStripMenuItem.Name = "modifyToolStripMenuItem";
-            modifyToolStripMenuItem.Size = new Size(219, 22);
+            modifyToolStripMenuItem.Size = new Size(190, 22);
             modifyToolStripMenuItem.Text = "Modify Weather Table";
             modifyToolStripMenuItem.Click += modifyToolStripMenuItem_Click;
             // 
             // databaseConfigToolStripMenuItem
             // 
             databaseConfigToolStripMenuItem.Name = "databaseConfigToolStripMenuItem";
-            databaseConfigToolStripMenuItem.Size = new Size(219, 22);
+            databaseConfigToolStripMenuItem.Size = new Size(190, 22);
             databaseConfigToolStripMenuItem.Text = "Database Config";
             databaseConfigToolStripMenuItem.Click += databaseConfigToolStripMenuItem_Click;
-            // 
-            // changeDatabasePasswordToolStripMenuItem
-            // 
-            changeDatabasePasswordToolStripMenuItem.Name = "changeDatabasePasswordToolStripMenuItem";
-            changeDatabasePasswordToolStripMenuItem.Size = new Size(219, 22);
-            changeDatabasePasswordToolStripMenuItem.Text = "Change Database Password";
-            changeDatabasePasswordToolStripMenuItem.Click += changeDatabasePasswordToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
@@ -454,9 +427,11 @@
             dateTimePickerStartDate.RightToLeft = RightToLeft.No;
             dateTimePickerStartDate.Size = new Size(111, 23);
             dateTimePickerStartDate.TabIndex = 21;
+            dateTimePickerStartDate.ValueChanged += dateTimePickerStartDate_ValueChanged;
             // 
             // dateTimePickerEndDate
             // 
+            dateTimePickerEndDate.Enabled = false;
             dateTimePickerEndDate.Format = DateTimePickerFormat.Custom;
             dateTimePickerEndDate.Location = new Point(933, 89);
             dateTimePickerEndDate.Margin = new Padding(4, 3, 4, 3);
@@ -499,32 +474,6 @@
             labelEndDate.Size = new Size(61, 17);
             labelEndDate.TabIndex = 25;
             labelEndDate.Text = "End date";
-            // 
-            // listViewPrinter1
-            // 
-            // 
-            // 
-            // 
-            listViewPrinter1.CellFormat.CanWrap = true;
-            listViewPrinter1.CellFormat.Font = new Font("Microsoft Sans Serif", 9F);
-            // 
-            // 
-            // 
-            listViewPrinter1.FooterFormat.Font = new Font("Verdana", 10F, FontStyle.Italic);
-            // 
-            // 
-            // 
-            listViewPrinter1.GroupHeaderFormat.Font = new Font("Verdana", 10F, FontStyle.Bold);
-            // 
-            // 
-            // 
-            listViewPrinter1.HeaderFormat.Font = new Font("Calibri", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            // 
-            // 
-            // 
-            listViewPrinter1.ListHeaderFormat.CanWrap = true;
-            listViewPrinter1.ListHeaderFormat.Font = new Font("Verdana", 12F);
-            listViewPrinter1.ListView = listViewShowData;
             // 
             // labelRows
             // 
@@ -646,12 +595,10 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportToPDFToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem graphViewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.Label labelText;
         private System.Windows.Forms.ComboBox comboBoxYear;
@@ -681,7 +628,6 @@
         private System.Windows.Forms.ToolStripMenuItem showDelayTimeLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearDataToolStripMenuItem;
         private System.Windows.Forms.Label labelShowDelay;
-        private ToolStripMenuItem changeDatabasePasswordToolStripMenuItem;
         private ToolStripMenuItem modifyCurrentDataToolStripMenuItem;
         private ToolStripMenuItem deleteRowsToolStripMenuItem;
         private ToolStripMenuItem databaseTableTool2StripMenuItem;

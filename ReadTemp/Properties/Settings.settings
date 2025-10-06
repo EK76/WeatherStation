@@ -12,10 +12,16 @@
       <Value Profile="(Default)">#d3d3d3</Value>
     </Setting>
     <Setting Name="markerSize" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">8</Value>
+      <Value Profile="(Default)">14</Value>
     </Setting>
     <Setting Name="markerType" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="lineSeriesSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">8</Value>
+    </Setting>
+    <Setting Name="NewSettings" Type="System.String" Scope="User">
+      <Value Profile="(Default)">settings</Value>
     </Setting>
   </Settings>
 </SettingsFile>

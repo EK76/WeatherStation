@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Office2013.Drawing.ChartStyle;
 using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Vml.Spreadsheet;
 using Locations;
@@ -34,6 +35,7 @@ using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Size = System.Drawing.Size;
 using Title = System.Windows.Forms.DataVisualization.Charting.Title;
+using MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle;
 
 namespace ReadTemp
 {
@@ -41,10 +43,10 @@ namespace ReadTemp
     {
         private Rectangle chartInfoOrginal;
         private Rectangle listBoxShowValueOrginal;
-        private Rectangle labelAverageValueOrginal;
-        private Rectangle labelMaxValueOrginal;
-        private Rectangle labelMinValueOrginal;
         private Rectangle labelDateOrginal;
+        private Rectangle labelDateFirstOrginal;
+        private Rectangle labelDateLastOrginal;
+        private Rectangle panelDisplayOrginal;
         private Rectangle defautSize;
         public FormViewGraph()
         {
@@ -53,74 +55,60 @@ namespace ReadTemp
 
         string[] chooseDatabase;
         string[] inputPass;
-        string connString, checkString, dateString, dateString2, showBeginDate, showEndDate, yAxisText, yAxisValue, maxValue, averageValue, minValue, checkNewString, checkSaveString, theValue;
+        string connString, checkString, dateString, dateString2, showBeginDate, showEndDate, yAxisText, yAxisValue, yAxisValue2, maxValue, averageValue, minValue, checkNewString, checkSaveString, theValue;
         string choosenValue, legendText, yTitle, yValue, colorHex, colorHex2, colorHex3;
-        int addPoint = -1, chooseValue = 1, chooseItem = 1, recordSum, yMin, yMax, counterRows = -1, counterRowsSkip, dateChoose = 0, markerSize, markerType;
+        int addPoint = -1, chooseValue = 1, chooseItem = 1, recordSum, yMin, yMax, counterRows = -1, counterRowsSkip, dateChoose = 0, markerSize, markerType, setLineSize;
         decimal avgTemp, avgHum, avgPressure, averageValue2, convertValue;
         string currentItem, passwordString;
-        int index = 0, index2, oldValue = 0;
-        Boolean oneTime = false;
-      //  List<String> listDate = new List<String>();
-      //  List<String> listDate2 = new List<String>();
+        int index = 0, index2, oldValue = 0, point = 0, selectIndex = 1;
+        bool oneTime = false;
         List<decimal> listSum = new List<decimal>();
-      //  List<decimal> listSumNew = new List<decimal>();
         string addNewValue;
-
-
-   /*     void colorChoose(string value)
-        {
-            string color = colorDialog1.Color.ToArgb().ToString("x");
-            color = color.Substring(2, 6);
-            color = "#" + color;
-            MySqlConnection conn = new MySqlConnection(connString);
-            conn.Open();
-            checkString = "update settings set " + value + " = '" + color + "' where id = 1;";
-            MySqlCommand command = new MySqlCommand(checkString, conn);
-            MySqlDataReader reader = command.ExecuteReader();
-            conn.Close();
-        }*/
+        bool overMarker = false;
 
         void markerShow(int checkValue)
         {
             if (oneTime == true)
             {
-  
-               oldValue = index;
-               try
-               {
 
-                   chartInfo.Update();
-                   chartInfo.Series[0].Points[index].MarkerSize = markerSize;
+                oldValue = index;
+                try
+                {
 
-               }
-               catch (Exception message)
-               {
-                 //  MessageBox.Show(message.ToString());
-               }
+                    chartInfo.Update();
+                    chartInfo.Series[0].Points[index].MarkerSize = markerSize;
+
+                }
+                catch (Exception message)
+                {
+                    MessageBox.Show(message.ToString());
+                }
 
             }
             else
             {
-               markerSize = (int)Settings.Default["markerSize"];
+                markerSize = (int)Settings.Default["markerSize"];
 
             }
             switch (checkValue)
             {
                 case 1:
-                   currentItem = listBoxShowValue.SelectedItem.ToString();
-                   index = listBoxShowValue.FindString(currentItem);
-                   if (index >= 0)
-                   {
-                      chartInfo.Update();
-                      chartInfo.Series[0].Points[index].MarkerSize = markerSize + 8;
-                   }
-                   break;
-                   case 2:
-                   break;
-  
+                    currentItem = listBoxShowValue.SelectedItem.ToString();
+                    index = listBoxShowValue.FindString(currentItem);
+                    if (index >= 0)
+                    {
+                        chartInfo.Update();
+                        chartInfo.Series[0].Points[index].MarkerSize = markerSize + 8;
+                    }
+
+                    break;
+                case 2:
+                    break;
+
 
             }
             oneTime = true;
+            overMarker = false;
         }
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -136,6 +124,9 @@ namespace ReadTemp
             chartInfo.Series[0].XValueType = ChartValueType.DateTime;
             chartInfo.ChartAreas[0].AxisX.IntervalType = (DateTimeIntervalType)DateRangeType.DayOfMonth;
             chartInfo.ChartAreas[0].AxisX.LabelStyle.Format = "mm-hh-dd";
+
+            labelDateFirst.Text = FormShowData.listDate.First();
+            labelDateLast.Text = FormShowData.listDate.Last();
 
             addPoint = 0;
             foreach (var addValue in FormShowData.listDate)
@@ -159,6 +150,10 @@ namespace ReadTemp
                         chartInfo.ChartAreas[0].AxisY.Title = "Celsius";
                         chartInfo.ChartAreas[0].AxisY.Minimum = -40;
                         chartInfo.ChartAreas[0].AxisY.Maximum = 40;
+                        chartInfo.ChartAreas[0].AxisY.Interval = 10;
+                        chartInfo.ChartAreas[0].AxisY.MinorGrid.Interval = chartInfo.ChartAreas[0].AxisY.Interval / 2;
+                        yAxisValue = "Temperature";
+                        yAxisValue2 = "°C";
                         addPoint = -1;
 
                         foreach (var addValue in FormShowData.listTemp)
@@ -177,7 +172,7 @@ namespace ReadTemp
 
                             chartInfo.Series[0].Points.AddXY(addPoint, convertValue);
                             listSum.Add(convertValue);
-                            listBoxShowValue.Items.Add(FormShowData.listTemp[index] + " °C   " + FormShowData.listDate[index]);
+                            listBoxShowValue.Items.Add(FormShowData.listTemp[index] + "  " + FormShowData.listDate[index]);
                             index++;
                         }
 
@@ -199,8 +194,11 @@ namespace ReadTemp
                         chartInfo.ChartAreas[0].AxisY.Title = "Humidity %";
                         chartInfo.ChartAreas[0].AxisY.Minimum = 0;
                         chartInfo.ChartAreas[0].AxisY.Maximum = 100;
-
-                       addPoint = -1;
+                        chartInfo.ChartAreas[0].AxisY.Interval = 10;
+                        chartInfo.ChartAreas[0].AxisY.MinorGrid.Interval = chartInfo.ChartAreas[0].AxisY.Interval / 2;
+                        addPoint = -1;
+                        yAxisValue2 = "Humidity";
+                        yAxisValue2 = "%";
 
                         foreach (var addValue in FormShowData.listHum)
                         {
@@ -219,10 +217,9 @@ namespace ReadTemp
 
                             chartInfo.Series[0].Points.AddXY(addPoint, convertValue);
                             listSum.Add(convertValue);
-                            listBoxShowValue.Items.Add(FormShowData.listHum[index] + " %  " + FormShowData.listDate[index]);
+                            listBoxShowValue.Items.Add(FormShowData.listHum[index] + "  " + FormShowData.listDate[index]);
                             index++;
                         }
-
 
                         labelAverage.Text = "Average value: " + Math.Round(listSum.Average(), 1) + " %";
                         labelMin.Text = "Min value: " + listSum.Min() + " %";
@@ -242,7 +239,11 @@ namespace ReadTemp
                         chartInfo.ChartAreas[0].AxisY.Title = "Pressure hPA";
                         chartInfo.ChartAreas[0].AxisY.Minimum = 800;
                         chartInfo.ChartAreas[0].AxisY.Maximum = 1200;
+                        chartInfo.ChartAreas[0].AxisY.Interval = 100;
+                        chartInfo.ChartAreas[0].AxisY.MinorGrid.Interval = chartInfo.ChartAreas[0].AxisY.Interval / 2;
                         addPoint = -1;
+                        yAxisValue = "Pressure";
+                        yAxisValue2 = "hPA";
 
                         foreach (var addValue in FormShowData.listPressure)
                         {
@@ -258,10 +259,9 @@ namespace ReadTemp
                             }
                             convertValue = decimal.Parse(addNewValue);
 
-
                             chartInfo.Series[0].Points.AddXY(addPoint, convertValue);
                             listSum.Add(convertValue);
-                            listBoxShowValue.Items.Add(FormShowData.listPressure[index] + " hPA   " + FormShowData.listDate[index]);
+                            listBoxShowValue.Items.Add(FormShowData.listPressure[index] + "  " + FormShowData.listDate[index]);
                             index++;
                         }
 
@@ -279,27 +279,31 @@ namespace ReadTemp
 
         private void chartInfo_GetToolTipText(object sender, ToolTipEventArgs e)
         {
-            int point;
-            if (e.HitTestResult.ChartElementType == ChartElementType.DataPoint)
+
+            var showValue = chartInfo.HitTest(e.X, e.Y);
+            if (overMarker == true)
+            {
+                overMarker = false;
+                chartInfo.Series[0].Points[point].MarkerSize = markerSize;
+                labelDateUpdate.Text = "";
+                if (listBoxShowValue.SelectedIndex == point)
+                {
+                    selectIndex = 0;
+                    listBoxShowValue.ClearSelected();
+                }
+            }
+
+
+            if ((e.HitTestResult.ChartElementType == ChartElementType.DataPoint))
             {
                 var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
-                point = e.HitTestResult.PointIndex;
-
-                e.Text = string.Format("Date: {0}\n" + yAxisText + ": {1} " + yAxisValue, FormShowData.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                labelDateUpdate.Text = string.Format("Date: {0}\n" + yAxisText + ":{1} " + yAxisValue, FormShowData.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                point = showValue.PointIndex;
+                e.Text = string.Format("Date: {0}\n" + yAxisValue + ": {1} " + yAxisValue2, FormShowData.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                labelDateUpdate.Text = string.Format("Date: {0}\n" + yAxisValue + ":{1} " + yAxisValue2, FormShowData.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
                 chartInfo.Series[0].Points[point].MarkerSize = markerSize + 8;
+                overMarker = true;
+
             }
-            else
-            {
-                point = e.HitTestResult.PointIndex;
-                if (point > -1)
-                {
-                    MessageBox.Show(point.ToString());
-                    markerSize = (int)Settings.Default["markerSize"];
-                    labelDateUpdate.Text = "Date:\nTemperature:";
-                    chartInfo.Series[0].Points[point].MarkerSize = markerSize;
-                }
-            }               
         }
 
         private void chart3ToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -383,6 +387,10 @@ namespace ReadTemp
             listBoxShowValueOrginal = new Rectangle(listBoxShowValue.Location.X, listBoxShowValue.Location.Y, listBoxShowValue.Width, listBoxShowValue.Height);
             labelDateOrginal = new Rectangle(labelDateUpdate.Location.X, labelDateUpdate.Location.Y, labelDateUpdate.Width, labelDateUpdate.Height);
 
+            labelDateFirstOrginal = new Rectangle(labelDateFirst.Location.X, labelDateFirst.Location.Y, labelDateFirst.Width, labelDateFirst.Height);
+            labelDateLastOrginal = new Rectangle(labelDateLast.Location.X, labelDateLast.Location.Y, labelDateLast.Width, labelDateLast.Height);
+            panelDisplayOrginal = new Rectangle(panelDisplay.Location.X, panelDisplay.Location.Y, panelDisplay.Width, panelDisplay.Height);
+
             showBeginDate = FormShowData.listDate.First();
             showEndDate = FormShowData.listDate.Last();
             choosenValue = "outtemp";
@@ -394,25 +402,26 @@ namespace ReadTemp
             chartInfo.Update();
             chartInfo.Series[0].XValueType = ChartValueType.DateTime;
             chartInfo.ChartAreas[0].AxisX.IntervalType = (DateTimeIntervalType)DateRangeType.DayOfMonth;
-            chartInfo.ChartAreas[0].AxisX.LabelStyle.Format = "mm-hh-dd";
-   
+            chartInfo.ChartAreas[0].AxisX.LabelStyle.Format = "dd-mm-yyyy hh.mm";
+
             try
             {
                 chartInfo.Update();
                 chartInfo.Series[0].LegendText = "Temperature";
                 chartInfo.ChartAreas[0].AxisY.Title = "Celsius";
-                yAxisText = "Temperature ";
-                yAxisValue = " °C";
-                yMax = 40;
-                yMin = -40;
+                chartInfo.ChartAreas[0].AxisY.Minimum = -40;
+                chartInfo.ChartAreas[0].AxisY.Maximum = 40;
+                chartInfo.ChartAreas[0].AxisY.Interval = 10;
+                chartInfo.ChartAreas[0].AxisY.MinorGrid.Interval = chartInfo.ChartAreas[0].AxisY.Interval / 2;
+                yAxisValue = "Temperature";
+                yAxisValue2 = "°C";
                 addPoint = -1;
 
                 foreach (var addValue in FormShowData.listTemp)
                 {
-                  
                     addPoint++;
                     recordSum++;
-                    
+
                     addNewValue = addValue;
                     var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
                     foreach (var rc in removeChars)
@@ -421,34 +430,22 @@ namespace ReadTemp
                     }
                     convertValue = decimal.Parse(addNewValue);
 
-                   
                     chartInfo.Series[0].Points.AddXY(addPoint, convertValue);
                     listSum.Add(convertValue);
-                    listBoxShowValue.Items.Add(FormShowData.listTemp[index] + " °C   " + FormShowData.listDate[index]);
+                    listBoxShowValue.Items.Add(FormShowData.listTemp[index] + "  " + FormShowData.listDate[index]);
                     index++;
                 }
 
-                addPoint = 0;
-                foreach (var addValue in FormShowData.listDate)
-                {
-                    chartInfo.Series[0].Points[addPoint].AxisLabel = FormShowData.listDate[addPoint];
-                    addPoint++;
-                }
-
-                labelAverage.Text= "Average value: " + Math.Round(listSum.Average(), 1) + " °C";
+                labelAverage.Text = "Average value: " + Math.Round(listSum.Average(), 1) + " °C";
                 labelMin.Text = "Min value: " + listSum.Min() + " °C";
                 labelMax.Text = "Max value: " + listSum.Max() + " °C";
+                labelDateFirst.Text = FormShowData.listDate.First();
+                labelDateLast.Text = FormShowData.listDate.Last();
             }
-            catch(Exception message)
+            catch (Exception message)
             {
                 MessageBox.Show(message.ToString());
             }
-
-
-            chartInfo.ChartAreas[0].AxisY.Minimum = -40;
-            chartInfo.ChartAreas[0].AxisY.Maximum = 40;
-
-
 
             Title showOne = chartInfo.Titles.Add("Begin date " + showBeginDate + "\n\n End date " + showEndDate);
             showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10f, FontStyle.Bold);
@@ -460,14 +457,20 @@ namespace ReadTemp
             colorHex2 = Settings.Default["formColor"].ToString();
             Color color2 = System.Drawing.ColorTranslator.FromHtml(colorHex2);
             chartInfo.BackColor = color2;
+            labelDateFirst.BackColor = color2;
+            labelDateLast.BackColor = color2;
 
-            colorHex = Settings.Default["lineColor"].ToString();
+            colorHex3 = Settings.Default["lineColor"].ToString();
             Color color3 = System.Drawing.ColorTranslator.FromHtml(colorHex3);
             chartInfo.Series[0].Color = color3;
 
             markerSize = (int)Settings.Default["markerSize"];
+            setLineSize = (int)Settings.Default["lineSeriesSize"];
+            MessageBox.Show(setLineSize.ToString());
             chartInfo.Series[0].MarkerSize = markerSize;
             comboBoxMarkerSize.Text = markerSize.ToString();
+            chartInfo.Series[0].BorderWidth = setLineSize;
+            comboBoxLineSize.Text = setLineSize.ToString();
 
             markerType = (int)Settings.Default["markerType"];
             switch (markerType)
@@ -547,6 +550,9 @@ namespace ReadTemp
             checkResize(chartInfoOrginal, chartInfo);
             checkResize(listBoxShowValueOrginal, listBoxShowValue);
             checkResize(labelDateOrginal, labelDateUpdate);
+            checkResize(panelDisplayOrginal, panelDisplay);
+            checkResize(labelDateFirstOrginal, labelDateFirst);
+            checkResize(labelDateLastOrginal, labelDateLast);
         }
 
         private void listBoxShowValue_Click(object sender, EventArgs e)
@@ -576,6 +582,10 @@ namespace ReadTemp
         private void comboBoxChartColor_SelectedIndexChanged(object sender, EventArgs e)
         {
             buttonSetColor.Enabled = true;
+            if (comboBoxChartColor.Text == "")
+            {
+                buttonSetColor.Enabled = false;
+            }
         }
 
         private void defaultChartSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -589,15 +599,18 @@ namespace ReadTemp
                 chartInfo.ChartAreas[0].BackColor = Color.White;
                 chartInfo.Series[0].MarkerStyle = MarkerStyle.Circle;
                 chartInfo.Series[0].MarkerSize = 8;
+                chartInfo.Series[0].BorderWidth = 1;
                 defaultChartSettingsToolStripMenuItem.Enabled = false;
                 comboBoxMarkerType.Text = "2";
                 comboBoxMarkerSize.Text = "8";
+                comboBoxLineSize.Text = "2";
 
                 Settings.Default["chartColor"] = "#ffffff";
                 Settings.Default["lineColor"] = "#2e8b57";
                 Settings.Default["formColor"] = "#d3d3d3";
                 Settings.Default["markersize"] = 8;
                 Settings.Default["markerType"] = 2;
+                Settings.Default["lineSeriesSize"] = 2;
                 Settings.Default.Save();
             }
         }
@@ -613,13 +626,11 @@ namespace ReadTemp
                     {
                         chartInfo.ChartAreas[0].BackColor = colorDialog1.Color;
                         defaultChartSettingsToolStripMenuItem.Enabled = true;
-                        buttonSetColor.Enabled = false;
                         string color = colorDialog1.Color.ToArgb().ToString("x");
                         color = color.Substring(2, 6);
                         color = "#" + color;
                         Settings.Default["chartColor"] = color;
                         Settings.Default.Save();
-                        //  colorChoose("chartcolor");
                     }
                     break;
 
@@ -627,15 +638,15 @@ namespace ReadTemp
                     if (result == DialogResult.OK)
                     {
                         chartInfo.BackColor = colorDialog1.Color;
+                        labelDateFirst.BackColor = colorDialog1.Color;
+                        labelDateLast.BackColor = colorDialog1.Color;
                         panelSettings.BackColor = colorDialog1.Color;
                         defaultChartSettingsToolStripMenuItem.Enabled = true;
-                        buttonSetColor.Enabled = false;
                         string color = colorDialog1.Color.ToArgb().ToString("x");
                         color = color.Substring(2, 6);
                         color = "#" + color;
                         Settings.Default["formColor"] = color;
                         Settings.Default.Save();
-                        //colorChoose("formcolor");
                     }
                     break;
 
@@ -644,13 +655,11 @@ namespace ReadTemp
                     {
                         chartInfo.Series[0].Color = colorDialog1.Color;
                         defaultChartSettingsToolStripMenuItem.Enabled = true;
-                        buttonSetColor.Enabled = false;
                         string color = colorDialog1.Color.ToArgb().ToString("x");
                         color = color.Substring(2, 6);
                         color = "#" + color;
                         Settings.Default["lineColor"] = color;
                         Settings.Default.Save();
-                        // colorChoose("linecolor");
                     }
                     break;
             }
@@ -661,6 +670,7 @@ namespace ReadTemp
             int value = 0;
             oneTime = false;
 
+            defaultChartSettingsToolStripMenuItem.Enabled = true;
             switch (comboBoxMarkerSize.SelectedIndex)
             {
                 case 0:
@@ -720,6 +730,8 @@ namespace ReadTemp
         private void comboBoxMarkerType_SelectedIndexChanged(object sender, EventArgs e)
         {
             int value = 0;
+
+            defaultChartSettingsToolStripMenuItem.Enabled = true;
             switch (comboBoxMarkerType.SelectedIndex)
             {
                 case 0:
@@ -748,7 +760,7 @@ namespace ReadTemp
                     break;
 
                 case 5:
-                    chartInfo.Series[0].MarkerStyle = MarkerStyle.Star5;
+                    chartInfo.Series[0].MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Star5;
                     value = 6;
                     break;
 
@@ -760,22 +772,35 @@ namespace ReadTemp
 
         private void listBoxShowValue_SelectedIndexChanged(object sender, EventArgs e)
         {
-            markerShow(1);
+            if (selectIndex == 1)
+            {
+                markerShow(1);
+            }
+
         }
 
         private void chartInfo_MouseClick(object sender, MouseEventArgs e)
         {
-           
-           int selectValue = 0;
-              var showvalue = chartInfo.HitTest(e.X, e.Y);
 
-              if (showvalue.ChartElementType == ChartElementType.DataPoint)
-              {
+            int selectValue = 0;
+            var showvalue = chartInfo.HitTest(e.X, e.Y);
+
+            if (showvalue.ChartElementType == ChartElementType.DataPoint)
+            {
                 selectValue = showvalue.PointIndex;
                 listBoxShowValue.SetSelected(selectValue, true);
-              }
-          
-            //markerShow(2);
+                overMarker = false;
+            }
+        }
+        private void comboBoxLineSize_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int value;
+
+            defaultChartSettingsToolStripMenuItem.Enabled = true;
+            value = comboBoxLineSize.SelectedIndex;
+            chartInfo.Series[0].BorderWidth = value;
+            Settings.Default["lineSeriesSize"] = value;
+            Settings.Default.Save();
         }
     }
 }

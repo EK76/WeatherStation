@@ -37,6 +37,7 @@
             // 
             // buttonSetText
             // 
+            buttonSetText.Enabled = false;
             buttonSetText.Location = new Point(130, 372);
             buttonSetText.Name = "buttonSetText";
             buttonSetText.Size = new Size(106, 23);

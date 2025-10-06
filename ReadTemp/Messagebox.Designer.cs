@@ -36,6 +36,7 @@
             // 
             // buttonOk
             // 
+            buttonOk.Font = new Font("Calibri", 10F, FontStyle.Bold);
             buttonOk.Location = new Point(12, 109);
             buttonOk.Name = "buttonOk";
             buttonOk.Size = new Size(75, 23);
@@ -46,6 +47,7 @@
             // 
             // buttonCancel
             // 
+            buttonCancel.Font = new Font("Calibri", 10F, FontStyle.Bold);
             buttonCancel.Location = new Point(224, 109);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(75, 23);
@@ -56,9 +58,10 @@
             // 
             // textBoxName
             // 
+            textBoxName.Font = new Font("Calibri", 10F, FontStyle.Bold);
             textBoxName.Location = new Point(12, 57);
             textBoxName.Name = "textBoxName";
-            textBoxName.Size = new Size(287, 23);
+            textBoxName.Size = new Size(287, 24);
             textBoxName.TabIndex = 2;
             textBoxName.TextChanged += textBoxName_TextChanged;
             textBoxName.KeyPress += textBoxName_KeyPress;
@@ -66,9 +69,10 @@
             // labelText
             // 
             labelText.AutoSize = true;
+            labelText.Font = new Font("Calibri", 10F, FontStyle.Bold);
             labelText.Location = new Point(15, 22);
             labelText.Name = "labelText";
-            labelText.Size = new Size(38, 15);
+            labelText.Size = new Size(43, 17);
             labelText.TabIndex = 3;
             labelText.Text = "label1";
             // 

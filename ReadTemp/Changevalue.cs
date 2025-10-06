@@ -44,6 +44,7 @@ namespace ReadTemp
                 }
                 else
                 {
+                    FormShowData.modifiedTable = true;
                     FormShowData.currentTable = true;
                     sqlQuery = "update " + FormModifyTable.showCurrentTable + " set outtemp = '" + textBoxTemp.Text + "', outhum = '" + textBoxHum.Text + "', pressure = '" + textBoxPressure.Text + "' where id = '" + FormModifyTable.rowIndex + "'";
                 }
@@ -178,8 +179,6 @@ namespace ReadTemp
                 newString = FormShowData.showString;
                 newString = newString.Remove(newString.Length - 1);
                 sqlQuery =  newString + " where id = '" + FormModifyTable.rowIndex + "'";
-                Clipboard.SetText(newString);
-                MessageBox.Show(sqlQuery);
             }
             MySqlCommand command = new MySqlCommand(sqlQuery, conn);
             MySqlDataReader reader = command.ExecuteReader();
