@@ -448,8 +448,9 @@
             series1.Name = "Outdoor Temperature";
             chartInfo.Series.Add(series1);
             chartInfo.Size = new Size(3021, 1225);
+            chartInfo.SuppressExceptions = true;
             chartInfo.TabIndex = 2;
-            chartInfo.Text = "Chart 3 (Outdoor Temperature).";
+            chartInfo.Text = "Chart 3 ";
             chartInfo.GetToolTipText += chartInfo_GetToolTipText;
             // 
             // FormViewGraph

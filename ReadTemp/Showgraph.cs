@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
+using DocumentFormat.OpenXml.ExtendedProperties;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2013.Drawing.ChartStyle;
 using DocumentFormat.OpenXml.Presentation;
@@ -31,11 +32,11 @@ using Windows.UI.Xaml;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 using Color = System.Drawing.Color;
 using Control = System.Windows.Forms.Control;
+using MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Size = System.Drawing.Size;
 using Title = System.Windows.Forms.DataVisualization.Charting.Title;
-using MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle;
 
 namespace ReadTemp
 {
@@ -55,6 +56,10 @@ namespace ReadTemp
 
         string[] chooseDatabase;
         string[] inputPass;
+
+        string[] readSetting = File.ReadAllLines(System.Environment.CurrentDirectory + "\\settings.txt");
+        string[] writeSetting = File.ReadAllLines(System.Environment.CurrentDirectory + "\\settings.txt");
+        string path = System.Environment.CurrentDirectory + "\\settings.txt";
         string connString, checkString, dateString, dateString2, showBeginDate, showEndDate, yAxisText, yAxisValue, yAxisValue2, maxValue, averageValue, minValue, checkNewString, checkSaveString, theValue;
         string choosenValue, legendText, yTitle, yValue, colorHex, colorHex2, colorHex3;
         int addPoint = -1, chooseValue = 1, chooseItem = 1, recordSum, yMin, yMax, counterRows = -1, counterRowsSkip, dateChoose = 0, markerSize, markerType, setLineSize;
@@ -64,7 +69,6 @@ namespace ReadTemp
         bool oneTime = false;
         List<decimal> listSum = new List<decimal>();
         string addNewValue;
-        bool overMarker = false;
 
         void markerShow(int checkValue)
         {
@@ -87,8 +91,7 @@ namespace ReadTemp
             }
             else
             {
-                markerSize = (int)Settings.Default["markerSize"];
-
+               //  markerSize = Convert.ToInt32(readSetting[3]);
             }
             switch (checkValue)
             {
@@ -108,7 +111,6 @@ namespace ReadTemp
 
             }
             oneTime = true;
-            overMarker = false;
         }
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -281,29 +283,19 @@ namespace ReadTemp
         {
 
             var showValue = chartInfo.HitTest(e.X, e.Y);
-            if (overMarker == true)
-            {
-                overMarker = false;
-                chartInfo.Series[0].Points[point].MarkerSize = markerSize;
-                labelDateUpdate.Text = "";
-                if (listBoxShowValue.SelectedIndex == point)
-                {
-                    selectIndex = 0;
-                    listBoxShowValue.ClearSelected();
-                }
-            }
-
-
+           
             if ((e.HitTestResult.ChartElementType == ChartElementType.DataPoint))
             {
                 var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
                 point = showValue.PointIndex;
                 e.Text = string.Format("Date: {0}\n" + yAxisValue + ": {1} " + yAxisValue2, FormShowData.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
                 labelDateUpdate.Text = string.Format("Date: {0}\n" + yAxisValue + ":{1} " + yAxisValue2, FormShowData.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                chartInfo.Series[0].Points[point].MarkerSize = markerSize + 8;
-                overMarker = true;
-
             }
+            else
+            {
+                labelDateUpdate.Text = "";
+            }
+      
         }
 
         private void chart3ToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -450,29 +442,34 @@ namespace ReadTemp
             Title showOne = chartInfo.Titles.Add("Begin date " + showBeginDate + "\n\n End date " + showEndDate);
             showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10f, FontStyle.Bold);
 
-            colorHex = Settings.Default["chartColor"].ToString();
-            Color color = System.Drawing.ColorTranslator.FromHtml(colorHex);
-            chartInfo.ChartAreas[0].BackColor = color;
+            
 
-            colorHex2 = Settings.Default["formColor"].ToString();
-            Color color2 = System.Drawing.ColorTranslator.FromHtml(colorHex2);
-            chartInfo.BackColor = color2;
-            labelDateFirst.BackColor = color2;
-            labelDateLast.BackColor = color2;
+            foreach (var item in readSetting)
+            {
+                colorHex = readSetting[0]; 
+                Color color = System.Drawing.ColorTranslator.FromHtml(colorHex);
+                chartInfo.ChartAreas[0].BackColor = color;
 
-            colorHex3 = Settings.Default["lineColor"].ToString();
-            Color color3 = System.Drawing.ColorTranslator.FromHtml(colorHex3);
-            chartInfo.Series[0].Color = color3;
+                colorHex2 = readSetting[1];
+                Color color2 = System.Drawing.ColorTranslator.FromHtml(colorHex2);
+                chartInfo.BackColor = color2;
+                labelDateFirst.BackColor = color2;
+                labelDateLast.BackColor = color2;
 
-            markerSize = (int)Settings.Default["markerSize"];
-            setLineSize = (int)Settings.Default["lineSeriesSize"];
-            MessageBox.Show(setLineSize.ToString());
-            chartInfo.Series[0].MarkerSize = markerSize;
+                colorHex3 = readSetting[2];
+                Color color3 = System.Drawing.ColorTranslator.FromHtml(colorHex3);
+                chartInfo.Series[0].Color = color3;
+
+                markerSize = Convert.ToInt32(readSetting[3]);
+                markerType = Convert.ToInt32(readSetting[4]);
+                setLineSize = Convert.ToInt32(readSetting[5]);
+            }
+
+               chartInfo.Series[0].MarkerSize = markerSize;
             comboBoxMarkerSize.Text = markerSize.ToString();
             chartInfo.Series[0].BorderWidth = setLineSize;
             comboBoxLineSize.Text = setLineSize.ToString();
 
-            markerType = (int)Settings.Default["markerType"];
             switch (markerType)
             {
                 case 1:
@@ -629,8 +626,8 @@ namespace ReadTemp
                         string color = colorDialog1.Color.ToArgb().ToString("x");
                         color = color.Substring(2, 6);
                         color = "#" + color;
-                        Settings.Default["chartColor"] = color;
-                        Settings.Default.Save();
+                        writeSetting[0] = color;
+                        File.WriteAllLines(path, writeSetting);
                     }
                     break;
 
@@ -645,8 +642,8 @@ namespace ReadTemp
                         string color = colorDialog1.Color.ToArgb().ToString("x");
                         color = color.Substring(2, 6);
                         color = "#" + color;
-                        Settings.Default["formColor"] = color;
-                        Settings.Default.Save();
+                        writeSetting[1] = color;
+                        File.WriteAllLines(path, writeSetting);
                     }
                     break;
 
@@ -658,8 +655,8 @@ namespace ReadTemp
                         string color = colorDialog1.Color.ToArgb().ToString("x");
                         color = color.Substring(2, 6);
                         color = "#" + color;
-                        Settings.Default["lineColor"] = color;
-                        Settings.Default.Save();
+                        writeSetting[2] = color;
+                        File.WriteAllLines(path, writeSetting);
                     }
                     break;
             }
@@ -716,8 +713,9 @@ namespace ReadTemp
             }
 
             comboBoxMarkerSize.Text = value.ToString();
-            Settings.Default["markerSize"] = value;
-            Settings.Default.Save();
+            writeSetting[3] = value.ToString();
+            File.WriteAllLines(path, writeSetting);
+            markerSize = value;
         }
 
 
@@ -766,18 +764,14 @@ namespace ReadTemp
 
             }
 
-            Settings.Default["markerType"] = value;
-            Settings.Default.Save();
+            writeSetting[4] = value.ToString();
+            File.WriteAllLines(path, writeSetting);
         }
 
         private void listBoxShowValue_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (selectIndex == 1)
-            {
                 markerShow(1);
-            }
-
-        }
+         }
 
         private void chartInfo_MouseClick(object sender, MouseEventArgs e)
         {
@@ -789,18 +783,61 @@ namespace ReadTemp
             {
                 selectValue = showvalue.PointIndex;
                 listBoxShowValue.SetSelected(selectValue, true);
-                overMarker = false;
             }
         }
         private void comboBoxLineSize_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int value;
+            int value = 0;
 
             defaultChartSettingsToolStripMenuItem.Enabled = true;
-            value = comboBoxLineSize.SelectedIndex;
+           // value = comboBoxLineSize.SelectedIndex;
+
+            switch (comboBoxLineSize.SelectedIndex)
+            {
+                case 0:
+                    value = 1;
+                    break;
+
+                case 1:
+                    value = 2;
+                    break;
+
+                case 2:
+                    value = 3;
+                    break;
+
+                case 3:
+                    value = 4;
+                    break;
+
+                case 4:
+                    value = 5;
+                    break;
+
+                case 5:
+                    value = 6;
+                    break;
+
+                case 6:
+                    value = 7;
+                    break;
+
+                case 7:
+                    value = 8;
+                    break;
+
+            }
+
+
+
             chartInfo.Series[0].BorderWidth = value;
-            Settings.Default["lineSeriesSize"] = value;
-            Settings.Default.Save();
+            //MessageBox.Show(value.ToString());
+
+            writeSetting[5] = value.ToString();
+            //MessageBox.Show(writeSetting[5]);
+            File.WriteAllLines(path, writeSetting);
+           
+
         }
     }
 }

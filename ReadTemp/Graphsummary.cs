@@ -44,8 +44,8 @@ namespace ReadTemp
         private void FormViewAll_Load(object sender, EventArgs e)
         {
         
-            labelBeginDate.Text = FormShowData.listDate.First();
-            labelEndDate.Text = FormShowData.listDate.Last();
+            labelBeginDate.Text = "Start Date: " + FormShowData.listDate.First();
+            labelEndDate.Text = "End Date: "+ FormShowData.listDate.Last();
             try 
             { 
             chartTemp.Update();

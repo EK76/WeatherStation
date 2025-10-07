@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormShowData));
             labelDate = new Label();
             comboBoxDay = new ComboBox();
             comboBoxMonth = new ComboBox();
@@ -66,7 +65,6 @@
             databaseConfigToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
-            printPreviewDialog1 = new PrintPreviewDialog();
             labelText = new Label();
             comboBoxYear = new ComboBox();
             dateTimePickerStartDate = new DateTimePicker();
@@ -206,20 +204,20 @@
             // 
             openToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { datebaseTableToolStripMenuItem, textFileToolStripMenuItem1 });
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(103, 22);
             openToolStripMenuItem.Text = "Open";
             // 
             // datebaseTableToolStripMenuItem
             // 
             datebaseTableToolStripMenuItem.Name = "datebaseTableToolStripMenuItem";
-            datebaseTableToolStripMenuItem.Size = new Size(180, 22);
+            datebaseTableToolStripMenuItem.Size = new Size(153, 22);
             datebaseTableToolStripMenuItem.Text = "Datebase Table";
             datebaseTableToolStripMenuItem.Click += datebaseTableToolStripMenuItem_Click;
             // 
             // textFileToolStripMenuItem1
             // 
             textFileToolStripMenuItem1.Name = "textFileToolStripMenuItem1";
-            textFileToolStripMenuItem1.Size = new Size(180, 22);
+            textFileToolStripMenuItem1.Size = new Size(153, 22);
             textFileToolStripMenuItem1.Text = "Text File";
             textFileToolStripMenuItem1.Click += textFileToolStripMenuItem1_Click;
             // 
@@ -228,7 +226,7 @@
             saveToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { databaseTableTool2StripMenuItem, textFileToolStripMenuItem });
             saveToolStripMenuItem.Enabled = false;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(180, 22);
+            saveToolStripMenuItem.Size = new Size(103, 22);
             saveToolStripMenuItem.Text = "Save";
             // 
             // databaseTableTool2StripMenuItem
@@ -248,7 +246,7 @@
             // closeToolStripMenuItem
             // 
             closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            closeToolStripMenuItem.Size = new Size(180, 22);
+            closeToolStripMenuItem.Size = new Size(103, 22);
             closeToolStripMenuItem.Text = "Close";
             closeToolStripMenuItem.Click += closeToolStripMenuItem_Click;
             // 
@@ -381,16 +379,6 @@
             aboutToolStripMenuItem.Text = "About Weather Info";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
-            // printPreviewDialog1
-            // 
-            printPreviewDialog1.AutoScrollMargin = new Size(0, 0);
-            printPreviewDialog1.AutoScrollMinSize = new Size(0, 0);
-            printPreviewDialog1.ClientSize = new Size(400, 300);
-            printPreviewDialog1.Enabled = true;
-            printPreviewDialog1.Icon = (Icon)resources.GetObject("printPreviewDialog1.Icon");
-            printPreviewDialog1.Name = "printPreviewDialog1";
-            printPreviewDialog1.Visible = false;
-            // 
             // labelText
             // 
             labelText.AutoSize = true;
@@ -489,7 +477,7 @@
             // 
             checkBoxDay.AutoSize = true;
             checkBoxDay.Font = new Font("Calibri", 10F, FontStyle.Bold);
-            checkBoxDay.Location = new Point(1234, 95);
+            checkBoxDay.Location = new Point(1233, 91);
             checkBoxDay.Name = "checkBoxDay";
             checkBoxDay.Size = new Size(98, 21);
             checkBoxDay.TabIndex = 27;
@@ -599,7 +587,6 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem graphViewToolStripMenuItem;
-        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.Label labelText;
         private System.Windows.Forms.ComboBox comboBoxYear;
         private System.Windows.Forms.DateTimePicker dateTimePickerStartDate;

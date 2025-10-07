@@ -110,7 +110,7 @@ namespace ReadTemp
 
             newStartDate = startDate.ToString("yyyy-MM-dd");
             newEndDate = endDate.ToString("yyyy-MM-dd");
-            listViewShowData.Items.Clear();
+        //    listViewShowData.Items.Clear();
             try
             {
                 comboBoxMonth.Text = "";
@@ -130,7 +130,6 @@ namespace ReadTemp
                     }
                     countItems++;
                     listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
-
                 }
                 conn.Close();
             }
@@ -147,6 +146,7 @@ namespace ReadTemp
             else
             {
                 modifyCurrentDataToolStripMenuItem.Enabled = false;
+                modifyCurrentDataToolStripMenuItem.Text = "Modify Selected Table";
                 clearDataToolStripMenuItem.Enabled = true;
                 deleteRowsToolStripMenuItem.Enabled = false;
                 saveToolStripMenuItem.Enabled = true;
@@ -263,12 +263,8 @@ namespace ReadTemp
         private void comboBoxMonth_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = 0, index2;
-
-            listViewShowData.Items.Clear();
             comboBoxDay.Items.Clear();
             setValue = comboBoxMonth.Text;
-
-
             switch (setValue)
             {
                 case "January":
@@ -331,19 +327,19 @@ namespace ReadTemp
         private void comboBoxDay_SelectedIndexChanged(object sender, EventArgs e)
         {
             Choice.localData = false;
-            listViewShowData.Items.Clear();
             counterItems = 0;
             comboBoxMonth.Text = "";
             setDay = comboBoxDay.Text;
             countItems = -1;
             convertDate = DateTime.Parse(setDay.ToString());
             setDay = convertDate.ToString("yyyy-MM-dd");
-            // forwardStartDate = comboBoxDay.Text;
-            // checkForward = 2;
+            if (comboBoxDay.Text != "")
+            {
+                listViewShowData.Items.Clear();
+            }
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
             Choice.checkString = "select id, outtemp, outhum, pressure, datecreated from weatherdata where datecreated like '" + setDay + "%';";
-            Clipboard.SetText(Choice.checkString);
             try
             {
                 MySqlCommand command = new MySqlCommand(Choice.checkString, conn);
@@ -365,6 +361,7 @@ namespace ReadTemp
                 else
                 {
                     modifyCurrentDataToolStripMenuItem.Enabled = false;
+                    modifyCurrentDataToolStripMenuItem.Text = "Modify Selected Table";
                     clearDataToolStripMenuItem.Enabled = true;
                     deleteRowsToolStripMenuItem.Enabled = false;
                     saveToolStripMenuItem.Enabled = true;
@@ -544,6 +541,7 @@ namespace ReadTemp
                     else
                     {
                         modifyCurrentDataToolStripMenuItem.Enabled = false;
+                        modifyCurrentDataToolStripMenuItem.Text = "Modify Selected Table";
                         clearDataToolStripMenuItem.Enabled = true;
                         saveToolStripMenuItem.Enabled = true;
                         deleteRowsToolStripMenuItem.Enabled = false;
@@ -567,6 +565,7 @@ namespace ReadTemp
                     comboBoxYear.Enabled = true;
                     comboBoxMonth.Enabled = true;
                     comboBoxDay.Enabled = true;
+                    listViewShowData.Items.Clear();
                 }
             }
             catch
@@ -692,6 +691,7 @@ namespace ReadTemp
                 clearDataToolStripMenuItem.Enabled = false;
                 saveToolStripMenuItem.Enabled = false;
                 modifyCurrentDataToolStripMenuItem.Enabled = false;
+                modifyCurrentDataToolStripMenuItem.Text = "Modify Selected Table";
                 listViewShowData.Items.Clear();
                 labelRows.Text = "";
                 labelStatus.Text = "";
@@ -856,6 +856,8 @@ namespace ReadTemp
                         Choice.fileName2 = openContent.FileName.ToString();
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                         modifyCurrentDataToolStripMenuItem.Enabled = false;
+                        modifyCurrentDataToolStripMenuItem.Text = "Modify Selected Table";
+                        checkBoxDay.Checked = false;
                     }
                     else
                     {
@@ -912,6 +914,7 @@ namespace ReadTemp
                     else
                     {
                         modifyCurrentDataToolStripMenuItem.Enabled = true;
+                        checkBoxDay.Checked = false;
                         clearDataToolStripMenuItem.Enabled = true;
                         saveToolStripMenuItem.Enabled = true;
                         deleteRowsToolStripMenuItem.Enabled = false;
@@ -924,6 +927,7 @@ namespace ReadTemp
                         labelRows.Text = "Numbers of rows: " + counterItems.ToString();
                         labelStatus.Text = "Data from server database. Table " + FormShowTables.tableName + " is selected.";
                         graphViewToolStripMenuItem.Enabled = listViewShowData.Items.Count > 1;
+                        modifyCurrentDataToolStripMenuItem.Text = "Modify Selected Table (" + FormShowTables.tableName + ")";
                     }
                 }
                 catch (MySql.Data.MySqlClient.MySqlException ex)

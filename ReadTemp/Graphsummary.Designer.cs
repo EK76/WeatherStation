@@ -62,7 +62,7 @@
             // 
             labelBeginDate.AutoSize = true;
             labelBeginDate.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelBeginDate.Location = new Point(40, 12);
+            labelBeginDate.Location = new Point(962, 9);
             labelBeginDate.Name = "labelBeginDate";
             labelBeginDate.Size = new Size(45, 17);
             labelBeginDate.TabIndex = 4;
@@ -72,7 +72,7 @@
             // 
             labelEndDate.AutoSize = true;
             labelEndDate.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelEndDate.Location = new Point(399, 12);
+            labelEndDate.Location = new Point(1974, 9);
             labelEndDate.Name = "labelEndDate";
             labelEndDate.Size = new Size(45, 17);
             labelEndDate.TabIndex = 5;
@@ -81,6 +81,8 @@
             // chartTemp
             // 
             chartArea1.AxisX.LabelStyle.Enabled = false;
+            chartArea1.AxisY.MinorGrid.Enabled = true;
+            chartArea1.AxisY.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
             chartArea1.Name = "ChartArea1";
             chartTemp.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
@@ -101,6 +103,8 @@
             // chartHum
             // 
             chartArea2.AxisX.LabelStyle.Enabled = false;
+            chartArea2.AxisY.MinorGrid.Enabled = true;
+            chartArea2.AxisY.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
             chartArea2.Name = "ChartArea1";
             chartHum.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
@@ -121,6 +125,8 @@
             // chartPressure
             // 
             chartArea3.AxisX.LabelStyle.Enabled = false;
+            chartArea3.AxisY.MinorGrid.Enabled = true;
+            chartArea3.AxisY.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
             chartArea3.Name = "ChartArea1";
             chartPressure.ChartAreas.Add(chartArea3);
             legend3.Name = "Legend1";
