@@ -185,11 +185,6 @@ namespace ReadTemp
             }
         }
 
-        private void FormModifyTable_Enter(object sender, EventArgs e)
-        {
-            // wholeTable();
-        }
-
         private void FormModifyTable_Activated(object sender, EventArgs e)
         {
             if (refreshTable == true)
@@ -218,10 +213,6 @@ namespace ReadTemp
                     colorIndex++;
                     listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetInt32("id").ToString(), reader.GetMySqlDecimal("outtemp").ToString() + " °C", reader.GetMySqlDecimal("outhum").ToString() + " %", reader.GetMySqlDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
                 }
-                /* foreach (ListViewItem item in listViewShowData.Items)
-                 {
-                     item.BackColor = item.Index % 2 == 0 ? Color.Red : Color.Black;
-                 }*/
                 conn.Close();
                 refreshTable = false;
             }
@@ -360,7 +351,6 @@ namespace ReadTemp
                             listViewShowData.Items.Remove(deleteValue);
                             indexRow--;
                             FormShowData.modifiedTable = true;
-
                         }
                         indexRow++;
                     }

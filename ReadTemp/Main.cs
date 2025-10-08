@@ -110,7 +110,6 @@ namespace ReadTemp
 
             newStartDate = startDate.ToString("yyyy-MM-dd");
             newEndDate = endDate.ToString("yyyy-MM-dd");
-        //    listViewShowData.Items.Clear();
             try
             {
                 comboBoxMonth.Text = "";
@@ -248,17 +247,6 @@ namespace ReadTemp
             FormViewGraph showGraph = new FormViewGraph();
             showGraph.Show();
         }
-
-        private void printToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
 
         private void comboBoxMonth_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -585,12 +573,6 @@ namespace ReadTemp
             listViewShowData.Font = new Font(listViewShowData.Font.FontFamily, trackBarSize.Value);
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-
-        }
-
         private void databaseConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormConfigDatabase configDatabase = new FormConfigDatabase();
@@ -803,17 +785,6 @@ namespace ReadTemp
             {
                 MessageBox.Show(i.Message);
             }
-        }
-
-        private void databaseTableToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-
-        }
-
-        private void changeTimeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void textFileToolStripMenuItem1_Click(object sender, EventArgs e)

@@ -339,7 +339,6 @@
             Text = "Weather Station";
             Activated += FormModifyTable_Activated;
             Load += FormModifyTable_Load;
-            Enter += FormModifyTable_Enter;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackBarSize).EndInit();

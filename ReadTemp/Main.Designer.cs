@@ -342,7 +342,6 @@
             changeTimeToolStripMenuItem.Name = "changeTimeToolStripMenuItem";
             changeTimeToolStripMenuItem.Size = new Size(190, 22);
             changeTimeToolStripMenuItem.Text = "Change Delay Time";
-            changeTimeToolStripMenuItem.Click += changeTimeToolStripMenuItem_Click;
             // 
             // delayValueToolStripComboBox
             // 

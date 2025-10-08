@@ -90,7 +90,6 @@ namespace ReadTemp
         }
 
 
-
         private void listViewShowTables_SelectedIndexChanged(object sender, EventArgs e)
         {
             buttonSetText.Enabled =listViewShowTables.SelectedItems.Count > 0;
