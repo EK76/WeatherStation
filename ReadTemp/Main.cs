@@ -128,7 +128,7 @@ namespace ReadTemp
                         listViewShowData.Items.Clear();
                     }
                     countItems++;
-                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
+                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp").ToString() + " °C", reader.GetDecimal("outhum").ToString() + " %", reader.GetDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                 }
                 conn.Close();
             }
@@ -160,6 +160,11 @@ namespace ReadTemp
                 saveToolStripMenuItem.Enabled = true;
 
                 graphViewToolStripMenuItem.Enabled = listViewShowData.Items.Count > 1;
+
+                comboBoxDay.Items.Clear();
+                comboBoxDay.Enabled = false;
+                comboBoxMonth.Items.Clear();
+                comboBoxMonth.Enabled = false;
             }
         }
         private void comboBoxYear_SelectedIndexChanged(object sender, EventArgs e)
@@ -336,7 +341,7 @@ namespace ReadTemp
                 {
                     counterItems++;
                     countItems++;
-                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp") + " °C ", reader.GetDecimal("outhum") + " % ", reader.GetDecimal("pressure") + " hPa ", reader.GetDateTime("datecreated").ToString() }));
+                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("outtemp") + " °C ", reader.GetDecimal("outhum") + " % ", reader.GetDecimal("pressure") + " hPa ", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                 }
                 conn.Close();
                 Choice.firstItem = listViewShowData.Items[0].SubItems[3].Text;
@@ -379,7 +384,6 @@ namespace ReadTemp
 
         private void FormShowData_Load(object sender, EventArgs e)
         {
-
             if (FormChoiceSystem.choiceSystem == false)
             {
                 deleteTableToolStripMenuItem.Visible = false;
@@ -493,6 +497,8 @@ namespace ReadTemp
                     comboBoxYear.Enabled = false;
                     comboBoxMonth.Enabled = false;
                     comboBoxDay.Enabled = false;
+                    comboBoxMonth.Items.Clear();
+                    comboBoxDay.Items.Clear();
 
                     MySqlConnection conn = new MySqlConnection(connString);
                     conn.Open();
@@ -519,7 +525,7 @@ namespace ReadTemp
                     {
                         counterItems++;
                         countItems++;
-                        listViewShowData.Items.Add(new ListViewItem(new string[] { reader2.GetDecimal("outtemp").ToString() + " °C", reader2.GetDecimal("outhum").ToString() + " %", reader2.GetDecimal("pressure").ToString() + " hPa", reader2.GetDateTime("datecreated").ToString() }));
+                        listViewShowData.Items.Add(new ListViewItem(new string[] { reader2.GetDecimal("outtemp").ToString() + " °C", reader2.GetDecimal("outhum").ToString() + " %", reader2.GetDecimal("pressure").ToString() + " hPa", reader2.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                     }
                     if (counterItems == 0)
                     {
@@ -677,6 +683,11 @@ namespace ReadTemp
                 listViewShowData.Items.Clear();
                 labelRows.Text = "";
                 labelStatus.Text = "";
+                checkBoxDay.Checked = false;
+                comboBoxDay.Items.Clear();
+                comboBoxMonth.Items.Clear();
+                comboBoxMonth.Enabled = false;
+                comboBoxDay.Enabled = false;
             }
         }
 
@@ -717,7 +728,7 @@ namespace ReadTemp
                 while (reader.Read())
                 {
                     countRow++;
-                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetMySqlDecimal("outtemp").ToString() + " °C", reader.GetMySqlDecimal("outhum").ToString() + " %", reader.GetMySqlDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString() }));
+                    listViewShowData.Items.Add(new ListViewItem(new string[] { reader.GetMySqlDecimal("outtemp").ToString() + " °C", reader.GetMySqlDecimal("outhum").ToString() + " %", reader.GetMySqlDecimal("pressure").ToString() + " hPa", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                 }
                 conn.Close();
                 labelRows.Text = "Number of rows: " + countRow;
@@ -964,6 +975,7 @@ namespace ReadTemp
 
         private void databaseTableTool2StripMenuItem_Click(object sender, EventArgs e)
         {
+            string column0 = "", column1 = "", column2 = "", newDate = "";
             setLabelText = "Write a name for the table.";
             FormMessageBox showMessage = new FormMessageBox();
             showMessage.ShowDialog();
@@ -1011,18 +1023,25 @@ namespace ReadTemp
                         conn.Open();
                         var removeChars = new string[] { "°", "C", "%", "h", "P", "A", "a" };
                         DateTime convertDate;
+                        column0 = item.SubItems[0].Text;
+                        column1 = item.SubItems[1].Text;
+                        column2 = item.SubItems[0].Text;
+                        convertDate = DateTime.Parse(item.SubItems[3].Text.ToString());
+                        newDate = convertDate.ToString("yyyy-MM-dd HH:mm:ss");
                         foreach (var rc in removeChars)
                         {
-                            item.SubItems[0].Text = item.SubItems[0].Text.Replace(rc, string.Empty);
-                            item.SubItems[0].Text = item.SubItems[0].Text.Replace(",", ".");
-                            item.SubItems[1].Text = item.SubItems[1].Text.Replace(rc, string.Empty);
-                            item.SubItems[1].Text = item.SubItems[1].Text.Replace(",", ".");
-                            item.SubItems[2].Text = item.SubItems[2].Text.Replace(rc, string.Empty);
-                            item.SubItems[2].Text = item.SubItems[2].Text.Replace(",", ".");
-                            convertDate = DateTime.Parse(item.SubItems[3].Text.ToString());
-                            item.SubItems[3].Text = convertDate.ToString("yyyy-MM-dd hh:mm:ss");
+                            column0 = column0.Replace(rc, string.Empty);
+                            column0 = column0.Replace(",", ".");
+
+                            column1 = column1.Replace(rc, string.Empty);
+                            column1 = column1.Replace(",", ".");
+
+                            column2 = column2.Replace(rc, string.Empty);
+                            column2 = column2.Replace(",", ".");
+                
                         }
-                        string addmessuarement = "insert into " + FormMessageBox.textValue + "(outtemp,outhum,pressure,datecreated) values('" + item.SubItems[0].Text + "','" + item.SubItems[1].Text + "','" + item.SubItems[2].Text + "','" + item.SubItems[3].Text + "');";
+                        MessageBox.Show(column0);
+                        string addmessuarement = "insert into " + FormMessageBox.textValue + "(outtemp,outhum,pressure,datecreated) values('" + column0 + "','" + column1 + "','" + column2 + "','" + newDate + "');";
                         MySqlCommand command = new MySqlCommand(addmessuarement, conn);
                         MySqlDataReader reader = command.ExecuteReader();
                         conn.Close();

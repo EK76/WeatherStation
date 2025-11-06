@@ -51,6 +51,7 @@
             colorDialog1 = new ColorDialog();
             listBoxShowValue = new ListBox();
             panelSettings = new Panel();
+            checkBoxNoMarker = new CheckBox();
             comboBoxLineSize = new ComboBox();
             labelLineSixe = new Label();
             buttonSetColor = new Button();
@@ -210,6 +211,7 @@
             // 
             panelSettings.BackColor = Color.LightGray;
             panelSettings.BorderStyle = BorderStyle.Fixed3D;
+            panelSettings.Controls.Add(checkBoxNoMarker);
             panelSettings.Controls.Add(comboBoxLineSize);
             panelSettings.Controls.Add(labelLineSixe);
             panelSettings.Controls.Add(buttonSetColor);
@@ -223,10 +225,22 @@
             panelSettings.Controls.Add(labelPanel);
             panelSettings.Location = new Point(12, 108);
             panelSettings.Name = "panelSettings";
-            panelSettings.Size = new Size(176, 324);
+            panelSettings.Size = new Size(176, 361);
             panelSettings.TabIndex = 10;
             panelSettings.Visible = false;
             panelSettings.Paint += panelSettings_Paint;
+            // 
+            // checkBoxNoMarker
+            // 
+            checkBoxNoMarker.AutoSize = true;
+            checkBoxNoMarker.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            checkBoxNoMarker.Location = new Point(8, 198);
+            checkBoxNoMarker.Name = "checkBoxNoMarker";
+            checkBoxNoMarker.Size = new Size(86, 19);
+            checkBoxNoMarker.TabIndex = 3;
+            checkBoxNoMarker.Text = "No marker";
+            checkBoxNoMarker.UseVisualStyleBackColor = true;
+            checkBoxNoMarker.Click += checkBoxNoMarker_Click;
             // 
             // comboBoxLineSize
             // 
@@ -273,7 +287,7 @@
             // 
             labelPanelMarker3.AutoSize = true;
             labelPanelMarker3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelPanelMarker3.Location = new Point(11, 205);
+            labelPanelMarker3.Location = new Point(8, 231);
             labelPanelMarker3.Name = "labelPanelMarker3";
             labelPanelMarker3.Size = new Size(48, 15);
             labelPanelMarker3.TabIndex = 9;
@@ -283,7 +297,7 @@
             // 
             comboBoxMarkerSize.FormattingEnabled = true;
             comboBoxMarkerSize.Items.AddRange(new object[] { "8", "9", "10", "11", "12", "13", "14", "15", "16" });
-            comboBoxMarkerSize.Location = new Point(51, 275);
+            comboBoxMarkerSize.Location = new Point(48, 301);
             comboBoxMarkerSize.Name = "comboBoxMarkerSize";
             comboBoxMarkerSize.Size = new Size(51, 23);
             comboBoxMarkerSize.TabIndex = 8;
@@ -293,7 +307,7 @@
             // 
             comboBoxMarkerType.FormattingEnabled = true;
             comboBoxMarkerType.Items.AddRange(new object[] { "None", "Circle", "Square", "Triangle", "Cross", "Star" });
-            comboBoxMarkerType.Location = new Point(50, 235);
+            comboBoxMarkerType.Location = new Point(47, 261);
             comboBoxMarkerType.Name = "comboBoxMarkerType";
             comboBoxMarkerType.Size = new Size(97, 23);
             comboBoxMarkerType.TabIndex = 7;
@@ -303,7 +317,7 @@
             // 
             labelPanelMarker2.AutoSize = true;
             labelPanelMarker2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelPanelMarker2.Location = new Point(11, 278);
+            labelPanelMarker2.Location = new Point(8, 304);
             labelPanelMarker2.Name = "labelPanelMarker2";
             labelPanelMarker2.Size = new Size(30, 15);
             labelPanelMarker2.TabIndex = 6;
@@ -313,7 +327,7 @@
             // 
             labelPanelMarker.AutoSize = true;
             labelPanelMarker.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelPanelMarker.Location = new Point(11, 238);
+            labelPanelMarker.Location = new Point(8, 264);
             labelPanelMarker.Name = "labelPanelMarker";
             labelPanelMarker.Size = new Size(33, 15);
             labelPanelMarker.TabIndex = 5;
@@ -527,5 +541,6 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chartInfo;
         private Label labelLineSixe;
         private ComboBox comboBoxLineSize;
+        private CheckBox checkBoxNoMarker;
     }
 }

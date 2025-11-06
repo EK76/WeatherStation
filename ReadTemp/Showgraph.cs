@@ -91,7 +91,7 @@ namespace ReadTemp
             }
             else
             {
-               //  markerSize = Convert.ToInt32(readSetting[3]);
+                //  markerSize = Convert.ToInt32(readSetting[3]);
             }
             switch (checkValue)
             {
@@ -123,9 +123,6 @@ namespace ReadTemp
             listSum.Clear();
 
             labelDateUpdate.Text = "Date:\nTemperature:";
-            chartInfo.Series[0].XValueType = ChartValueType.DateTime;
-            chartInfo.ChartAreas[0].AxisX.IntervalType = (DateTimeIntervalType)DateRangeType.DayOfMonth;
-            chartInfo.ChartAreas[0].AxisX.LabelStyle.Format = "mm-hh-dd";
 
             labelDateFirst.Text = FormShowData.listDate.First();
             labelDateLast.Text = FormShowData.listDate.Last();
@@ -147,6 +144,10 @@ namespace ReadTemp
                 case 0:
                     try
                     {
+                        chartInfo.Titles.Clear();
+                        Title showOne = chartInfo.Titles.Add("Temperature");
+                        showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 15f, FontStyle.Bold);
+
                         chartInfo.Update();
                         chartInfo.Series[0].LegendText = "Temperature";
                         chartInfo.ChartAreas[0].AxisY.Title = "Celsius";
@@ -191,6 +192,10 @@ namespace ReadTemp
                 case 1:
                     try
                     {
+                        chartInfo.Titles.Clear();
+                        Title showOne = chartInfo.Titles.Add("Humidity");
+                        showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 15f, FontStyle.Bold);
+
                         chartInfo.Update();
                         chartInfo.Series[0].LegendText = "Humidity";
                         chartInfo.ChartAreas[0].AxisY.Title = "Humidity %";
@@ -216,7 +221,6 @@ namespace ReadTemp
                             }
                             convertValue = decimal.Parse(addNewValue);
 
-
                             chartInfo.Series[0].Points.AddXY(addPoint, convertValue);
                             listSum.Add(convertValue);
                             listBoxShowValue.Items.Add(FormShowData.listHum[index] + "  " + FormShowData.listDate[index]);
@@ -236,6 +240,10 @@ namespace ReadTemp
                 case 2:
                     try
                     {
+                        chartInfo.Titles.Clear();
+                        Title showOne = chartInfo.Titles.Add("Pressure");
+                        showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 15f, FontStyle.Bold);
+
                         chartInfo.Update();
                         chartInfo.Series[0].LegendText = "Pressure";
                         chartInfo.ChartAreas[0].AxisY.Title = "Pressure hPA";
@@ -283,7 +291,7 @@ namespace ReadTemp
         {
 
             var showValue = chartInfo.HitTest(e.X, e.Y);
-           
+
             if ((e.HitTestResult.ChartElementType == ChartElementType.DataPoint))
             {
                 var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
@@ -295,7 +303,7 @@ namespace ReadTemp
             {
                 labelDateUpdate.Text = "";
             }
-      
+
         }
 
         private void chart3ToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -383,8 +391,6 @@ namespace ReadTemp
             labelDateLastOrginal = new Rectangle(labelDateLast.Location.X, labelDateLast.Location.Y, labelDateLast.Width, labelDateLast.Height);
             panelDisplayOrginal = new Rectangle(panelDisplay.Location.X, panelDisplay.Location.Y, panelDisplay.Width, panelDisplay.Height);
 
-            showBeginDate = FormShowData.listDate.First();
-            showEndDate = FormShowData.listDate.Last();
             choosenValue = "outtemp";
             chooseItem = 1;
             recordSum = 0;
@@ -439,33 +445,28 @@ namespace ReadTemp
                 MessageBox.Show(message.ToString());
             }
 
-            Title showOne = chartInfo.Titles.Add("Begin date " + showBeginDate + "\n\n End date " + showEndDate);
-            showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10f, FontStyle.Bold);
+            Title showOne = chartInfo.Titles.Add("Temperature");
+            showOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 15f, FontStyle.Bold);
 
-            
+            colorHex = readSetting[0];
+            Color color = System.Drawing.ColorTranslator.FromHtml(colorHex);
+            chartInfo.ChartAreas[0].BackColor = color;
 
-            foreach (var item in readSetting)
-            {
-                colorHex = readSetting[0]; 
-                Color color = System.Drawing.ColorTranslator.FromHtml(colorHex);
-                chartInfo.ChartAreas[0].BackColor = color;
+            colorHex2 = readSetting[1];
+            Color color2 = System.Drawing.ColorTranslator.FromHtml(colorHex2);
+            chartInfo.BackColor = color2;
+            labelDateFirst.BackColor = color2;
+            labelDateLast.BackColor = color2;
 
-                colorHex2 = readSetting[1];
-                Color color2 = System.Drawing.ColorTranslator.FromHtml(colorHex2);
-                chartInfo.BackColor = color2;
-                labelDateFirst.BackColor = color2;
-                labelDateLast.BackColor = color2;
+            colorHex3 = readSetting[2];
+            Color color3 = System.Drawing.ColorTranslator.FromHtml(colorHex3);
+            chartInfo.Series[0].Color = color3;
 
-                colorHex3 = readSetting[2];
-                Color color3 = System.Drawing.ColorTranslator.FromHtml(colorHex3);
-                chartInfo.Series[0].Color = color3;
-
-                markerSize = Convert.ToInt32(readSetting[3]);
-                markerType = Convert.ToInt32(readSetting[4]);
-                setLineSize = Convert.ToInt32(readSetting[5]);
-            }
-
-               chartInfo.Series[0].MarkerSize = markerSize;
+            markerSize = Convert.ToInt32(readSetting[3]);
+            markerType = Convert.ToInt32(readSetting[4]);
+            setLineSize = Convert.ToInt32(readSetting[5]);
+     
+            chartInfo.Series[0].MarkerSize = markerSize;
             comboBoxMarkerSize.Text = markerSize.ToString();
             chartInfo.Series[0].BorderWidth = setLineSize;
             comboBoxLineSize.Text = setLineSize.ToString();
@@ -592,6 +593,8 @@ namespace ReadTemp
             {
                 chartInfo.BackColor = Color.LightGray;
                 panelSettings.BackColor = Color.LightGray;
+                labelDateFirst.BackColor = Color.LightGray;
+                labelDateLast.BackColor = Color.LightGray;
                 chartInfo.Series[0].Color = Color.SeaGreen;
                 chartInfo.ChartAreas[0].BackColor = Color.White;
                 chartInfo.Series[0].MarkerStyle = MarkerStyle.Circle;
@@ -602,13 +605,13 @@ namespace ReadTemp
                 comboBoxMarkerSize.Text = "8";
                 comboBoxLineSize.Text = "2";
 
-                Settings.Default["chartColor"] = "#ffffff";
-                Settings.Default["lineColor"] = "#2e8b57";
-                Settings.Default["formColor"] = "#d3d3d3";
-                Settings.Default["markersize"] = 8;
-                Settings.Default["markerType"] = 2;
-                Settings.Default["lineSeriesSize"] = 2;
-                Settings.Default.Save();
+                writeSetting[0] = "#FFFFFF";
+                writeSetting[1] = "#D3D3D3";
+                writeSetting[2] = "#2E8B57";
+                writeSetting[3] = "8";
+                writeSetting[4] = "2";
+                writeSetting[5] = "2";
+                File.WriteAllLines(path, writeSetting);
             }
         }
 
@@ -770,8 +773,8 @@ namespace ReadTemp
 
         private void listBoxShowValue_SelectedIndexChanged(object sender, EventArgs e)
         {
-                markerShow(1);
-         }
+            markerShow(1);
+        }
 
         private void chartInfo_MouseClick(object sender, MouseEventArgs e)
         {
@@ -790,7 +793,6 @@ namespace ReadTemp
             int value = 0;
 
             defaultChartSettingsToolStripMenuItem.Enabled = true;
-           // value = comboBoxLineSize.SelectedIndex;
 
             switch (comboBoxLineSize.SelectedIndex)
             {
@@ -828,16 +830,30 @@ namespace ReadTemp
 
             }
 
-
-
             chartInfo.Series[0].BorderWidth = value;
-            //MessageBox.Show(value.ToString());
-
             writeSetting[5] = value.ToString();
-            //MessageBox.Show(writeSetting[5]);
             File.WriteAllLines(path, writeSetting);
-           
+        }
 
+        private void checkBoxNoMarker_Click(object sender, EventArgs e)
+        {
+            if (checkBoxNoMarker.Checked)
+            {
+                for (int i = 0; i < recordSum; i++)
+                {
+                    chartInfo.Series[0].Points[i].MarkerSize = 0;
+                }
+                comboBoxMarkerSize.Enabled = false;
+            }
+            else
+            {
+                for (int i = 0; i < recordSum; i++)
+                {
+                    chartInfo.Series[0].Points[i].MarkerSize = markerSize;
+                }
+                comboBoxMarkerSize.Enabled = true;
+
+            }
         }
     }
 }
