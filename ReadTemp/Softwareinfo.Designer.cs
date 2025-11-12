@@ -58,13 +58,13 @@
             buttonDesc.Name = "buttonDesc";
             buttonDesc.Size = new Size(144, 23);
             buttonDesc.TabIndex = 0;
-            buttonDesc.Text = "Database Description";
+            buttonDesc.Text = "Database description";
             buttonDesc.UseVisualStyleBackColor = true;
             buttonDesc.Click += buttonDesc_Click;
             // 
             // richTextBoxCode
             // 
-            richTextBoxCode.Location = new Point(12, 64);
+            richTextBoxCode.Location = new Point(12, 76);
             richTextBoxCode.Name = "richTextBoxCode";
             richTextBoxCode.ReadOnly = true;
             richTextBoxCode.Size = new Size(550, 696);

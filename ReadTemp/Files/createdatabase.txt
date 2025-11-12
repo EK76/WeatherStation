@@ -23,17 +23,6 @@ CREATE TABLE IF NOT EXISTS `settings` (
 
 INSERT INTO `settings`(`id`,`chartcolor`,`delay`,`linecolor`,`formcolor`,`markersize`,`markertype`) VALUES(1,'#ffffff',20,'#2e8b57','#d3d3d3',8,2);
 
-DROP TABLE IF EXISTS `weathercurrent`;
-CREATE TABLE IF NOT EXISTS `weathercurrent` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `temp` varchar(250) DEFAULT NULL,
-  `hum` varchar(250) DEFAULT NULL,
-  `dateupdated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `pressure` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
-INSERT INTO `weathercurrent`(`id`,`temp`,`hum`,`dateupdated`,`pressure`) VALUES(1,'13.6','99.9','2025-01-01 22:33:39','984.98');
 
 DROP TABLE IF EXISTS `weatherdata`;
 CREATE TABLE IF NOT EXISTS `weatherdata` (
@@ -45,12 +34,10 @@ CREATE TABLE IF NOT EXISTS `weatherdata` (
   PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `weathererrorlog`;
-CREATE TABLE IF NOT EXISTS `weathererrorlog` (
+DROP TABLE IF EXISTS `tabledatecreated `;
+CREATE TABLE IF NOT EXISTS `tabledatecreated` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `outtemp` decimal(3,1) DEFAULT NULL,
-  `outhum` decimal(4,1) DEFAULT NULL,
-  `pressure` decimal(6,2) DEFAULT NULL,
-  `datecreated` datetime DEFAULT (now()),
+  `tablename` varchar(250) DEFAULT NULL
+  `datecreated` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 );

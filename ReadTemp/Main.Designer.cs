@@ -57,7 +57,6 @@
             toolStripSeparator1 = new ToolStripSeparator();
             technicalInfoToolStripMenuItem = new ToolStripMenuItem();
             softwareInfoToolStripMenuItem = new ToolStripMenuItem();
-            showDelayTimeLogToolStripMenuItem = new ToolStripMenuItem();
             toolsToolStripMenuItem = new ToolStripMenuItem();
             changeTimeToolStripMenuItem = new ToolStripMenuItem();
             delayValueToolStripComboBox = new ToolStripComboBox();
@@ -290,7 +289,7 @@
             // 
             // viewToolStripMenuItem1
             // 
-            viewToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { graphViewToolStripMenuItem, toolStripSeparator1, technicalInfoToolStripMenuItem, softwareInfoToolStripMenuItem, showDelayTimeLogToolStripMenuItem });
+            viewToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { graphViewToolStripMenuItem, toolStripSeparator1, technicalInfoToolStripMenuItem, softwareInfoToolStripMenuItem });
             viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
             viewToolStripMenuItem1.Size = new Size(44, 20);
             viewToolStripMenuItem1.Text = "View";
@@ -299,35 +298,28 @@
             // 
             graphViewToolStripMenuItem.Enabled = false;
             graphViewToolStripMenuItem.Name = "graphViewToolStripMenuItem";
-            graphViewToolStripMenuItem.Size = new Size(188, 22);
+            graphViewToolStripMenuItem.Size = new Size(180, 22);
             graphViewToolStripMenuItem.Text = "Graph View";
             graphViewToolStripMenuItem.Click += graphViewToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(185, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // technicalInfoToolStripMenuItem
             // 
             technicalInfoToolStripMenuItem.Name = "technicalInfoToolStripMenuItem";
-            technicalInfoToolStripMenuItem.Size = new Size(188, 22);
+            technicalInfoToolStripMenuItem.Size = new Size(180, 22);
             technicalInfoToolStripMenuItem.Text = "Technical Info";
             technicalInfoToolStripMenuItem.Click += technicalInfoToolStripMenuItem_Click;
             // 
             // softwareInfoToolStripMenuItem
             // 
             softwareInfoToolStripMenuItem.Name = "softwareInfoToolStripMenuItem";
-            softwareInfoToolStripMenuItem.Size = new Size(188, 22);
+            softwareInfoToolStripMenuItem.Size = new Size(180, 22);
             softwareInfoToolStripMenuItem.Text = "Software Info";
             softwareInfoToolStripMenuItem.Click += softwareInfoToolStripMenuItem_Click;
-            // 
-            // showDelayTimeLogToolStripMenuItem
-            // 
-            showDelayTimeLogToolStripMenuItem.Name = "showDelayTimeLogToolStripMenuItem";
-            showDelayTimeLogToolStripMenuItem.Size = new Size(188, 22);
-            showDelayTimeLogToolStripMenuItem.Text = "Show Delay Time Log";
-            showDelayTimeLogToolStripMenuItem.Click += showDelayTimeLogToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
             // 
@@ -611,7 +603,6 @@
         private System.Windows.Forms.ToolStripMenuItem changeTimeToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox delayValueToolStripComboBox;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showDelayTimeLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearDataToolStripMenuItem;
         private System.Windows.Forms.Label labelShowDelay;
         private ToolStripMenuItem modifyCurrentDataToolStripMenuItem;

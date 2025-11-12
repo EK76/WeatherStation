@@ -28,50 +28,50 @@
         /// </summary>
         private void InitializeComponent()
         {
-            buttonOk = new System.Windows.Forms.Button();
-            labelText = new System.Windows.Forms.Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDesc));
+            buttonOk = new Button();
+            richTextBoxTableInfo = new RichTextBox();
             SuspendLayout();
             // 
             // buttonOk
             // 
-            buttonOk.Location = new System.Drawing.Point(638, 225);
+            buttonOk.Location = new Point(633, 225);
             buttonOk.Name = "buttonOk";
-            buttonOk.Size = new System.Drawing.Size(75, 23);
+            buttonOk.Size = new Size(75, 23);
             buttonOk.TabIndex = 0;
             buttonOk.Text = "OK";
             buttonOk.UseVisualStyleBackColor = true;
             buttonOk.Click += buttonOk_Click;
             // 
-            // labelText
+            // richTextBoxTableInfo
             // 
-            labelText.AutoSize = true;
-            labelText.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            labelText.Location = new System.Drawing.Point(39, 44);
-            labelText.Name = "labelText";
-            labelText.Size = new System.Drawing.Size(51, 20);
-            labelText.TabIndex = 1;
-            labelText.Text = "label1";
+            richTextBoxTableInfo.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            richTextBoxTableInfo.Location = new Point(17, 17);
+            richTextBoxTableInfo.Name = "richTextBoxTableInfo";
+            richTextBoxTableInfo.Size = new Size(691, 202);
+            richTextBoxTableInfo.TabIndex = 1;
+            richTextBoxTableInfo.Text = resources.GetString("richTextBoxTableInfo.Text");
             // 
             // FormDesc
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(720, 255);
-            Controls.Add(labelText);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(720, 255);
+            Controls.Add(richTextBoxTableInfo);
             Controls.Add(buttonOk);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormDesc";
+            ShowIcon = false;
             Text = "Weather Station.";
             Load += FormDesc_Load;
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private System.Windows.Forms.Button buttonOk;
-        private System.Windows.Forms.Label labelText;
+        private RichTextBox richTextBoxTableInfo;
     }
 }

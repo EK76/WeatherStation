@@ -11,14 +11,11 @@ namespace ReadTemp
             InitializeComponent();
         }
         int counterItems, checkTable = 0;
-        bool addTable = true;
         public static bool doChange;
         public static bool checkTwice = false;
         public static string tableName;
         public static int selectedItemIndex;
         public static int selectedIndex;
-
-        string[] excludeTables = { "delaylog", "settings", "weathercurrent", "weatherdata", "weathererrorlog" };
 
         void createTable()
         {
@@ -26,27 +23,14 @@ namespace ReadTemp
             {
                 MySqlConnection conn = new MySqlConnection(FormShowData.connString);
                 conn.Open();
-                MySqlCommand command = new MySqlCommand("select table_name as 'table', create_time as 'date' from information_schema.tables where table_schema = 'weatherstation' order by create_time;", conn);
+
+                MySqlCommand command = new MySqlCommand("select * from tabledatecreated order by datecreated;", conn);
                 MySqlDataReader reader = command.ExecuteReader();
                 listViewShowTables.Items.Clear();
                 while (reader.Read())
                 {
-                    counterItems++;
-
-                    for (int i = 0; i < 5; i++)
-                    {
-                        if (excludeTables[i] == reader.GetString("table").ToString())
-                        {
-                            addTable = false;
-                        }
-                    }
-
-                    if (addTable == true)
-                    {
-                        listViewShowTables.Items.Add(new ListViewItem(new string[] { reader.GetString("table").ToString(), reader.GetDateTime("date").ToString() }));
-                    }
-                    addTable = true;
-
+                   counterItems++;
+                   listViewShowTables.Items.Add(new ListViewItem(new string[] { reader.GetString("tablename").ToString(), reader.GetDateTime("datecreated").ToString() }));
                 }
                 if (counterItems == 0)
                 {

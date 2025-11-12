@@ -24,7 +24,7 @@ namespace ReadTemp
 
         private void FormDesc_Load(object sender, EventArgs e)
         {
-            labelText.Text = "Table settings - Where some of the application's settings are stored.\n\nTable weatherdata - Store all messuarements from the sensors.\n\nTable weathererrorlog - Where the faulty messuarements are stored.\n\nTable delaylog - Where the delay time is stored after every change, according it's own .";
+          
         }
     }
 }

@@ -117,4 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="richTextBoxTableInfo.Text" xml:space="preserve">
+    <value>
+Table settings - Where some of the application's settings are stored.
+
+Table weatherdata - Store all messuarements from the sensors.
+
+Table delaylog - Where the delay time value is stored for the messuarements after every change.
+
+Table tabledatecreated - Store the date when table was created with chosen data selected.</value>
+  </data>
 </root>

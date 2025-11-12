@@ -45,7 +45,7 @@ namespace ReadTemp
         int checkWeek, compareWeek = 0, checkMonth, compareMonth = 0, checkYear, compareYear = 0, setNewValue, setDelay2, delayStatus, checkNumbers, setMonth;
         public static int checkForward, counterItems = 0, countItems = -1, localChoice = 1;
         long getYear;
-        bool allowDelay = false, createDatabase = true, checkExist = false;
+        bool allowDelay = false, createTable = false, deleteTable = false, checkExist = false;
         public static bool localData = false, currentTable = false, modifiedTable = false;
         private static string passWordString;
         public static List<string> listTemp = new List<string>();
@@ -55,6 +55,9 @@ namespace ReadTemp
         public static string setLabelText; // Belongs to MessageBox.
         public static string setButtonText; // Belongs to Show Tables.
         public static bool multiSelect; // Belongs to Show Tables.
+
+
+
         private void delayToolStripMenuItem_MouseHover(object sender, EventArgs e)
         {
             allowDelay = true;
@@ -407,7 +410,6 @@ namespace ReadTemp
 
                 datebaseTableToolStripMenuItem.Enabled = false;
                 databaseTableTool2StripMenuItem.Enabled = false;
-                showDelayTimeLogToolStripMenuItem.Visible = false;
                 datebaseTableToolStripMenuItem.Visible = false;
                 databaseTableTool2StripMenuItem.Visible = false;
                 listViewShowData.Location = new System.Drawing.Point(0, 65);
@@ -652,13 +654,6 @@ namespace ReadTemp
             }
             allowDelay = true;
         }
-
-        private void showDelayTimeLogToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormDelayTimeLog delayLog = new FormDelayTimeLog();
-            delayLog.Show();
-        }
-
 
         private void listViewShowData_Click(object sender, EventArgs e)
         {
@@ -914,17 +909,17 @@ namespace ReadTemp
                 }
                 catch (MySql.Data.MySqlClient.MySqlException ex)
                 {
-                    switch (ex.Number) 
-                    { 
-                       case 0:
-                       MessageBox.Show("Database configuration fail! Check database settings!");
-                       break;
-                       case 1045:
-                       MessageBox.Show("Invalid username/password, please try again");
-                       break;
-                       case 1050:
-                       MessageBox.Show("Table " + FormMessageBox.textValue + " exist already!");
-                       break;
+                    switch (ex.Number)
+                    {
+                        case 0:
+                            MessageBox.Show("Database configuration fail! Check database settings!");
+                            break;
+                        case 1045:
+                            MessageBox.Show("Invalid username/password, please try again");
+                            break;
+                        case 1050:
+                            MessageBox.Show("Table " + FormMessageBox.textValue + " exist already!");
+                            break;
                     }
                 }
             }
@@ -952,6 +947,7 @@ namespace ReadTemp
                         MySqlDataReader reader = command.ExecuteReader();
                         conn.Close();
                         MessageBox.Show("Table" + FormShowTables.tableName + " is deleted", "Weather Station", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        deleteTable = true;
                     }
                 }
                 catch (MySql.Data.MySqlClient.MySqlException ex)
@@ -969,7 +965,17 @@ namespace ReadTemp
                             break;
 
                     }
+                    deleteTable = false;
                 }
+                MySqlConnection conn2 = new MySqlConnection(FormShowData.connString);
+                conn2.Open();
+                if (deleteTable == true)
+                {
+                    MySqlCommand command = new MySqlCommand("delete from tabledatecreated where tablename = '" + FormShowTables.tableName + "';", conn2);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    Clipboard.SetText("delete from tabledatecreated where tablename = '" + FormShowTables.tableName + "';");
+                }
+                conn2.Close();
             }
         }
 
@@ -1025,7 +1031,7 @@ namespace ReadTemp
                         DateTime convertDate;
                         column0 = item.SubItems[0].Text;
                         column1 = item.SubItems[1].Text;
-                        column2 = item.SubItems[0].Text;
+                        column2 = item.SubItems[2].Text;
                         convertDate = DateTime.Parse(item.SubItems[3].Text.ToString());
                         newDate = convertDate.ToString("yyyy-MM-dd HH:mm:ss");
                         foreach (var rc in removeChars)
@@ -1038,19 +1044,33 @@ namespace ReadTemp
 
                             column2 = column2.Replace(rc, string.Empty);
                             column2 = column2.Replace(",", ".");
-                
+
                         }
-                        MessageBox.Show(column0);
+
+
                         string addmessuarement = "insert into " + FormMessageBox.textValue + "(outtemp,outhum,pressure,datecreated) values('" + column0 + "','" + column1 + "','" + column2 + "','" + newDate + "');";
                         MySqlCommand command = new MySqlCommand(addmessuarement, conn);
                         MySqlDataReader reader = command.ExecuteReader();
                         conn.Close();
+                        createTable = true;
                     }
+
                 }
                 catch (MySql.Data.MySqlClient.MySqlException ex)
                 {
                     MessageBox.Show(ex.ToString());
+                    createTable = false;
                 }
+
+                MySqlConnection conn2 = new MySqlConnection(FormShowData.connString);
+                conn2.Open();
+                if (createTable == true)
+                {
+                    MySqlCommand command = new MySqlCommand("insert into tabledatecreated(tablename) values('" + FormMessageBox.textValue + "');", conn2);
+                    MySqlDataReader reader = command.ExecuteReader();
+
+                }
+                conn2.Close();
             }
             else
             {
@@ -1062,11 +1082,6 @@ namespace ReadTemp
         {
             dateTimePickerEndDate.MinDate = dateTimePickerStartDate.Value;
             dateTimePickerEndDate.Enabled = true;
-        }
-
-        private void datebaseTableToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
