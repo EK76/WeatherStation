@@ -3,7 +3,8 @@
 
 I started this Visual Studio C# project in spring 2024.
 Purpose for this project is to measure temperature, humidity and pressure
-with help of two sensors (DHT11 and BMP180) and Raspberry PI 5.
+with help of two sensors (DHT11 and BMP180) and Raspberry PI5. 
+I have chosen Debian GNU/Linux 13 (trixie) as the operating system for my Raspberry PI5.
 
 ![image](https://github.com/user-attachments/assets/bf30352a-59cb-4e20-9109-404ea8a64ff6) DHT22 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![image](https://github.com/user-attachments/assets/322ec1e0-5bf2-49c0-96a0-3c0c5373fa87) &nbsp;&nbsp;&nbsp;&nbsp; BMP180
 
@@ -17,19 +18,9 @@ BMP180 is temperature, pressure and altitude sensor.
 Trough GPIO26 Raspberry PI 5 reads the temperature and humitidy
 from sensor.
 
-- Sensor BMP180 is connected to Rasepberry PI 5's pin 3 (GPIO 2,SDA)
-and pin 5 (GPIO 3, SCL). Trough these pins Raspberry PI 5 reads the 
+- Sensor BMP180 is connected to Rasepberry PI 5's pin 3 (GPIO 2)
+and pin 5 (GPIO 3). Trough these pins Raspberry PI 5 reads the 
 pressure fom sensor.
-
-- GPIO 2 SDA (Serial Data Line) , whose pin is used to transmit data between 
-the Raspberry Pi5 and the I2C device. 
-
-- GPIO 3 SCL (Serial Clock Line), whose pin is used to provide the clock signal
-that synchronizes the communication between the Raspberry Pi and 
-the I2C device.
-
-- I2C is a two-wire serial communication protocol using a serial data line (SDA)
-  and a serial clock line (SCL).
 
 ---
 The sensors values are stored to MySQL database from which the Weather Station
@@ -143,24 +134,23 @@ use weatherstation;
 
 create table settings (
    id int not null auto_increment,
-   color varchar(100),
    delay int,
    primary key(id)
 );
 
-create table weatherdata (
+create table weatherdata3 (
     id int not null auto_increment,
     outtemp decimal(3,1),
     outhum decimal(4,1),
     pressure decimal(6,2),
-    date_created datetime (current_timestamp);,
+    datecreated datetime DEFAULT CURRENT_TIMESTAMP,
     primary key(id)
 );
 
-create table delaylog(
+create table tabledatecreated(
   id int not null auto_increment,
-  logdate datetime default CURRENT_TIMESTAMP,
-  delayvalue varchar(255),
+  tablename varchar(250),
+  datecreated datetime DEFAULT CURRENT_TIMESTAMP,
   primary key(id)
 );
 
@@ -174,7 +164,8 @@ MySql.Data makes it easier to read from and make changes to MySQL database when 
   
 > [!NOTE]
 >  **You can also edit your MySQL credentials with the WeatherStation application.**<br><br>
->  **If configdb.txt file is missing, then WeatherStaion application will redirect you to a page where you can create the file with your MySQL credentials info.**
+>  **If configdb.txt file is missing, then WeatherStaion application will create a default configdb.txt. You can then edit the configdb.txt**
+   **with the Weather Station application by using _"Tools -> Database Config"_ from the menu.**
 
 
 #### How to clone this repository with git.
