@@ -3,7 +3,7 @@
 
 I started this Visual Studio C# project in spring 2024.
 Purpose for this project is to measure temperature, humidity and pressure
-with help of two sensors (DHT11 and BMP180) and Raspberry PI5. 
+with help of two sensors (DHT22 and BMP180) and Raspberry PI5. 
 I have chosen Debian GNU/Linux 13 (trixie) as the operating system for my Raspberry PI5.
 
 ![image](https://github.com/user-attachments/assets/bf30352a-59cb-4e20-9109-404ea8a64ff6) DHT22 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![image](https://github.com/user-attachments/assets/322ec1e0-5bf2-49c0-96a0-3c0c5373fa87) &nbsp;&nbsp;&nbsp;&nbsp; BMP180
